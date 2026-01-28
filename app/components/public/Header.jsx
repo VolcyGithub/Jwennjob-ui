@@ -1,4 +1,3 @@
-// app/components/Header.jsx
 "use client";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";

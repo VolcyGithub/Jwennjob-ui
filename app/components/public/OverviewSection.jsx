@@ -1,4 +1,3 @@
-// components/OverviewSection.jsx
 export default function OverviewSection() {
   const beige = '#fffcf0';
   const vertMain = '#61B57B';

@@ -1,4 +1,3 @@
-// components/JobCard.jsx
 import Image from "next/image";
 import Link from "next/link";
 import { FiMapPin, FiDollarSign, FiBriefcase, FiChevronRight } from "react-icons/fi";

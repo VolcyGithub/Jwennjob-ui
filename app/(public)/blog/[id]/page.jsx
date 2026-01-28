@@ -1,5 +1,4 @@
 import Image from "next/image";
-import EnterpriseTabs from "@/app/components/public/EnterpriseTabs";
 import { MdVerified } from "react-icons/md";
 import { BiLogoInstagram, BiLogoLinkedin, BiLogoTelegram, BiLogoTwitter, BiLogoWhatsapp } from "react-icons/bi";
 

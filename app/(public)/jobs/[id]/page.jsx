@@ -1,4 +1,3 @@
-// app/(global)/jobs/[id]/page.tsx
 import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedin, FaTwitter, FaFacebook, FaBookmark } from "react-icons/fa";

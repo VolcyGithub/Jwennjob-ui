@@ -1,7 +1,6 @@
 "use client";
 
 import "slim-select/styles";
-import "@/app/resources/globals.css";
 import Image from "next/image";
 import { useState } from "react";
 import SlimSelect from "slim-select/react";
