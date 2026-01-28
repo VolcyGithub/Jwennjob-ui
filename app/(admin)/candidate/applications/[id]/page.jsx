@@ -1,6 +1,10 @@
-export default function Show({params}){
+"use client";
 
-    const id = params.id;
+import { useParams } from "next/navigation";
+
+export default function Show(){
+
+    const {id} = useParams();
     return (
         <div>
             Bienvenue dans la page de l'application {id}

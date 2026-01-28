@@ -1,6 +1,5 @@
 import Footer from "@/app/components/public/Footer";
 import Header from "@/app/components/public/Header";
-import "@/app/globals.css?v=6";
 
 export const metadata = {
   title: {
@@ -49,15 +48,13 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default function PublicLayout({ children }) {
   return (
-    <html lang="fr">
-      <body className={` antialiased bg-third`}>
+      <div className={`antialiased bg-third`}>
         <Header/>
         {children}
         <Footer/>
-      </body>
-    </html>
+      </div>
   );
 }
 

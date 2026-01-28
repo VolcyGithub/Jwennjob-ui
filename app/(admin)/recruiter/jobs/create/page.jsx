@@ -2,7 +2,6 @@
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
 import SlimSelect from "slim-select/react";
 import "slim-select/styles";
-import "../../../../globals.css";
 import InfoAlert from "@/app/components/recruiter/alerts/InfoAlert";
 
 export default function CreateJob() {

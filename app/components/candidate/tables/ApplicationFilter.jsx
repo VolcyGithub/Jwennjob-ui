@@ -4,7 +4,6 @@ import { BiFilter, BiReset } from "react-icons/bi";
 import { useState } from "react";
 import SlimSelect from "slim-select/react";
 import "slim-select/styles";
-import "../../../globals.css";
 
 export default function ApplicationFilter() {
   const statusOpts = useState([

@@ -1,4 +1,3 @@
-// components/EnterpriseCard.jsx
 import Image from "next/image";
 import Link from "next/link";
 import { FiUsers } from "react-icons/fi";

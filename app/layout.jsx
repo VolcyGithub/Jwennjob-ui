@@ -1,10 +1,11 @@
-import "./globals.css?v=6";
 import { Providers } from "./lib/providers";
+import "@/app/globals.css";
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
-      <body className={` antialiased bg-third`}>
+      <body>
         <Providers>
         {children}
         </Providers>

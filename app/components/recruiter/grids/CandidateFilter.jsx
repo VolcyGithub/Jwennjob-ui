@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import SlimSelect from "slim-select/react";
 import "slim-select/styles";
-import "../../../globals.css";
+
 import {
   BiBuilding,
   BiCog,

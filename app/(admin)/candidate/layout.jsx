@@ -5,6 +5,7 @@ import NavFloatingButton from "@/app/components/candidate/header/NavFloatingButt
 import NavOverlay from "@/app/components/candidate/header/NavOverlay";
 import NavTop from "@/app/components/candidate/header/NavTop";
 import { useState } from "react";
+ 
 
 export default function CandidateLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);

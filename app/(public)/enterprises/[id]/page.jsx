@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import EnterpriseTabs from "@/app/components/public/EnterpriseTabs";
 import { MdVerified } from "react-icons/md";
+import React from "react";
+import { useParams } from "next/navigation";
 
 const companies = [
   {
@@ -57,17 +61,15 @@ const companies = [
   },
 ];
 
-// CORRECTION : id doit être une string
-export async function generateStaticParams() {
-  return companies.map((c) => ({ 
-    id: c.id.toString() // ← Convertir en string
-  }));
-}
 
-export default function EnterpriseDetailPage({ params }) {
+export default function EnterpriseDetailPage() {
+
+  const {id} = useParams()
+
+
   // CORRECTION : Convertir params.id en number pour la comparaison
   // ou comparer avec == au lieu de ===
-  const company = companies.find((c) => c.id === parseInt(params.id));
+  const company = companies.find((c) => c.id === parseInt(id));
   
   if (!company) return <p className="p-10 text-center">Entreprise introuvable</p>;
 
