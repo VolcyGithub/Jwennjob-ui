@@ -1,0 +1,181 @@
+"use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { FiSearch, FiMapPin, FiUsers, FiPlayCircle, FiCode, FiArrowRight } from "react-icons/fi";
+import EnterpriseCard from "@/app/components/public/card/EnterpriseCard";
+
+
+const companies = [
+  {
+    id: 1,
+    sector: "fintech",
+    name: "PayAyiti",
+    teaser: "Paiements mobiles sans internet.",
+    banner:
+      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
+    logo: "https://i.pravatar.cc/60?u=pay",
+    employees: "25-50",
+    location: "Port-au-Prince",
+  },
+  {
+    id: 2,
+    sector: "collab",
+    name: "Kolabo",
+    teaser: "Location d'outils entre voisins.",
+    banner:
+      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
+    logo: "https://i.pravatar.cc/60?u=kol",
+    employees: "10-25",
+    location: "Delmas",
+  },
+  {
+    id: 3,
+    sector: "energy",
+    name: "SunBox",
+    teaser: " Kits solaires abordables.",
+    banner:
+      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
+    logo: "https://i.pravatar.cc/60?u=sun",
+    employees: "50-100",
+    location: "Carrefour",
+  },
+  {
+    id: 4,
+    sector: "media",
+    name: "JwennNews",
+    teaser: "L'actualité en temps réel.",
+    banner:
+      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
+    logo: "https://i.pravatar.cc/60?u=news",
+    employees: "5-10",
+    location: "Pétion-Ville",
+  },
+];
+
+// --- COMPOSANT SKELETON ---
+const CompanyCardSkeleton = () => (
+  <div className="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm h-full">
+    <Skeleton height={140} />
+    <div className="p-6 relative">
+      <div className="absolute -top-10 left-6">
+        <Skeleton circle width={64} height={64} />
+      </div>
+      <div className="mt-8 space-y-3">
+        <Skeleton width="70%" height={24} />
+        <Skeleton width="40%" height={16} />
+        <div className="flex gap-4 pt-4">
+          <Skeleton width={80} height={14} />
+          <Skeleton width={80} height={14} />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+export default function EnterprisesPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <main className="bg-third min-h-screen pb-24">
+      <SkeletonTheme baseColor="#f3f4f6" highlightColor="#ffffff">
+        
+        {/* HERO SECTION (Même style que Jobs) */}
+        <div className="relative flex flex-col pb-10 items-center py-14 justify-center m-2 md:m-4 lg:m-6 rounded-4xl px-4 md:px-16 lg:px-24 bg-primary text-white min-h-[70vh] lg:min-h-[80vh] overflow-hidden">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
+            <h1 className="text-3xl md:text-6xl font-medium max-w-4xl leading-tight">
+              Trouvez l'entreprise qui <br />
+              <span className="bg-gradient-to-r from-primary to-secondary px-4 rounded-xl py-2 inline-block mt-4">vous correspond.</span>
+            </h1>
+            <p className="mt-8 text-white/70 max-w-xl mx-auto text-lg">Découvrez les entreprises certifiées B Corp et les nouvelles pépites à explorer.</p>
+          </motion.div>
+
+          {/* BARRE DE RECHERCHE */}
+          <div className="relative mt-12 w-full max-w-3xl group">
+             <div className="relative flex items-center bg-third p-2 rounded-full border border-gray-100 shadow-2xl">
+                <FiSearch className="ml-6 text-gray-400 text-xl" />
+                <input type="text" placeholder="Rechercher une entreprise..." className="w-full py-4 bg-transparent outline-none text-gray-700 font-medium px-4" />
+                <button className="bg-primary text-white px-10 py-4 rounded-full font-bold shadow-lg">Chercher</button>
+             </div>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-7xl 2xl:max-w-screen-2xl px-4 md:px-8">
+          
+          {/* SECTION : ENTREPRISES DU MOMENT */}
+          <section className="mt-20">
+            <div className="flex justify-between mb-10">
+              <div className="max-md:flex-col">
+                <h2 className="text-3xl font-black text-primary">Entreprises du moment</h2>
+                <p className="text-gray-500 mt-2">Découvrez les entreprises certifiées B Corp</p>
+              </div>
+              
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <AnimatePresence mode="wait">
+                {isLoading ? (
+                  [1, 2, 3].map((i) => <CompanyCardSkeleton key={i} />)
+                ) : (
+                  companies.map((c, index) => (
+                    <motion.div key={c.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
+                     <EnterpriseCard enterprise={c} />
+                    </motion.div>
+                  ))
+                )}
+              </AnimatePresence>
+            </div>
+          </section>
+
+          {/* SECTION : CULTURE+ (Vidéos) */}
+          {/* <section className="mt-32">
+            <div className="bg-primary rounded-[3.5rem] p-10 md:p-20 text-white relative overflow-hidden">
+               <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />
+               <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+                  <div>
+                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-xs">Série Exclusive</span>
+                    <h2 className="text-5xl font-black mt-4 mb-8 italic italic-primary">Culture+</h2>
+                    <p className="text-white/70 leading-relaxed text-lg">
+                      Avec la série de vidéos Culture+, découvrez la culture des start-ups et de grandes entreprises. En immersion avec les équipes, les salariés dévoilent leur quotidien.
+                    </p>
+                  </div>
+                  <div className="grid gap-4">
+                    {["Emil Frey France", "SACEM", "PONANT"].map((v, i) => (
+                      <div key={i} className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-3xl hover:bg-white/10 transition-all cursor-pointer group">
+                        <div className="w-16 h-12 bg-gray-800 rounded-xl relative overflow-hidden shrink-0">
+                           <FiPlayCircle className="absolute inset-0 m-auto text-secondary text-2xl group-hover:scale-125 transition-transform" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-sm">Culture+ {v}</p>
+                          <p className="text-[10px] text-white/40 uppercase">17 Janvier 2024</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+               </div>
+            </div>
+          </section> */}
+
+         
+
+          {/* CTA : RECRUTEUR */}
+          <section className="mt-32 bg-secondary rounded-[3rem] p-12 text-center text-primary relative overflow-hidden group">
+             <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+             <h2 className="text-3xl font-black mb-4">Vous aimeriez voir votre entreprise ici ?</h2>
+             <p className="max-w-xl mx-auto font-medium mb-8">Créez votre page d'entreprise et commencez à attirer les talents qui correspondent à votre culture.</p>
+             <Link href="/contact/recruiter" className="bg-primary text-white px-12 py-4 rounded-full font-black uppercase tracking-widest text-xs inline-block shadow-2xl">Commencer maintenant</Link>
+          </section>
+
+        </div>
+      </SkeletonTheme>
+    </main>
+  );
+}

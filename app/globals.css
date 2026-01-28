@@ -1,0 +1,109 @@
+/* 1. TOUS LES IMPORTS DOIVENT ÊTRE EN HAUT */
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@500&f[]=cabinet-grotesk@800&display=swap");
+@import "tailwindcss";
+
+/* 2. DÉFINITION DES VARIABLES */
+:root {
+  --primary: #2a2773;
+  --secondary: #35bdf2;
+  --third: #f2f2f2;
+  
+  /* Polices liées aux variables */
+  --font-sans: 'Satoshi', sans-serif;
+  --font-display: 'Cabinet Grotesk', sans-serif;
+}
+
+/* 3. CONFIGURATION DU THÈME TAILWIND */
+@theme {
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-third: var(--third);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --breakpoint-custom-break: 1100px;
+}
+
+/* 4. RÈGLES DE BASE ET TYPOGRAPHIE */
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    @apply antialiased text-gray-900 bg-third;
+  }
+
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    @apply font-black tracking-tight;
+  }
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* 5. CLASSES DE COMPOSANTS */
+@layer components {
+  .font-cabinet { font-family: var(--font-display); }
+  .font-satoshi { font-family: var(--font-sans); }
+
+  .main-btn {
+    @apply flex items-center text-white gap-2 hover:ring-1 py-2 px-6 bg-secondary rounded-full font-bold text-lg transition-all;
+  }
+
+  .secondary-btn {
+    @apply flex items-center text-secondary gap-2 hover:ring-1 py-2 px-6 bg-white border border-secondary rounded-full font-bold text-lg transition-all;
+  }
+
+  .product-card {
+    @apply ring-gray-400/20 ring-1 text-primary p-5 rounded-4xl text-center flex flex-col items-center bg-white shadow-sm;
+  }
+}
+
+/* 6. ANIMATIONS */
+@keyframes expand {
+  from { width: 0; height: 0; }
+  to { width: 1200px; height: 1200px; }
+}
+
+@keyframes fillUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 7. SHAPES ET UTILITAIRES */
+.inverted-2 {
+  clip-path: path("M32,0H468A32,32 0,0,1 500,32V288A32,32 0,0,1 468,320H111A37,37 0,0,1 74,283V283A37,37 0,0,0 37,246H37A37,37 0,0,1 0,209V32A32,32 0,0,1 32,0Z");
+  width: 100%;
+  height: 320px;
+  background-color: var(--primary);
+  aspect-ratio: 25 / 16;
+}
+
+.custom-radius {
+  border-radius: 69% 25% 50% 28% / 58% 25% 65% 25%;
+  @apply w-[1200px] h-[1200px] absolute top-0 left-0 overflow-hidden;
+  background: transparent;
+}
+
+.custom-radius::before {
+  content: '';
+  @apply bg-secondary;
+  border-radius: inherit;
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  transform: translateY(100%);
+  animation: fillUp 1s ease-in-out forwards;
+}
+
+.banner {
+  background: url('/lightning.jpg') center/cover no-repeat;
+}
+
+.overlay {
+  @apply bg-black/50 absolute inset-0;
+}
