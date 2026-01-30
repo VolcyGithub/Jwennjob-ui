@@ -1,195 +1,219 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { FaLinkedin, FaTwitter, FaFacebook, FaBookmark } from "react-icons/fa";
-import { IoLocation, IoTime, IoCash, IoCalendar } from "react-icons/io5";
-import { MdWork } from "react-icons/md";
+import { FaLinkedin, FaTwitter, FaFacebook, FaBookmark, FaInstagram, FaYoutube, FaExternalLinkAlt } from "react-icons/fa";
+import { IoLocation, IoTime, IoCash, IoCalendar, IoBriefcase } from "react-icons/io5";
+import { MdPlayCircleFilled, MdArrowForward, MdWork } from "react-icons/md";
 
-/* ------------------------------------------------------------------ */
-/* 1.  Données factices (remplacez par votre source réelle)           */
-/* ------------------------------------------------------------------ */
 const jobs = [
   {
     id: "1",
-    banner: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
-    logo: "https://i.pravatar.cc/120?u=alpha",
     company: "AlphaTech",
+    logo: "https://i.pravatar.cc/120?u=alpha",
+    banner: "https://cdn-images.welcometothejungle.com/tpK0Q7rVQ4zddlrxaOkcUxD81WAzkDxXWtiyvMycBy8/rs:auto:400::/q:85/czM6Ly93dHRqLXByb2R1Y3Rpb24vdXBsb2Fkcy9pbWFnZS9maWxlLzU4MTQvMTcwODAxL2QwMTA3ZTgyLTQ2M2ItNGY5Yy1iNjExLWE1MTk3YmVhYzI0OC5qcGc",
     title: "Développeur Full-Stack React / Node",
-    type: "Temps plein",
-    location: "Pétion-Ville • Télé-travail 2j",
-    salary: "100 000 – 130 000 HTG / mois",
-    posted: "il y a 3 jours",
-    description:
-      "Nous recherchons un(e) développeur(se) full-stack passionné(e) pour renforcer notre équipe produit. Vous participerez à la conception, au développement et au déploiement de nouvelles fonctionnalités de notre plateforme SaaS.",
-    missions: [
-      "Développer des features end-to-end (React, Next.js, NestJS)",
-      "Améliorer les performances et la qualité du code",
-      "Participer aux revues de code et aux daily stand-ups",
-      "Rédiger la documentation technique",
-    ],
-    profile: [
-      "3+ ans avec React / Node",
-      "Autonomie et bon niveau d’anglais",
-      "Esprit d’équipe et passion pour les techs émergentes",
-    ],
-    perks: [
-      "Tickets restaurant",
-      "Prime de transport",
-      "Assurance santé 100 % prise en charge",
-      "Formation & conférences payées",
-    ],
-  },
-  {
-    id: "2",
-    banner: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1600&q=80",
-    logo: "https://i.pravatar.cc/120?u=beta",
-    company: "BetaStore",
-    title: "Responsable Marketing Digital",
-    type: "Temps plein",
-    location: "Delmas",
-    salary: "80 000 – 100 000 HTG / mois",
-    posted: "il y a 5 jours",
-    description:
-      "BetaStore, scale-up du e-commerce haïtien, recherche son/sa futur(e) responsable marketing pour accélérer la croissance.",
-    missions: [
-      "Piloter la stratégie marketing (SEO, SEA, RS)",
-      "Optimiser le funnel de conversion",
-      "Manager une équipe de 3 personnes",
-      "Reporting hebdo à la direction",
-    ],
-    profile: [
-      "2+ ans d’exp. en marketing digital",
-      "Maîtrise de Google Ads & Meta Ads",
-      "Esprit analytique et créatif",
-    ],
-    perks: [
-      "Prime variable sur objectifs",
-      "Journées remote illimitées",
-      "Abonnement salle de sport",
-    ],
-  },
+    sector: "Environnement / Tech / SaaS",
+    employees: "150 collaborateurs",
+    founded: "Créée en 2019",
+    type: "Temps plein (CDI)",
+    location: "Pétion-Ville, Haiti",
+    salary: "100 000 – 130 000 HTG",
+    posted: "Hier",
+    experience: "< 2 ans",
+    education: "Bac +5 / Master",
+    description: "Rejoindre AlphaTech c'est intégrer un Groupe International qui innove pour développer des solutions de demain. Nous recherchons un(e) développeur(se) full-stack passionné(e) pour renforcer notre équipe produit.",
+    missions: ["Développer des features end-to-end", "Améliorer la qualité du code", "Participer aux daily stand-ups"],
+    profile: ["Maîtrise de React & Node.js", "Curiosité et Rigueur", "La présentation d'un Portfolio est un plus"],
+    perks: ["1-2 jours de télétravail", "Assurance santé complète", "Plan de développement professionnel"],
+  }
 ];
 
 
-/* ------------------------------------------------------------------ */
-/* 3.  Page complète                                                  */
-/* ------------------------------------------------------------------ */
-export default function JobDetailPage() {
+export default function JobDetailPage({ params }) {
   const {id} = useParams();
   const job = jobs.find((j) => j.id === id);
- 
+  if (!job) return <div className="min-h-[80vh] flex items-center justify-center"><p className="p-10 text-center">Offre introuvable</p></div>;
 
   return (
-    <main classname="min-vh-100">
-      {/* HERO BANNER */}
-      <div className="relative h-80 md:h-96 w-full overflow-hidden">
-        <Image
-          src={job.banner}
-          alt="bannière entreprise"
-          fill
-          className="object-cover blur-sm scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="relative h-full flex items-end px-6 md:px-16 lg:px-24 xl:px-32 pb-10">
-          <div className="flex items-end gap-5">
-            <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white overflow-hidden shadow-lg">
-              <Image src={job.logo} alt={job.company} fill className="object-cover" />
-            </div>
-            <div className="text-white">
-              <p className="text-sm font-medium opacity-90">{job.company}</p>
-              <h1 className="text-2xl md:text-4xl font-bold">{job.title}</h1>
-            </div>
-          </div>
-        </div>
+    <main className="bg-[#fdfdfd] min-h-screen pb-50 font-sans text-gray-900 ">
+      <div className="absolute top-0 left-0 w-full h-[400px] 2xl:h-[500px] overflow-hidden">
+        <Image src={job.banner} alt="banner" width={200} height={400} className="w-full max-h-[500px] object-cover" />
       </div>
+      <div className="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 md:px-8 py-8 relative top-32 md:top-50">
 
-      {/* RUBAN INFOS */}
-      <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-4 bg-white border-b">
-        <div className="max-w-5xl mx-auto flex flex-wrap items-center gap-6 text-sm text-gray-700">
-          <span className="flex items-center gap-2"><IoCash className="text-secondary" />{job.salary}</span>
-          <span className="flex items-center gap-2"><IoLocation className="text-secondary" />{job.location}</span>
-          <span className="flex items-center gap-2"><MdWork className="text-secondary" />{job.type}</span>
-          <span className="flex items-center gap-2"><IoCalendar className="text-secondary" />{job.posted}</span>
-          <button className="ml-auto flex items-center gap-2 text-secondary hover:underline">
-            <FaBookmark /> Sauvegarder
-          </button>
-        </div>
-      </div>
+        {/* HEADER SECTION */}
 
-      {/* CONTENU */}
-      <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-10 bg-gray-50">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-10">
-          {/* Colonne gauche */}
-          <div className="md:col-span-2 space-y-8">
-            <section className="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">Description du poste</h2>
-              <p className="text-gray-600 leading-relaxed">{job.description}</p>
-            </section>
 
-            <section className="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">Missions</h2>
-              <ul className="list-disc list-inside space-y-2 text-gray-600">
-                {job.missions.map((m) => <li key={m}>{m}</li>)}
-              </ul>
-            </section>
+        {/* CONTENU PRINCIPAL + SIDEBAR */}
+        <div className="grid lg:grid-cols-12 gap-10">
 
-            <section className="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">Profil recherché</h2>
-              <ul className="list-disc list-inside space-y-2 text-gray-600">
-                {job.profile.map((p) => <li key={p}>{p}</li>)}
-              </ul>
-            </section>
+          {/* Job Details */}
+          <div className="lg:col-span-8">
+            <div className="border border-gray-100 rounded-4xl p-6 shadow-sm mb-8 bg-white">
+              <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded border p-1 bg-white">
+                      <Image src={job.logo} alt="logo" width={48} height={48} className="object-contain" />
+                    </div>
+                    <span className="font-bold text-sm uppercase tracking-wide">{job.company}</span>
+                  </div>
+                  <h1 className="text-3xl md:text-4xl text-primary font-bold mb-6 leading-tight">{job.title}</h1>
 
-            <section className="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">Avantages</h2>
-              <div className="flex flex-wrap gap-3">
-                {job.perks.map((p) => (
-                  <span key={p} className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">
-                    {p}
-                  </span>
+                  <div className="gap-y-4 text-sm">
+
+                    <div className="flex flex-1 md:space-x-12 space-y-8 mb-6 flex-wrap md:flex-nowrap items-center">
+                      <div className="space-y-3">
+                        <h3 className="font-bold text-md mb-4 uppercase text-gray-500">Résumé du poste</h3>
+                        <p className="flex items-center gap-2 text-gray-500 font-medium"><IoBriefcase className="text-gray-400" /> {job.type}</p>
+                        <p className="flex items-center gap-2 text-gray-500 font-medium"><IoLocation className="text-gray-400" /> {job.location}</p>
+                        <p className="flex items-center gap-2 text-gray-500 font-medium"><IoTime className="text-gray-400" /> Télétravail autorisé</p>
+                      </div>
+                      <div className="h-[150px] min-h-[1em] hidden md:block w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25"></div>
+                      <div className="space-y-3">
+                        <h3 className="font-bold text-md mb-4 uppercase text-gray-500">Compétences & expertises</h3>
+                        <p className="flex items-center gap-2 text-gray-500 font-medium"><IoCash className="text-gray-400" /> {job.salary}</p>
+                        <p className="flex items-center gap-2 text-gray-500 font-medium"><IoCalendar className="text-gray-400" /> Début : ASAP</p>
+                        <p className="flex items-center gap-2 text-gray-500 font-medium"><MdWork className="text-gray-400" /> Expérience : {job.experience}</p>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className="flex gap-3 w-full md:w-auto shrink-0">
+                    <button className="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-full shadow-md transition-all active:scale-95">Postuler</button>
+                    <button className="flex items-center justify-center gap-2 border-2 border-gray-200 font-bold py-3 px-8 rounded-full hover:bg-gray-50 transition-all">
+                      <FaBookmark className="text-gray-400" /> Sauvegarder
+                    </button>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+            <div className="bg-[#f8f8f8] rounded-4xl p-8 mb-8">
+              <h2 className="text-2xl font-black mb-8 flex items-center gap-3">
+                <span className="w-6 h-1 bg-secondary" /> Le poste
+              </h2>
+
+              <div className="space-y-10">
+                <section>
+                  <h3 className="font-bold text-lg mb-4">Descriptif du poste</h3>
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">{job.description}</p>
+                </section>
+
+                <section>
+                  <h3 className="font-bold text-lg mb-4">Missions</h3>
+                  <ul className="space-y-3">
+                    {job.missions.map((m, i) => (
+                      <li key={i} className="flex gap-2 text-gray-700 font-medium">
+                        <span className="text-secondary">—</span> {m}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section>
+                  <h3 className="font-bold text-lg mb-4">Profil recherché</h3>
+                  <ul className="space-y-3">
+                    {job.profile.map((p, i) => (
+                      <li key={i} className="flex gap-2 text-gray-700 font-medium">
+                        <span className="text-secondary">—</span> {p}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+            </div>
+
+            {/* SECTION "ENVIE D'EN SAVOIR PLUS" (VIDEOS) */}
+            <div className="bg-white rounded-4xl p-8 border border-gray-100">
+              <h2 className="text-2xl font-black mb-8">Envie d'en savoir plus ?</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {[1, 2].map((v) => (
+                  <div key={v} className="group relative aspect-video rounded-4xl overflow-hidden cursor-pointer">
+                    <Image src={job.banner} alt="Video thumb" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all" />
+                    <MdPlayCircleFilled className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/90" size={64} />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <p className="font-bold text-sm">Rencontrez l'équipe {v}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </section>
+            </div>
           </div>
 
-          {/* Colonne droite sticky */}
-          <aside className="space-y-6 self-start sticky top-10">
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <button className="w-full bg-secondary text-white py-3 rounded-full hover:opacity-90 transition animate-pulse">
-                Postuler maintenant
-              </button>
-              <p className="text-xs text-gray-500 text-center mt-2">En 1 clic avec votre profil JwennJob</p>
-            </div>
+          {/* ENTERPRISE (SIDEBAR) */}
+          <aside className="lg:col-span-4 space-y-6 sticky top-40 h-fit">
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-3">À propos</h3>
-              <p className="text-sm text-gray-600">
-                {job.company} est une scale-up haïtienne créée en 2019, spécialisée dans les solutions SaaS pour la gestion des
-                ressources humaines.
-              </p>
-              <div className="mt-4 flex gap-2">
-                <Link href="#" className="text-secondary hover:opacity-80"><FaLinkedin size={20} /></Link>
-                <Link href="#" className="text-secondary hover:opacity-80"><FaTwitter size={20} /></Link>
-                <Link href="#" className="text-secondary hover:opacity-80"><FaFacebook size={20} /></Link>
+            {/* Discover the company */}
+            <div className="bg-white rounded-4xl overflow-hidden shadow-sm border border-gray-100">
+              <div className="relative h-41">
+                <Image src={job.banner} alt="Entreprise" fill className="object-cover" />
+              </div>
+              <div className="p-6 bg-primary">
+                <h3 className="text-white text-xl font-bold mb-4">Découvrez l'entreprise</h3>
+                <p className="text-xs font-medium mb-6 text-gray-300">Explorez la vitrine de l'entreprise ou suivez-la pour savoir si elle vous correspond vraiment !</p>
+                <div className="flex flex-col gap-2">
+                  <Link href="#" className="bg-secondary text-white py-3 rounded-full font-bold text-sm flex items-center justify-center gap-2">
+                    Explorer l'entreprise <MdArrowForward />
+                  </Link>
+                  <button className="bg-white/20 hover:bg-white/30 text-white py-3 rounded-full font-bold text-sm transition-all border border-black/10">
+                    Suivre
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-3">Partager l’offre</h3>
-              <div className="flex gap-3">
-                <button className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50">
-                  <FaLinkedin /> LinkedIn
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 hover:bg-gray-50">
-                  <FaTwitter /> Twitter
-                </button>
+            {/* Company Information */}
+            <div className="bg-white rounded-4xl p-6 shadow-sm border border-gray-100">
+              <h3 className="font-black text-lg mb-6 flex items-center gap-2">
+                <span className="w-4 h-1 bg-secondary" /> L'entreprise
+              </h3>
+              <div className="flex items-center gap-3 mb-6">
+                <Image src={job.logo} alt="logo" width={40} height={40} className="rounded" />
+                <span className="font-bold">{job.company}</span>
               </div>
+
+              <div className="space-y-4 text-sm text-gray-600 mb-8">
+                <p className="flex items-center gap-2"><IoLocation size={18} /> {job.sector}</p>
+                <p className="flex items-center gap-2"><MdWork size={18} /> {job.employees}</p>
+                <p className="flex items-center gap-2"><IoCalendar size={18} /> {job.founded}</p>
+              </div>
+
+              <Link href="#" className="flex items-center gap-2 text-secondary font-bold hover:underline mb-4">
+                Voir le site <FaExternalLinkAlt size={12} />
+              </Link>
+              <Link href="#" className="flex items-center gap-2 text-secondary font-bold hover:underline">
+                Voir toutes les offres <span className="bg-secondary/10 px-2 py-0.5 rounded text-xs">12</span>
+              </Link>
+            </div>
+
+            {/* Benefits */}
+            <div className="bg-white rounded-4xl p-6 shadow-sm border border-gray-100">
+              <h3 className="font-black text-lg mb-6">Les avantages</h3>
+              <ul className="space-y-4 text-sm">
+                {job.perks.map((p, i) => (
+                  <li key={i} className="flex gap-2 font-medium text-gray-700">
+                    <span className="text-secondary">●</span> {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Social Networks */}
+            <div className="flex justify-center gap-6 py-4">
+              <FaLinkedin size={22} className="text-gray-400 hover:text-secondary cursor-pointer" />
+              <FaInstagram size={22} className="text-gray-400 hover:text-secondary cursor-pointer" />
+              <FaTwitter size={22} className="text-gray-400 hover:text-secondary cursor-pointer" />
+              <FaYoutube size={22} className="text-gray-400 hover:text-secondary cursor-pointer" />
             </div>
           </aside>
         </div>
       </div>
     </main>
   );
+  
 }
