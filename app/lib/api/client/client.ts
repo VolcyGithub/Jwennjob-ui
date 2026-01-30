@@ -1,13 +1,13 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { InterceptorsManager } from "./interceptor";
-
+import { request } from "http";
+import { NextRequest } from "next/server";
 
 interface ApiClientOptions {
   baseURL?: string;
 }
 
 export class ApiClient {
-
   private instance: AxiosInstance;
   private interceptor: InterceptorsManager;
 
@@ -45,9 +45,7 @@ export class ApiClient {
   }
 
   //  Méthodes HTTP (simples)
-  private async request<T>(
-    promise: Promise<AxiosResponse<T>>
-  ): Promise<T> {
+  private async request<T>(promise: Promise<AxiosResponse<T>>): Promise<T> {
     const res = await promise;
     return res.data;
   }
@@ -70,6 +68,23 @@ export class ApiClient {
 }
 
 export const apiClient = new ApiClient({
-  baseURL : "https://dummyjson.com"
-})
+  baseURL: "https://dummyjson.com",
+});
 
+export const publicClient = new ApiClient({
+  baseURL: "https://api.jwennjob.com/api/v1",
+});
+
+export const candidateClient = new ApiClient({
+  baseURL: "https://api.jwennjob.com/api/v1",
+});
+
+const getCandidateToken = () => {
+  return document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("candidate_token="))
+    ?.split("=")[1];
+};
+
+// 2. Utilisation correcte
+candidateClient.useBearerAuth(() => getCandidateToken());

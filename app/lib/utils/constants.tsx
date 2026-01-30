@@ -13,5 +13,6 @@ export const CACHE_TIME = 5 * 60 * 1000;
  */
 export const KEYS = {
     posts : 'posts',
-    users : 'users'
+    users : 'users',
+    candidates : "candidates"
 };
