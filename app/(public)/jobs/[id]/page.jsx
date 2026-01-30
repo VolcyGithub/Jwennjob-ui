@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { FaLinkedin, FaTwitter, FaFacebook, FaBookmark } from "react-icons/fa";
 import { IoLocation, IoTime, IoCash, IoCalendar } from "react-icons/io5";
 import { MdWork } from "react-icons/md";
@@ -69,19 +72,14 @@ const jobs = [
   },
 ];
 
-/* ------------------------------------------------------------------ */
-/* 2.  generateStaticParams (obligatoire en output: "export")         */
-/* ------------------------------------------------------------------ */
-export async function generateStaticParams() {
-  return jobs.map((j) => ({ id: j.id }));
-}
 
 /* ------------------------------------------------------------------ */
 /* 3.  Page complète                                                  */
 /* ------------------------------------------------------------------ */
-export default function JobDetailPage({ params }) {
-  const job = jobs.find((j) => j.id === params.id);
-  if (!job) return <p className="p-10">Offre introuvable</p>;
+export default function JobDetailPage() {
+  const {id} = useParams();
+  const job = jobs.find((j) => j.id === id);
+ 
 
   return (
     <main classname="min-vh-100">
