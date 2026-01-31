@@ -7,11 +7,15 @@ import ProgressBar from "@/app/components/candidate/stats/ProgressBar";
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
 import ApplicationTable from "@/app/components/candidate/tables/ApplicationTable";
 import { BiUser, BiBriefcase,BiStar,BiBookmark,BiLogoWhatsapp,} from "react-icons/bi";
-import { useCandidate } from "@/app/lib/contexts/CandidateContext";
+import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
+
 
 
 export default function Home() {
   
+  const {candidate , isLoading , error} = useCandidateAuth();
+
+
   return (
     <div>
       <BreadCrumb
@@ -24,7 +28,7 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <h1 className="text-md md:text-4xl">
-                  <span className="text-white/75">Bienvenue !</span>
+                  <span className="text-white/75">Bienvenue ! <b className="text-white">{candidate.name}</b> </span>
                 </h1>
                 <p className="text-white/60 max-md:line-clamp-2 mb-3 text-xs md:text-sm leading-relaxed">
                   Trouve l’opportunité qui te correspond parmi des centaines

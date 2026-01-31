@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext} from "react";
+import { createContext, useContext} from "react";
 
-export const CandidateContext = createContext(null);
+const CandidateContext = createContext(null);
 
 export function CandidateProvider({ children, candidate, isLoading, error }) {
   return (
@@ -11,3 +11,14 @@ export function CandidateProvider({ children, candidate, isLoading, error }) {
     </CandidateContext.Provider>
   );
 }
+
+
+export function useCandidateAuth(){
+  const context = useContext(CandidateContext);
+
+  if(!context){
+     throw new Error("Context not defined");
+  }
+  return context;
+}
+

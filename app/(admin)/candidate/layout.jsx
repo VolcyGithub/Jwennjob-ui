@@ -8,14 +8,36 @@ import { useMe } from "@/app/lib/api/hooks/queries/useCandidates";
 import { CandidateProvider } from "@/app/lib/contexts/CandidateContext";
 import { useState } from "react";
 
-
 export default function CandidateLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const { data, error, isLoading } = useMe();
-  const {candidate} = data
+
+
+
+  if (isLoading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-primary/3">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Si erreur, affiche l'erreur
+  if (error) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-primary/3">
+        <p className="text-red-500">Erreur de chargement du profil</p>
+      </div>
+    );
+  }
 
   return (
-    <CandidateProvider candidate={candidate} children={children} isLoading={isLoading} error={error}>
+    <CandidateProvider
+      candidate={data.candidate}
+      children={children}
+      isLoading={isLoading}
+      error={error}
+    >
       <div className="bg-primary/3 flex min-h-screen justify-end w-full">
         <NavFloatingButton />
         <NavOverlay isOpen={isOpen} setIsOpen={setIsOpen} />
