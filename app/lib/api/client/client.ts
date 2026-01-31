@@ -85,6 +85,4 @@ const getCandidateToken = () => {
     .find((row) => row.startsWith("candidate_token="))
     ?.split("=")[1];
 };
-
-// 2. Utilisation correcte
 candidateClient.useBearerAuth(() => getCandidateToken());
