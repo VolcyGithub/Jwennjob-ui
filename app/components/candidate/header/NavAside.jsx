@@ -12,17 +12,18 @@ export default function NavAside({ isOpen }) {
   return (
     <div
       className={`fixed h-full z-40 text-sm left-0 w-[300px] xl:w-[15%] text-white p-2 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"} xl:translate-x-0`}
-      >
-      <div
-        className="bg-primary rounded-4xl w-full h-full p-4"
-       >
+    >
+      <div className="bg-primary rounded-4xl w-full h-full p-4">
         <div className="flex pl-3 mt-2 mb-8 gap-2 items-center">
-          <Image
-            src={`/white-logo.PNG`}
-            width={20}
-            height={20}
-            alt="Jwennjob Logo"
-          />
+          <Link href="/">
+            <Image
+              src={`/white-logo.PNG`}
+              width={20}
+              height={20}
+              alt="Jwennjob Logo"
+            />
+          </Link>
+
           <span className="text-white text-md uppercase">wennjob</span>
         </div>
 

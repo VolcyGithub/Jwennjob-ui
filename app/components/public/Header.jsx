@@ -54,7 +54,7 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="/signup"
+              href="/signin"
               className="ml-2 px-4 py-2 rounded-4xl text-sm bg-secondary text-white hover:opacity-90 transition"
             >
               Se connecter

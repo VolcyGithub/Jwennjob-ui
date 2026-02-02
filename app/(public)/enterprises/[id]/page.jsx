@@ -65,10 +65,6 @@ const companies = [
 export default function EnterpriseDetailPage() {
 
   const {id} = useParams()
-
-
-  // CORRECTION : Convertir params.id en number pour la comparaison
-  // ou comparer avec == au lieu de ===
   const company = companies.find((c) => c.id === parseInt(id));
   
   if (!company) return <p className="p-10 text-center">Entreprise introuvable</p>;
