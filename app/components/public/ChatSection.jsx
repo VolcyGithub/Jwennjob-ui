@@ -41,7 +41,7 @@ const messages = [
 
 export default function ChatSection() {
   return (
-    <section className="mx-auto relative max-w-7xl md:rounded-4xl px-6 md:px-8 2xl:px-12 2xl:max-w-screen-2xl py-20 bg-primary overflow-hidden">
+    <section className="mx-auto relative max-w-7xl md:rounded-[50px] px-6 md:px-8 2xl:px-12 2xl:max-w-screen-2xl py-20 bg-primary overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute md:rounded-4xl bottom-0 left-0 right-0 top-0 bg-[radial-gradient(#35bdf233_1px,#2a2773_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_115%_80%_at_50%_0%,#000_85%,transparent_110%)]"></div>
       

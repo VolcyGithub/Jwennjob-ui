@@ -77,7 +77,7 @@ export default function HeroSection() {
 
       <motion.div
         variants={item}
-        className="flex justify-center items-center gap-4 md:gap-14 mt-12"
+        className="flex justify-center flex-wrap items-center gap-4 md:gap-14 mt-12"
       >
         <p className="flex items-center gap-2">
           <svg

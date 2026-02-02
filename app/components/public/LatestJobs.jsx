@@ -6,8 +6,11 @@ import JobCard from "@/app/components/public/card/Jobcard";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { useJobs } from "@/app/lib/api/hooks/queries/useJobs";
 import JobCardSkeleton from "./card/JobCardSkeleton";
-import { AnimatePresence , motion } from "framer-motion";
-
+import { AnimatePresence, motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 export default function LatestJobs() {
   const { data: jobs, isLoading, error } = useJobs();
 
@@ -22,33 +25,52 @@ export default function LatestJobs() {
           subtitle="Découvrez une sélection d'opportunités triées sur le volet pour vous."
         />
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-20">
-          <AnimatePresence mode="wait">
-            {isLoading
-              ? // --- LOADING STATE ---
-                [1, 2, 3, 4, 5, 6].map((i) => (
-                  <motion.div
-                    key={`skeleton-${i}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <JobCardSkeleton />
-                  </motion.div>
-                ))
-              : // --- ACTUAL CONTENT ---
-                jobs.data.slice(0,6).map((j, index) => (
-                  <motion.div
-                    key={j.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <JobCard job={j} />
-                  </motion.div>
-                ))}
-          </AnimatePresence>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mt-20"
+        >
+          <Swiper
+            slidesPerView={1.2}
+            spaceBetween={20}
+            loop={true}
+            pagination={false}
+            autoplay={{
+              delay: 3500,
+              disableOnInteraction: false,
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2.2,
+                spaceBetween: 30,
+              },
+              1024: {
+                slidesPerView: 3.2,
+                spaceBetween: 10,
+              },
+            }}
+            modules={[Autoplay, Pagination]}
+            className="pb-14 !px-4 md:!px-0" // Ajoute un padding horizontal pour ne pas coller au bord
+          >
+            <AnimatePresence mode="popLayout">
+              {isLoading
+                ? [1, 2, 3].map((i) => <JobCardSkeleton key={i} />)
+                : jobs.data.slice(0, 6).map((j) => (
+                    <SwiperSlide key={j.id}>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="h-full"
+                      >
+                        <JobCard key={j.id} job={j} />
+                      </motion.div>
+                    </SwiperSlide>
+                  ))}
+            </AnimatePresence>
+          </Swiper>
+        </motion.div>
 
         <div className="mt-10 text-center">
           <Link

@@ -6,19 +6,39 @@ import NavOverlay from "@/app/components/candidate/header/NavOverlay";
 import NavTop from "@/app/components/candidate/header/NavTop";
 import { useMe } from "@/app/lib/api/hooks/queries/useCandidates";
 import { CandidateProvider } from "@/app/lib/contexts/CandidateContext";
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function CandidateLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const { data, error, isLoading } = useMe();
 
-
-
   if (isLoading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-primary/3">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 bg-white z-[9999] flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Image
+                src="https://jwennjob.com/assets/j-logo.png"
+                alt="JwennJob Logo"
+                width={80}
+                height={80}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     );
   }
 

@@ -18,5 +18,6 @@ export const KEYS = {
     posts : 'posts',
     users : 'users',
     candidates : "candidates",
+    recruiters : "recruiters",
     jobs : "jobs"
 };

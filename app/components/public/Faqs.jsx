@@ -26,9 +26,9 @@ const Faqs = () => {
 
     return (
         <>
-            <div className="max-w-6xl 2xl:max-w-screen-2xl mx-auto flex flex-col md:flex-row items-start justify-center gap-8 px-4 md:px-0 my-20">
+            <div className="max-w-6xl 2xl:max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-center gap-8 px-4 md:px-0 my-20">
                 <img
-                    className="max-w-lg w-full rounded-xl h-auto"
+                    className="max-w-2xl w-full rounded-4xl h-auto"
                     src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=830&h=844&auto=format&fit=crop"
                     alt="Équipe au travail"
                 />
