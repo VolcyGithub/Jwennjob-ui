@@ -13,6 +13,8 @@ import {
   FiChevronRight,
   FiChevronLeft,
 } from "react-icons/fi";
+import JobCardSkeleton from "@/app/components/public/card/JobCardSkeleton";
+import { useJobs } from "@/app/lib/api/hooks/queries/useJobs";
 
 const jobs = [
   {
@@ -116,51 +118,9 @@ const popular = [
   "Finance",
 ];
 
-// --- COMPOSANT CARD SKELETON ---
-const JobCardSkeleton = () => (
-  <div className="bg-white rounded-[2.5rem] p-6 border border-gray-100 h-full">
-    <div className="flex justify-between items-start mb-6">
-      <Skeleton width={64} height={64} borderRadius={16} />
-      <Skeleton width={60} height={20} borderRadius={8} />
-    </div>
-    <div className="space-y-3">
-      <Skeleton width="80%" height={24} />
-      <Skeleton width="40%" height={16} />
-      <div className="pt-4 space-y-2">
-        <Skeleton width="50%" height={14} />
-        <Skeleton width="60%" height={14} />
-      </div>
-    </div>
-    <div className="mt-8 pt-6 border-t border-gray-50 flex justify-between items-center">
-      <div className="flex -space-x-2">
-        <Skeleton circle width={32} height={32} />
-        <Skeleton circle width={32} height={32} />
-      </div>
-      <Skeleton width={80} height={20} />
-    </div>
-  </div>
-);
-
 export default function JobsPage() {
   const [query, setQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
-  // Simulation du chargement initial
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Calculer les emplois à afficher pour la page courante
-  const indexOfLastJob = currentPage * itemsPerPage;
-  const indexOfFirstJob = indexOfLastJob - itemsPerPage;
-  const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
-  const totalPages = Math.ceil(jobs.length / itemsPerPage);
-
-  // Fonction pour changer de page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const { data: jobs, isLoading, error } = useJobs();
 
   return (
     <main className="bg-third min-h-screen pb-24">
@@ -180,7 +140,6 @@ export default function JobsPage() {
             </h1>
           </motion.div>
 
-          {/* SEARCH BAR */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -259,7 +218,7 @@ export default function JobsPage() {
                     </motion.div>
                   ))
                 : // --- ACTUAL CONTENT ---
-                  currentJobs.map((j, index) => (
+                  jobs.data.map((j, index) => (
                     <motion.div
                       key={j.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -272,7 +231,7 @@ export default function JobsPage() {
             </AnimatePresence>
           </div>
 
-          {/* Pagination */}
+          {/* Pagination
           {!isLoading && totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 mt-12">
               <button
@@ -309,7 +268,7 @@ export default function JobsPage() {
                 <FiChevronRight className="w-5 h-5 text-gray-600" />
               </button>
             </div>
-          )}
+          )} */}
 
           {/* RECHERCHES POPULAIRES */}
           <div className="mt-24 bg-primary rounded-4xl p-10 md:p-16 relative overflow-hidden">

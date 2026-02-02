@@ -3,101 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import TitleHead from "./TitleHead";
 import JobCard from "@/app/components/public/card/Jobcard";
-import {
-  IoBriefcaseOutline,
-} from "react-icons/io5";
-const jobs = [
-  {
-    id: 1,
-    title: "Manager Communication",
-    company: "Kolabo",
-    location: "Paris",
-    type: "CDD",
-    sector: "Marketing & Communication",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "45 k€ - 55 k€",
-    logo: "https://i.pravatar.cc/60?u=kol",
-  },
-  {
-    id: 2,
-    title: "Stage - Product Marketing",
-    company: "SunBox",
-    location: "Lyon",
-    type: "Stage",
-    sector: "Marketing & Communication",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "1 200 € / mois",
-    logo: "https://i.pravatar.cc/60?u=sun",
-  },
-  {
-    id: 3,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 4,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 5,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 6,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 7,
-    title: "Développeur Fullstack",
-    company: "AlphaTech",
-    location: "Pétion-Ville",
-    type: "CDI",
-    sector: "Tech",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "50k - 80k HTG",
-    logo: "https://i.pravatar.cc/60?u=alpha",
-  },
-  {
-    id: 8,
-    title: "Designer UI/UX",
-    company: "Creative Studio",
-    location: "Remote",
-    type: "Freelance",
-    sector: "Design",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "1 000 € - 1 500 €",
-    logo: "https://i.pravatar.cc/60?u=creative",
-  },
-];
+import { IoBriefcaseOutline } from "react-icons/io5";
+import { useJobs } from "@/app/lib/api/hooks/queries/useJobs";
+import JobCardSkeleton from "./card/JobCardSkeleton";
+import { AnimatePresence , motion } from "framer-motion";
 
 export default function LatestJobs() {
+  const { data: jobs, isLoading, error } = useJobs();
+
   return (
     <section
       className="px-4 md:px-16 lg:px-24 xl:px-32 py-16 third"
@@ -110,9 +23,31 @@ export default function LatestJobs() {
         />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-20">
-          {jobs.slice(0, 6).map((j) => (
-            <JobCard key={j.id} job={j} />
-          ))}
+          <AnimatePresence mode="wait">
+            {isLoading
+              ? // --- LOADING STATE ---
+                [1, 2, 3, 4, 5, 6].map((i) => (
+                  <motion.div
+                    key={`skeleton-${i}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <JobCardSkeleton />
+                  </motion.div>
+                ))
+              : // --- ACTUAL CONTENT ---
+                jobs.data.slice(0,6).map((j, index) => (
+                  <motion.div
+                    key={j.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <JobCard job={j} />
+                  </motion.div>
+                ))}
+          </AnimatePresence>
         </div>
 
         <div className="mt-10 text-center">
