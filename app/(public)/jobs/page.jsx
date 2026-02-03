@@ -15,97 +15,7 @@ import {
 } from "react-icons/fi";
 import JobCardSkeleton from "@/app/components/public/card/JobCardSkeleton";
 import { useJobs } from "@/app/lib/api/hooks/queries/useJobs";
-
-const jobs = [
-  {
-    id: 1,
-    title: "Manager Communication",
-    company: "Kolabo",
-    location: "Paris",
-    type: "CDD",
-    sector: "Marketing & Communication",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "45 k€ - 55 k€",
-    logo: "https://i.pravatar.cc/60?u=kol",
-  },
-  {
-    id: 2,
-    title: "Stage - Product Marketing",
-    company: "SunBox",
-    location: "Lyon",
-    type: "Stage",
-    sector: "Marketing & Communication",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "1 200 € / mois",
-    logo: "https://i.pravatar.cc/60?u=sun",
-  },
-  {
-    id: 3,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 4,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 5,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 6,
-    title: "Corporate - H/F",
-    company: "PayAyiti",
-    location: "Remote",
-    type: "CDI",
-    sector: "Finance & Comptabilité",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "60 k€ - 70 k€",
-    logo: "https://i.pravatar.cc/60?u=pay",
-  },
-  {
-    id: 7,
-    title: "Développeur Fullstack",
-    company: "AlphaTech",
-    location: "Pétion-Ville",
-    type: "CDI",
-    sector: "Tech",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "50k - 80k HTG",
-    logo: "https://i.pravatar.cc/60?u=alpha",
-  },
-  {
-    id: 8,
-    title: "Designer UI/UX",
-    company: "Creative Studio",
-    location: "Remote",
-    type: "Freelance",
-    sector: "Design",
-    banner: "https://live.staticflickr.com/65535/53983207025_c40d7ab03b.jpg",
-    salary: "1 000 € - 1 500 €",
-    logo: "https://i.pravatar.cc/60?u=creative",
-  },
-];
+import Pagination from "@/app/components/public/Pagination";
 
 const popular = [
   "Communication",
@@ -120,7 +30,20 @@ const popular = [
 
 export default function JobsPage() {
   const [query, setQuery] = useState("");
-  const { data: jobs, isLoading, error } = useJobs();
+  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    data: jobs,
+    isLoading,
+    error,
+  } = useJobs({ page: currentPage, per_page: 9 });
+
+  const paginate = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= (jobs?.meta?.last_page || 1)) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  console.log(jobs);
 
   return (
     <main className="bg-third min-h-screen pb-24">
@@ -207,7 +130,7 @@ export default function JobsPage() {
             <AnimatePresence mode="wait">
               {isLoading
                 ? // --- LOADING STATE ---
-                  [1, 2, 3, 4, 5, 6].map((i) => (
+                  [1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                     <motion.div
                       key={`skeleton-${i}`}
                       initial={{ opacity: 0 }}
@@ -231,44 +154,13 @@ export default function JobsPage() {
             </AnimatePresence>
           </div>
 
-          {/* Pagination
-          {!isLoading && totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-12">
-              <button
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="p-2 rounded-full border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
-                aria-label="Page précédente"
-              >
-                <FiChevronLeft className="w-5 h-5 text-gray-600" />
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (number) => (
-                  <button
-                    key={number}
-                    onClick={() => paginate(number)}
-                    className={`w-10 h-10 rounded-full text-sm font-medium transition-colors ${
-                      currentPage === number
-                        ? "bg-primary text-white"
-                        : "border border-gray-200 text-gray-600 hover:bg-gray-50"
-                    }`}
-                  >
-                    {number}
-                  </button>
-                ),
-              )}
-
-              <button
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="p-2 rounded-full border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
-                aria-label="Page suivante"
-              >
-                <FiChevronRight className="w-5 h-5 text-gray-600" />
-              </button>
-            </div>
-          )} */}
+          {!isLoading && jobs?.meta?.last_page > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={jobs.meta.last_page}
+              onPageChange={setCurrentPage}
+            />
+          )}
 
           {/* RECHERCHES POPULAIRES */}
           <div className="mt-24 bg-primary rounded-4xl p-10 md:p-16 relative overflow-hidden">

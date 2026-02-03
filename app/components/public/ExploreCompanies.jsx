@@ -99,8 +99,8 @@ export default function ExploreCompanies() {
           className="mt-8 pb-12"
         >
           <Swiper
-            slidesPerView={1.2}
-            spaceBetween={20}
+            slidesPerView={1.1}
+            spaceBetween={10}
             loop={true}
             pagination={false}
             autoplay={{
@@ -122,7 +122,19 @@ export default function ExploreCompanies() {
           >
             <AnimatePresence mode="popLayout">
               {isLoading
-                ? [1, 2, 3].map((i) => <CompanyCardSkeleton key={i} />)
+                ? [1, 2, 3,4].map((i) => (
+                    <SwiperSlide key={i}>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="h-full"
+                      >
+                        <CompanyCardSkeleton/>
+                      </motion.div>
+                    </SwiperSlide>
+                  ))
                 : recruiters.data.slice(0, 6).map((c) => (
                     <SwiperSlide key={c.id}>
                       <motion.div

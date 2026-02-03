@@ -1,8 +1,8 @@
 import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-// --- COMPOSANT SKELETON ---
 const CompanyCardSkeleton = () => (
-  <div className="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm h-full">
+  <div className="bg-white z-[10] rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm h-[400px]">
     <Skeleton height={140} />
     <div className="p-6 relative">
       <div className="absolute -top-10 left-6">

@@ -10,55 +10,6 @@ import EnterpriseCard from "@/app/components/public/card/EnterpriseCard";
 import CompanyCardSkeleton from "@/app/components/public/card/CompanyCardSkeleton";
 import { useRecruiters } from "@/app/lib/api/hooks/queries/useRecruiters";
 
-
-const companies = [
-  {
-    id: 1,
-    sector: "fintech",
-    name: "PayAyiti",
-    teaser: "Paiements mobiles sans internet.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=pay",
-    employees: "25-50",
-    location: "Port-au-Prince",
-  },
-  {
-    id: 2,
-    sector: "collab",
-    name: "Kolabo",
-    teaser: "Location d'outils entre voisins.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=kol",
-    employees: "10-25",
-    location: "Delmas",
-  },
-  {
-    id: 3,
-    sector: "energy",
-    name: "SunBox",
-    teaser: " Kits solaires abordables.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=sun",
-    employees: "50-100",
-    location: "Carrefour",
-  },
-  {
-    id: 4,
-    sector: "media",
-    name: "JwennNews",
-    teaser: "L'actualité en temps réel.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=news",
-    employees: "5-10",
-    location: "Pétion-Ville",
-  },
-];
-
-
 export default function EnterprisesPage() {
 
   const {data : recruiters , isLoading , error} = useRecruiters();

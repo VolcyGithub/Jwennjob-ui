@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import TitleHead from "./TitleHead";
 import JobCard from "@/app/components/public/card/Jobcard";
@@ -31,8 +30,8 @@ export default function LatestJobs() {
           className="mt-20"
         >
           <Swiper
-            slidesPerView={1.2}
-            spaceBetween={20}
+            slidesPerView={1.1}
+            spaceBetween={10}
             loop={true}
             pagination={false}
             autoplay={{
@@ -54,7 +53,19 @@ export default function LatestJobs() {
           >
             <AnimatePresence mode="popLayout">
               {isLoading
-                ? [1, 2, 3].map((i) => <JobCardSkeleton key={i} />)
+                ? [1, 2, 3,4].map((i) => (
+                   <SwiperSlide key={i}>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="h-full"
+                      >
+                        <JobCardSkeleton/>
+                      </motion.div>
+                    </SwiperSlide>
+                ))
                 : jobs.data.slice(0, 6).map((j) => (
                     <SwiperSlide key={j.id}>
                       <motion.div

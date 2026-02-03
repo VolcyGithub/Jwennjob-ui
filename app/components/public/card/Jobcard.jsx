@@ -20,7 +20,7 @@ export default function JobCard({ job }) {
       </div>
 
       <div className="flex-1 px-6">
-        <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors leading-snug mb-4">
+        <h3 className="text-xl font-bold text-primary line-clamp-1 group-hover:text-secondary transition-colors leading-snug mb-4">
           {job.title}
         </h3>
 
@@ -39,7 +39,7 @@ export default function JobCard({ job }) {
       </div>
 
       <div className="flex justify-between items-center mb-6 px-6">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded-2xl overflow-hidden border border-gray-50 shadow-inner">
             <Image
               src={job.recruiter.photo}
@@ -48,15 +48,11 @@ export default function JobCard({ job }) {
               className="object-cover"
             />
           </div>
-          <div className="block space-y-0.5">
+          <div className="block space-y-0.1">
             <p className="text-secondary font-semibold text-sm">{job.recruiter.nom}</p>
-            <p className="text-gray-500 font-medium text-xs">{job.sector}</p>
+            <p className="text-gray-500 font-medium text-[11px]">{job.sector}</p>
           </div>
         </div>
-
-        <span className="text-primary font-bold text-sm flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-          Voir l'offre <FiChevronRight />
-        </span>
       </div>
     </Link>
   );

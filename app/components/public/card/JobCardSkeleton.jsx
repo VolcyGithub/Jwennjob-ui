@@ -1,28 +1,50 @@
 import Skeleton from "react-loading-skeleton";
 
 
-const JobCardSkeleton = () => (
-  <div className="bg-white rounded-[2.5rem] p-6 border border-gray-100 h-full">
-    <div className="flex justify-between items-start mb-6">
-      <Skeleton width={64} height={64} borderRadius={16} />
-      <Skeleton width={60} height={20} borderRadius={8} />
-    </div>
-    <div className="space-y-3">
-      <Skeleton width="80%" height={24} />
-      <Skeleton width="40%" height={16} />
-      <div className="pt-4 space-y-2">
-        <Skeleton width="50%" height={14} />
-        <Skeleton width="60%" height={14} />
+export default function JobCardSkeleton() {
+  return (
+    <div className="flex flex-col bg-white rounded-4xl h-full">
+      {/* Banner */}
+      <div className="relative h-52 w-full rounded-4xl overflow-hidden mb-6">
+        <Skeleton height={208} containerClassName="h-full w-full block" />
       </div>
-    </div>
-    <div className="mt-8 pt-6 border-t border-gray-50 flex justify-between items-center">
-      <div className="flex -space-x-2">
-        <Skeleton circle width={32} height={32} />
-        <Skeleton circle width={32} height={32} />
-      </div>
-      <Skeleton width={80} height={20} />
-    </div>
-  </div>
-);
 
-export default JobCardSkeleton;
+      <div className="flex-1 px-6">
+        {/* Title */}
+        <div className="mb-4">
+          <Skeleton height={28} width="85%" />
+        </div>
+
+        {/* Info rows */}
+        <div className="space-y-2 mb-10">
+          <div className="flex items-center gap-2">
+            <Skeleton circle width={16} height={16} />
+            <Skeleton height={16} width="60%" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton circle width={16} height={16} />
+            <Skeleton height={16} width="40%" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton circle width={16} height={16} />
+            <Skeleton height={16} width="50%" />
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="flex justify-between items-center mb-6 px-6">
+        <div className="flex items-center gap-2">
+          {/* Avatar */}
+          <Skeleton circle width={40} height={40} />
+          <div className="space-y-1">
+            <Skeleton height={14} width={80} />
+            <Skeleton height={12} width={60} />
+          </div>
+        </div>
+
+        <Skeleton height={20} width={90} />
+      </div>
+    </div>
+  );
+}

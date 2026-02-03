@@ -31,7 +31,7 @@ export default function EnterpriseCard({ enterprise }) {
         </div>
       </div>
 
-      <div className="p-5 flex-1 gap-3 flex flex-col">
+      <div className="p-5 flex-1 gap-1 flex flex-col">
         <h3 className="text-xl text-primary group-hover:text-secondary transition">
           {enterprise.nom}
         </h3>
