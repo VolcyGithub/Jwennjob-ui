@@ -13,9 +13,8 @@ const statusColors = {
 };
 
 export default function ApplicationTable() {
+  
   const { data: applications, isLoading, error } = useCandidateApplications();
-
-  console.log(applications);
 
   if (isLoading) {
     return <ApplicationTableSkeleton />;

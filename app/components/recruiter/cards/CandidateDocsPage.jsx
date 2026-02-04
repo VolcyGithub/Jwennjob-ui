@@ -4,16 +4,15 @@ import PdfViewer from "./PdfViewer";
 import FileCard from "../../candidate/cards/FileCard";
 
 
-export default function CandidateDocsPage({docs : []}) {
-
+export default function CandidateDocsPage({docs = []}) {
   
-  const [selected, setSelected] = useState(fakeDocs[0]);
+  const [selected, setSelected] = useState(docs[0]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
       <div className="h-fit  md:h-[500px] overflow-y-auto">
         <div className="flex border border-gray-300 rounded-4xl p-3 md:flex-col md:col-span-1 gap-4 overflow-x-auto">
-          {fakeDocs.map((doc) => (
+          {docs.map((doc) => (
             <button
               key={doc.id}
               onClick={() => setSelected(doc)}

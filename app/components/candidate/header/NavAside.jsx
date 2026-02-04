@@ -41,7 +41,7 @@ export default function NavAside({ isOpen }) {
               href="/candidate/applications"
               className="flex items-center justify-between text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <BiBriefcase className="size-5 text-secondary" />
                 <span>Mes applications</span>
               </div>
@@ -53,7 +53,7 @@ export default function NavAside({ isOpen }) {
               href="/candidate/documents"
               className="flex items-center justify-between text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <BiFile className="size-5 text-secondary" />
                 <span>Mes documents</span>
               </div>

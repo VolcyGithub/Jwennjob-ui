@@ -63,9 +63,11 @@ export default function Index() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {isLoading ? (
-          [1,2,3,4].map(i => <FileCardSkeleton key={i} />)
+          [1, 2, 3, 4].map((i) => <FileCardSkeleton key={i} />)
         ) : (
-          <CandidateDocsPage docs={documents.data}/>
+          <div className="col-span-4">
+              <CandidateDocsPage docs={documents.data}/>
+          </div>
         )}
       </div>
     </div>

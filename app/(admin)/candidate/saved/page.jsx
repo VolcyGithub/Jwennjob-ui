@@ -86,7 +86,7 @@ export default function Index() {
                         height={32}
                         className="size-10 rounded-full object-cover bg-gray-100"
                         src={
-                          job?.recruiter?.photo ||
+                          job?.recruiter?.logo ||
                           "https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
                         }
                         alt={job?.recruiter?.nom || "Entreprise"}
