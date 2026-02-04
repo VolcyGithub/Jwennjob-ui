@@ -1,11 +1,14 @@
 "use client";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import LogoMarquee from "@/app/components/public/LogoMarquee";
-import { FiSearch } from "react-icons/fi";
 import { IoBusiness, IoPerson, IoCloudUpload, IoCheckmarkCircle, IoGlobeOutline } from "react-icons/io5";
 import { BiBuildings, BiMoney, BiBriefcase, BiMenu, BiCheckCircle } from "react-icons/bi";
+import "swiper/css";
+import "swiper/css/pagination";
+import { useRecruiters } from "@/app/lib/api/hooks/queries/useRecruiters";
+
 
 export default function BecomeRecruiterPage() {
   const sectionVariants = {
@@ -16,6 +19,7 @@ export default function BecomeRecruiterPage() {
     hidden: { opacity: 0, scale: 0.8 },
     visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
   };
+
 
   return (
     <main className="min-h-screen bg-third pt-2 pb-20 font-sans text-gray-900">
@@ -162,7 +166,9 @@ export default function BecomeRecruiterPage() {
                   >
                     {/* Image Grid */}
                     <div className="grid grid-cols-1 gap-2 mb-6">
-                      <img
+                      <Image
+                         width={30}
+                        height={30}
                         src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop"
                         alt="Collaboration d'équipe"
                         className="rounded-2xl w-full h-24 object-cover"
@@ -185,6 +191,55 @@ export default function BecomeRecruiterPage() {
 
           </div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className=" mb-16 mt-20"
+        >
+
+          <h1 className="text-4xl text-center mx-auto md:text-5xl max-w-4xl font-black text-primary mb-6">
+            Racontez votre histoire, Attirez les Talents Parfaits
+          </h1>
+          <p className="text-gray-500 text-center max-w-sm text-sm  md:max-w-2xl mx-auto">
+            Votre page entreprise sur Jwennjob est bien plus qu'une simple présentation. C'est une immersion dans votre culture. Valorisez vos missions, vos photos et vos témoignages d'équipe pour convaincre les talents faits pour vous de postuler.
+          </p>
+
+          <div className="relative mx-auto max-w-5xl px-4">
+            <div className="absolute -z-50 size-[400px] -top-10 -left-20 aspect-square rounded-full bg-indigo-500/30 blur-3xl"></div>
+           
+            <div className="grid grid-cols-1 md:grid-cols-3 mt-8 gap-10">
+              <div className="md:col-span-2">
+                <Image
+                  alt="features showcase"
+                  width={600}
+                  height={200}
+                  className="hover:-translate-y-0.5 transition duration-300"
+                  src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/image-4.png"
+                />
+
+              </div>
+              <div className="md:col-span-1">
+                <Image
+                  alt="features showcase"
+                  width={600}
+                  height={600}
+                  className="hover:-translate-y-0.5 transition duration-300 rounded-3xl"
+                  src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/image-3.png"
+                />
+                <h3 className="text-[24px]/7.5 font-bold mt-6 text-primary">Et si c'était votre tour ?</h3>
+                <p className="text-gray-600 mt-2">Augmentez votre attractivité et recrutez avec précision dès aujourd'hui.</p>
+                <Link href="https://prebuiltui.com" className="group flex items-center gap-2 mt-4 text-secondary transition font-bold hover:text-secondary/80">
+                  Demander une démo
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up-right size-5 group-hover:translate-x-0.5 transition duration-300" aria-hidden="true">
+                    <path d="M7 7h10v10"></path>
+                    <path d="M7 17 17 7"></path>
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
         <form className="space-y-10">
 
           {/* SECTION 1 : RESPONSABLE */}
