@@ -1,5 +1,6 @@
 "use client";
 
+import ErrorState from "@/app/components/candidate/cards/CardError";
 import NavAside from "@/app/components/candidate/header/NavAside";
 import NavFloatingButton from "@/app/components/candidate/header/NavFloatingButton";
 import NavOverlay from "@/app/components/candidate/header/NavOverlay";
@@ -12,7 +13,7 @@ import { useState } from "react";
 
 export default function CandidateLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { data, error, isLoading } = useMe();
+  const { data, error, isLoading , refetch } = useMe();
 
   if (isLoading) {
     return (
@@ -39,16 +40,17 @@ export default function CandidateLayout({ children }) {
       </AnimatePresence>
     );
   }
-
-  // Si erreur, affiche l'erreur
   if (error) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-primary/3">
-        <p className="text-red-500">Erreur de chargement du profil</p>
-      </div>
+      <ErrorState
+        title="Impossible de charger votre profil"
+        message="Nous rencontrons des difficultés pour récupérer vos informations. Cela peut être dû à une connexion instable ou à un problème temporaire avec nos serveurs."
+        onRetry={refetch}
+        showHome={true}
+        showBack={true}
+      />
     );
   }
-
   return (
     <CandidateProvider
       candidate={data.candidate}

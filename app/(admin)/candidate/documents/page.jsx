@@ -1,36 +1,15 @@
+"use client";
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import FileCard from "@/app/components/candidate/cards/FileCard";
+import FileCardSkeleton from "@/app/components/candidate/cards/FileCardSkeleton";
+import CandidateDocsPage from "@/app/components/recruiter/cards/CandidateDocsPage";
+import { useCandidateDocuments } from "@/app/lib/api/hooks/queries/useCandidates";
 import Link from "next/link";
 import { BiCertification, BiGridAlt, BiListUl } from "react-icons/bi";
 
-
-const files = [
-  {
-    name: "Rapport-financier-Q4.pdf",
-    size: "2.4 MB",
-    date: "21 janv. 2026",
-    status: "shared",
-  },
-  {
-    name: "brief-projet-client.zip",
-    size: "8.1 MB",
-    date: "20 janv. 2026",
-  },
-  {
-    name: "presentation-marathon.pptx",
-    size: "5.7 MB",
-    date: "19 janv. 2026",
-    status: "draft",
-  },
-  {
-    name: "presentation-marathon.pptx",
-    size: "5.7 MB",
-    date: "19 janv. 2026",
-    status: "draft",
-  },
-];
-
 export default function Index() {
+  
+  const { data: documents, isLoading, error } = useCandidateDocuments();
+
   return (
     <div>
       <BreadCrumb
@@ -83,9 +62,11 @@ export default function Index() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {files.map((file, i) => (
-          <FileCard key={i} file={file} />
-        ))}
+        {isLoading ? (
+          [1,2,3,4].map(i => <FileCardSkeleton key={i} />)
+        ) : (
+          <CandidateDocsPage docs={documents.data}/>
+        )}
       </div>
     </div>
   );

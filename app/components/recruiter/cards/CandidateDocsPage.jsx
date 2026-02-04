@@ -3,41 +3,10 @@ import { useState } from "react";
 import PdfViewer from "./PdfViewer";
 import FileCard from "../../candidate/cards/FileCard";
 
-const fakeDocs = [
-  {
-    id: 1,
-    name: "Rapport-financier-Q4.pdf",
-    size: "2.4 MB",
-    date: "21 janv. 2026",
-    status: "shared",
-    url: "/pdf/1765379045_56004.pdf",
-  },
-  {
-    id: 2,
-    name: "brief-projet-client.zip",
-    size: "8.1 MB",
-    date: "20 janv. 2026",
-    url: "/pdf/certificat (1).pdf",
-  },
-  {
-    id: 3,
-    name: "presentation-marathon.pptx",
-    size: "5.7 MB",
-    date: "19 janv. 2026",
-    status: "draft",
-    url: "/pdf/1765379045_56004.pdf",
-  },
-  {
-    id: 4,
-    name: "presentation-marathon.pptx",
-    size: "5.7 MB",
-    date: "19 janv. 2026",
-    status: "draft",
-    url: "/pdf/certificat (1).pdf",
-  },
-];
 
-export default function CandidateDocsPage() {
+export default function CandidateDocsPage({docs : []}) {
+
+  
   const [selected, setSelected] = useState(fakeDocs[0]);
 
   return (

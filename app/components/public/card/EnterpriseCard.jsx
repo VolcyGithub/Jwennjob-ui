@@ -11,7 +11,7 @@ export default function EnterpriseCard({ enterprise }) {
     >
       <div className="relative h-48 w-full overflow-hidden rounded-4xl">
         <Image
-          src={`https://jwennjob.com/${enterprise.banner}`}
+          src={enterprise.banner}
           alt={enterprise.nom}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500 brightness-75"
@@ -22,7 +22,7 @@ export default function EnterpriseCard({ enterprise }) {
       <div className="px-5 -mt-8">
         <div className="relative top-[-2] flex justify-center items-center w-16 h-16 rounded-2xl border-2 border-third overflow-hidden shadow-sm bg-white">
           <Image
-            src={enterprise.photo}
+            src={enterprise.logo}
             alt={enterprise.nom}
             width={70}
             height={70}

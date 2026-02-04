@@ -24,7 +24,7 @@ export default function EnterpriseDetailPage() {
       {/* BANNER IMMERSIVE */}
       <div className="absolute top-0 left-0 w-full h-[400px] overflow-hidden">
         <Image
-          src={`https://jwennjob.com/${company.data.banner}`}
+          src={company.data.banner}
           alt="banner"
           width={1600}
           height={400}
@@ -42,7 +42,7 @@ export default function EnterpriseDetailPage() {
               <div className="flex items-start md:items-center gap-6">
                 <div className="w-24 h-24 flex justify-center items-center rounded-3xl border-4 border-white shadow-lg overflow-hidden bg-white shrink-0">
                   <Image
-                    src={company.data.photo}
+                    src={company.data.logo}
                     alt="logo"
                     width={120}
                     height={120}

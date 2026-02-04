@@ -6,10 +6,13 @@ import { useState } from "react";
 import SlimSelect from "slim-select/react";
 import {BiBookOpen,BiBriefcase,BiCheckCircle,BiCog,BiFile,BiUser,BiUserCheck,BiWorld,BiX,} from "react-icons/bi";
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
+import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
 
 
 export default function Index() {
   
+  const {candidate , isLoading} = useCandidateAuth();
+
   const [activeTab, setActiveTab] = useState("personal");
   const [techSkills, setTechSkills] = useState(["react", "node", "mongodb"]);
   const [softSkills, setSoftSkills] = useState(["team", "comm"]);
@@ -92,10 +95,10 @@ export default function Index() {
                 width={50}
                 height={50}
                 className="size-14 md:size-20 rounded-full object-cover"
-                src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
+                src={`https://jwennjob.com${candidate.photo}`}
                 alt="Rounded avatar"
               />
-              <span className="text-primary text-md">Jane Doe</span>
+              <span className="text-primary text-md">{candidate.name}</span>
               <span className="text-gray-500 text-xs">Web Developer</span>
             </div>
             <div className="flex my-4 px-4 md:px-6 items-center justify-between">

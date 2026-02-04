@@ -11,7 +11,7 @@ export default function JobCard({ job }) {
     >
       <div className="relative h-52 w-full rounded-4xl overflow-hidden mb-6">
         <Image
-          src={`https://jwennjob.com/${job.recruiter.banner}` || "/og-image.webp"}
+          src={job.recruiter.banner || "/og-image.webp"}
           alt={`bannière ${job.recruiter.nom}`}
           width={400}
           height={100}
@@ -42,7 +42,7 @@ export default function JobCard({ job }) {
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded-2xl overflow-hidden border border-gray-50 shadow-inner">
             <Image
-              src={job.recruiter.photo}
+              src={job.recruiter.logo}
               alt={job.recruiter.nom}
               fill
               className="object-cover"

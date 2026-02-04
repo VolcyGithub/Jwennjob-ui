@@ -147,7 +147,7 @@ export default function JobDetailPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-fit p-1 bg-white">
                       <Image
-                        src={job.recruiter.photo}
+                        src={job.recruiter.logo}
                         alt={job.recruiter.nom}
                         width={100}
                         height={100}
@@ -244,7 +244,7 @@ export default function JobDetailPage() {
                     className="group relative aspect-video rounded-4xl overflow-hidden cursor-pointer"
                   >
                     <Image
-                      src={`https://jwennjob.com/${job.recruiter.banner}`}
+                      src={job.recruiter.banner}
                       alt="Video thumb"
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -269,7 +269,7 @@ export default function JobDetailPage() {
             <div className="bg-white rounded-4xl overflow-hidden shadow-sm border border-gray-100">
               <div className="relative h-41">
                 <Image
-                  src={`https://jwennjob.com/${job.recruiter.banner}`}
+                  src={job.recruiter.banner}
                   alt={job.recruiter.nom}
                   fill
                   className="object-cover"
@@ -303,7 +303,7 @@ export default function JobDetailPage() {
               </h3>
               <div className="flex items-center gap-3 mb-6">
                 <Image
-                  src={job.recruiter.photo}
+                  src={job.recruiter.logo}
                   alt="logo"
                   width={40}
                   height={40}
