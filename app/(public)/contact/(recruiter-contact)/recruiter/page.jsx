@@ -62,7 +62,7 @@ export default function BecomeRecruiterPage() {
 
           <LogoMarquee />
         </motion.div>
-        <div className="mt-24 bg-primary rounded-4xl p-10 md:p-16 text-center md:text-start max-w-6xl mx-auto">
+        <div className="mt-24 bg-primary rounded-4xl p-10 md:p-16 text-center md:text-start max-w-6xl 2xl:max-w-screen-2xl mx-auto">
           <div className="flex-col md:flex md:items-center lg:flex-row gap-8 lg:gap-16 justify-center">
             <div className="block">
               <h3 className="text-3xl font-black text-white mb-4">
@@ -195,7 +195,7 @@ export default function BecomeRecruiterPage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className=" mb-16 mt-20"
+          className=" mb-16 mt-20 "
         >
 
           <h1 className="text-4xl text-center mx-auto md:text-5xl max-w-4xl font-black text-primary mb-6">
@@ -205,7 +205,7 @@ export default function BecomeRecruiterPage() {
             Votre page entreprise sur Jwennjob est bien plus qu'une simple présentation. C'est une immersion dans votre culture. Valorisez vos missions, vos photos et vos témoignages d'équipe pour convaincre les talents faits pour vous de postuler.
           </p>
 
-          <div className="relative mx-auto max-w-5xl px-4">
+          <div className="relative mx-auto max-w-5xl 2xl:max-w-screen-2xl px-4">
             <div className="absolute -z-50 size-[400px] -top-10 -left-20 aspect-square rounded-full bg-indigo-500/30 blur-3xl"></div>
            
             <div className="grid grid-cols-1 md:grid-cols-3 mt-8 gap-10">
