@@ -1,6 +1,8 @@
 "use client";
+import { useState } from "react";
 import JobDetailSkeleton from "@/app/components/public/details/JobDetailSkeleton";
 import { useJob } from "@/app/lib/api/hooks/queries/useJobs";
+import { useCandidateConnected } from "@/app/lib/contexts/ConnectContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -20,11 +22,19 @@ import {
   IoCalendar,
   IoBriefcase,
 } from "react-icons/io5";
-import { MdPlayCircleFilled, MdArrowForward, MdWork } from "react-icons/md";
+import {
+  MdPlayCircleFilled,
+  MdArrowForward,
+  MdWork,
+  MdClose,
+} from "react-icons/md";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function JobDetailPage() {
   const { id } = useParams();
   const { data: details, isLoading, error } = useJob(id);
+  const { isConnected } = useCandidateConnected();
+  const [showModal, setShowModal] = useState(false);
 
   if (isLoading) {
     return <JobDetailSkeleton />;
@@ -32,23 +42,110 @@ export default function JobDetailPage() {
 
   const job = details.data;
 
-  return (
-    <main className="bg-[#fdfdfd] min-h-screen pb-100 font-sans text-gray-900 ">
-      <div className="absolute bg-primary top-0 left-0 w-full h-[400px] 2xl:h-[500px] overflow-hidden">
-        
-      </div>
-      <div className="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 md:px-8 py-8 relative top-32 md:top-90">
-        {/* HEADER SECTION */}
+  const handleApply = () => {
+    if (!isConnected) {
+      setShowModal(true);
+    } else {
+      // Logique de postulation ici
+    }
+  };
 
-        {/* CONTENU PRINCIPAL + SIDEBAR */}
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <main className="bg-[#fdfdfd] min-h-screen pb-100 font-sans text-gray-900 relative">
+      <AnimatePresence>
+        {!isConnected && showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+              className="group grid rounded-4xl max-w-4xl w-full grid-cols-1 md:grid-cols-8 overflow-hidden border border-gray-200 bg-white text-gray-900"
+            >
+              {/* Image */}
+              <div className="col-span-1 md:col-span-4 overflow-hidden relative h-60 md:h-full">
+                <Image
+                  src="/Interview.gif"
+                  fill
+                  className="object-cover transition duration-700 ease-out group-hover:scale-105"
+                  alt="Inscription requise"
+                />
+              </div>
+
+              {/* Body */}
+              <div className="flex flex-col justify-center p-6 col-span-1 md:col-span-4 relative">
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <MdClose className="text-xl" />
+                </button>
+
+                <small className="mb-4 font-medium text-secondary flex items-center gap-1">
+                  <IoLocation className="size-4" />
+                  Connexion Requise
+                </small>
+
+                <h3 className="text-balance text-xl font-bold text-primary lg:text-2xl">
+                  Postulez à cette offre
+                </h3>
+
+                <p className="my-4 max-w-lg text-pretty text-sm text-gray-600">
+                  Vous devez être connecté pour postuler à cette offre d'emploi.
+                  Créez un compte ou connectez-vous pour accéder à toutes les
+                  opportunités.
+                </p>
+
+                <div className="flex flex-col gap-3 mt-2">
+                  <Link
+                    href="/signin"
+                    className="whitespace-nowrap block bg-secondary px-4 py-3 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:opacity-100 active:outline-offset-0 rounded-full"
+                  >
+                    Se connecter
+                  </Link>
+
+                  <Link
+                    href="/signup"
+                    className="whitespace-nowrap block bg-primary px-4 py-3 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:opacity-100 active:outline-offset-0 rounded-full"
+                  >
+                    Créer un compte
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="whitespace-nowrap bg-gray-200 px-4 py-3 text-center text-sm font-medium tracking-wide text-gray-700 transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-300 active:opacity-100 active:outline-offset-0 rounded-full"
+                  >
+                    Plus tard
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="absolute bg-primary top-0 left-0 w-full h-[400px] 2xl:h-[500px] overflow-hidden"></div>
+
+      <div className="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 md:px-8 py-8 relative top-32 md:top-90">
         <div className="grid lg:grid-cols-12 gap-10">
-          {/* Job Details */}
           <div className="lg:col-span-8">
             <div className="border border-gray-100 rounded-4xl p-4 md:p-8 shadow-sm mb-8 bg-white">
               <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-25 h-25 p-1 bg-white">
+                    <div className="w-fit p-1 bg-white">
                       <Image
                         src={job.recruiter.photo}
                         alt={job.recruiter.nom}
@@ -104,7 +201,10 @@ export default function JobDetailPage() {
                   </div>
 
                   <div className="flex gap-3 w-full md:w-auto shrink-0">
-                    <button className="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-full shadow-md transition-all active:scale-95">
+                    <button
+                      onClick={handleApply}
+                      className="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-full shadow-md transition-all active:scale-95"
+                    >
                       Postuler
                     </button>
                     <button className="flex items-center justify-center gap-2 border-2 border-gray-200 font-bold py-3 px-8 rounded-full hover:bg-gray-50 transition-all">
@@ -114,6 +214,7 @@ export default function JobDetailPage() {
                 </div>
               </div>
             </div>
+
             <div className="bg-[#f8f8f8] rounded-4xl p-4 md:p-8 mb-8">
               <h2 className="text-2xl font-black mb-8 flex items-center gap-3">
                 <span className="w-6 h-1 bg-secondary" /> Le poste
@@ -132,7 +233,6 @@ export default function JobDetailPage() {
               </div>
             </div>
 
-            {/* SECTION "ENVIE D'EN SAVOIR PLUS" (VIDEOS) */}
             <div className="bg-white rounded-4xl p-4 md:p-8 border border-gray-100">
               <h2 className="text-2xl font-black mb-8">
                 Envie d'en savoir plus ?
@@ -165,9 +265,7 @@ export default function JobDetailPage() {
             </div>
           </div>
 
-          {/* ENTERPRISE (SIDEBAR) */}
           <aside className="lg:col-span-4 space-y-6 sticky top-40 h-fit">
-            {/* Discover the company */}
             <div className="bg-white rounded-4xl overflow-hidden shadow-sm border border-gray-100">
               <div className="relative h-41">
                 <Image
@@ -199,7 +297,6 @@ export default function JobDetailPage() {
               </div>
             </div>
 
-            {/* Company Information */}
             <div className="bg-white rounded-4xl p-6 shadow-sm border border-gray-100">
               <h3 className="font-black text-lg mb-6 flex items-center gap-2">
                 <span className="w-4 h-1 bg-secondary" /> L'entreprise
@@ -244,7 +341,6 @@ export default function JobDetailPage() {
               </Link>
             </div>
 
-            {/* Social Networks */}
             <div className="flex justify-center gap-6 py-4">
               <FaLinkedin
                 size={22}

@@ -7,6 +7,7 @@ interface ApiClientOptions {
 }
 
 export class ApiClient {
+  
   private instance: AxiosInstance;
   private interceptor: InterceptorsManager;
 

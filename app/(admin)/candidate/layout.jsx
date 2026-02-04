@@ -17,27 +17,25 @@ export default function CandidateLayout({ children }) {
   if (isLoading) {
     return (
       <AnimatePresence>
-        {isLoading && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 bg-white z-[9999] flex items-center justify-center"
+        >
           <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 bg-white z-[9999] flex items-center justify-center"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Image
-                src="https://jwennjob.com/assets/j-logo.png"
-                alt="JwennJob Logo"
-                width={80}
-                height={80}
-              />
-            </motion.div>
+            <Image
+              src="https://jwennjob.com/assets/j-logo.png"
+              alt="JwennJob Logo"
+              width={80}
+              height={80}
+            />
           </motion.div>
-        )}
+        </motion.div>
       </AnimatePresence>
     );
   }

@@ -9,7 +9,7 @@ export const API_KEY = process.env.NEXY_PUBLIC_API_KEY || "0aa3ae498d1adf1f5a529
 /**
  * Default cache time for the get ressource in tanstack query
  */
-export const CACHE_TIME = 1 * 60 * 1000;
+export const CACHE_TIME = 5 * 60 * 1000;
 
 /**
  * Use for tanstack query keys
