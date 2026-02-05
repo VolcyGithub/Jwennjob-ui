@@ -17,12 +17,12 @@ export default function FileCard({ file }) {
 
       {/* Nom du fichier */}
       <h3 className="font-semibold text-center text-gray-900 text-sm truncate mb-1">
-        {file.name}
+        {file.title}
       </h3>
 
       {/* Info secondaire */}
-      <p className="text-xs text-center text-gray-500 mb-3">
-         {file.date}
+      <p className="text-xs capitalize text-center text-gray-500 mb-3">
+         {file.type}
       </p>
 
     </div>

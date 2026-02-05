@@ -1,9 +1,12 @@
 "use client";
 import { FiSearch, FiUsers, FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useJobs } from "@/app/lib/api/hooks/queries/useJobs";
 
 export default function HeroSection() {
-  // Configuration de l'animation en cascade
+  
+  const {data : jobs , isLoading , error} = useJobs();
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -61,10 +64,10 @@ export default function HeroSection() {
       >
         <span className="flex items-center justify-between p-1.2 lg:p-2.2 border gap-2 bg-transparent border-secondary/30 h-12 w-full rounded-full overflow-hidden">
           <span className="text-xs hidden lg:block ml-2">
-            Plus de <b className="text-secondary">101789</b> opportunités actives
+            Plus de <b className="text-secondary">{jobs?.meta.total}</b> opportunités actives
           </span>
           <span className="text-xs block lg:hidden ml-2">
-            <b className="text-secondary">101789+</b> jobs actives
+            <b className="text-secondary">{jobs?.meta.total}+</b> jobs actives
           </span>
           <a href="#jobs-section"
             className="bg-secondary active:scale-95 transition w-56 h-10 rounded-full text-sm text-white mr-1 flex items-center justify-center gap-1 shrink-0"
@@ -77,7 +80,7 @@ export default function HeroSection() {
 
       <motion.div
         variants={item}
-        className="flex justify-center items-center gap-4 md:gap-14 mt-12"
+        className="flex justify-center flex-wrap items-center gap-4 md:gap-14 mt-12"
       >
         <p className="flex items-center gap-2">
           <svg

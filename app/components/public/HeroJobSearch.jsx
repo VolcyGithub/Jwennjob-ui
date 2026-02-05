@@ -1,4 +1,3 @@
-// src/app/(public)/landing/HeroJobSearch.jsx
 "use client";
 import Image from "next/image";
 import TitleHead from "./TitleHead";

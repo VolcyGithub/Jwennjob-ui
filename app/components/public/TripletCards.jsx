@@ -51,7 +51,7 @@ export default function TripletCards() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.5 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 1 }}
             className="max-md:mt-20 max-md:py-12 py-6 bg-white/50 rounded-3xl px-6 z-10 shadow-sm mb-5 max-md:h-[240px] h-[220px] lg:w-[300px]"
           >
             <h3 className="text-lg font-bold mb-4 text-primary">Filtres</h3>

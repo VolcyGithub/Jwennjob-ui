@@ -1,7 +1,10 @@
+import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
 import Image from "next/image";
 import { BiBell, BiMenu } from "react-icons/bi";
 
 export default function NavTop({ isOpen, setIsOpen }) {
+  const { candidate, isLoading } = useCandidateAuth();
+
   return (
     <div className="p-3 z-2 fixed w-full xl:w-[85%]">
       <div className="p-4 bg-white/80 backdrop-blur rounded-3xl shadow-sm w-full">
@@ -22,16 +25,20 @@ export default function NavTop({ isOpen, setIsOpen }) {
               <BiBell className="size-6" />
               <span className="sr-only">notifications</span>
               <span className="absolute -top-1 left-5 px-1 -translate-x-1/2 rounded-full bg-red-500 text-[10px] font-semibold text-white">
-                9
+                0
               </span>
             </button>
-            <Image
-              className="size-8 rounded-full object-cover"
-              src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
-              alt="Rounded avatar"
-              width={80}
-              height={80}
-            />
+            {isLoading ? (
+              <div></div>
+            ) : (
+              <Image
+                className="size-8 rounded-full object-cover"
+                src={`https://jwennjob.com${candidate.photo}`}
+                alt="Rounded avatar"
+                width={80}
+                height={80}
+              />
+            )}
           </div>
         </div>
       </div>

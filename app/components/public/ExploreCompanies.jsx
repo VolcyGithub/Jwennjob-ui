@@ -10,6 +10,8 @@ import "swiper/css/pagination";
 import EnterpriseCard from "@/app/components/public/card/EnterpriseCard";
 import { SiFuturelearn, SiHandshake, SiBlogger } from "react-icons/si";
 import { MdOutlineElectricBolt, MdOutlineAttachMoney } from "react-icons/md";
+import { useRecruiters } from "@/app/lib/api/hooks/queries/useRecruiters";
+import CompanyCardSkeleton from "./card/CompanyCardSkeleton";
 
 const sectors = [
   { id: "all", label: "Tous", icon: null, color: "bg-gray-700" },
@@ -40,59 +42,11 @@ const sectors = [
   },
 ];
 
-const companies = [
-  {
-    id: 1,
-    sector: "fintech",
-    name: "PayAyiti",
-    teaser: "Paiements mobiles sans internet.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=pay",
-    employees: "25-50",
-    location: "Port-au-Prince",
-  },
-  {
-    id: 2,
-    sector: "collab",
-    name: "Kolabo",
-    teaser: "Location d'outils entre voisins.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=kol",
-    employees: "10-25",
-    location: "Delmas",
-  },
-  {
-    id: 3,
-    sector: "energy",
-    name: "SunBox",
-    teaser: " Kits solaires abordables.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=sun",
-    employees: "50-100",
-    location: "Carrefour",
-  },
-  {
-    id: 4,
-    sector: "media",
-    name: "JwennNews",
-    teaser: "L'actualité en temps réel.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=news",
-    employees: "5-10",
-    location: "Pétion-Ville",
-  },
-];
-
 export default function ExploreCompanies() {
+  const { data: recruiters, isLoading, error } = useRecruiters();
+
   const [active, setActive] = useState("all");
-  // On garde ton filtrage d'origine
-  const filtered = companies.filter(
-    (c) => active === "all" || c.sector === active,
-  );
+
   return (
     <section className="mx-auto max-w-7xl px-6 2xl:px-0 2xl:max-w-screen-2xl py-12 bg-third overflow-hidden">
       <div className="max-w-7xl 2xl:max-w-screen-2xl mx-auto">
@@ -145,8 +99,8 @@ export default function ExploreCompanies() {
           className="mt-8 pb-12"
         >
           <Swiper
-            slidesPerView={1.2}
-            spaceBetween={20}
+            slidesPerView={1.1}
+            spaceBetween={10}
             loop={true}
             pagination={false}
             autoplay={{
@@ -167,21 +121,33 @@ export default function ExploreCompanies() {
             className="pb-14 !px-4 md:!px-0" // Ajoute un padding horizontal pour ne pas coller au bord
           >
             <AnimatePresence mode="popLayout">
-              {filtered.slice(0, 6).map((c) => (
-                <SwiperSlide key={c.id}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
-                    className="h-full"
-                  >
-                    
-                      <EnterpriseCard key={c.id} enterprise={c} />
-                    
-                  </motion.div>
-                </SwiperSlide>
-              ))}
+              {isLoading
+                ? [1, 2, 3,4].map((i) => (
+                    <SwiperSlide key={i}>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="h-full"
+                      >
+                        <CompanyCardSkeleton/>
+                      </motion.div>
+                    </SwiperSlide>
+                  ))
+                : recruiters.data.slice(0, 6).map((c) => (
+                    <SwiperSlide key={c.id}>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="h-full"
+                      >
+                        <EnterpriseCard key={c.id} enterprise={c} />
+                      </motion.div>
+                    </SwiperSlide>
+                  ))}
             </AnimatePresence>
           </Swiper>
         </motion.div>

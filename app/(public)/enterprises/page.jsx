@@ -7,82 +7,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FiSearch, FiMapPin, FiUsers, FiPlayCircle, FiCode, FiArrowRight } from "react-icons/fi";
 import EnterpriseCard from "@/app/components/public/card/EnterpriseCard";
-
-
-const companies = [
-  {
-    id: 1,
-    sector: "fintech",
-    name: "PayAyiti",
-    teaser: "Paiements mobiles sans internet.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=pay",
-    employees: "25-50",
-    location: "Port-au-Prince",
-  },
-  {
-    id: 2,
-    sector: "collab",
-    name: "Kolabo",
-    teaser: "Location d'outils entre voisins.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=kol",
-    employees: "10-25",
-    location: "Delmas",
-  },
-  {
-    id: 3,
-    sector: "energy",
-    name: "SunBox",
-    teaser: " Kits solaires abordables.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=sun",
-    employees: "50-100",
-    location: "Carrefour",
-  },
-  {
-    id: 4,
-    sector: "media",
-    name: "JwennNews",
-    teaser: "L'actualité en temps réel.",
-    banner:
-      "https://jwennjob.com/assets/dashboard/img/banner/file_17591697850.jpeg",
-    logo: "https://i.pravatar.cc/60?u=news",
-    employees: "5-10",
-    location: "Pétion-Ville",
-  },
-];
-
-// --- COMPOSANT SKELETON ---
-const CompanyCardSkeleton = () => (
-  <div className="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm h-full">
-    <Skeleton height={140} />
-    <div className="p-6 relative">
-      <div className="absolute -top-10 left-6">
-        <Skeleton circle width={64} height={64} />
-      </div>
-      <div className="mt-8 space-y-3">
-        <Skeleton width="70%" height={24} />
-        <Skeleton width="40%" height={16} />
-        <div className="flex gap-4 pt-4">
-          <Skeleton width={80} height={14} />
-          <Skeleton width={80} height={14} />
-        </div>
-      </div>
-    </div>
-  </div>
-);
+import CompanyCardSkeleton from "@/app/components/public/card/CompanyCardSkeleton";
+import { useRecruiters } from "@/app/lib/api/hooks/queries/useRecruiters";
 
 export default function EnterprisesPage() {
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1200);
-    return () => clearTimeout(timer);
-  }, []);
+  const {data : recruiters , isLoading , error} = useRecruiters();
 
   return (
     <main className="bg-third min-h-screen pb-24">
@@ -125,7 +55,7 @@ export default function EnterprisesPage() {
                 {isLoading ? (
                   [1, 2, 3].map((i) => <CompanyCardSkeleton key={i} />)
                 ) : (
-                  companies.map((c, index) => (
+                  recruiters.data.map((c, index) => (
                     <motion.div key={c.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
                      <EnterpriseCard enterprise={c} />
                     </motion.div>
@@ -135,36 +65,7 @@ export default function EnterprisesPage() {
             </div>
           </section>
 
-          {/* SECTION : CULTURE+ (Vidéos) */}
-          {/* <section className="mt-32">
-            <div className="bg-primary rounded-[3.5rem] p-10 md:p-20 text-white relative overflow-hidden">
-               <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />
-               <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
-                  <div>
-                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-xs">Série Exclusive</span>
-                    <h2 className="text-5xl font-black mt-4 mb-8 italic italic-primary">Culture+</h2>
-                    <p className="text-white/70 leading-relaxed text-lg">
-                      Avec la série de vidéos Culture+, découvrez la culture des start-ups et de grandes entreprises. En immersion avec les équipes, les salariés dévoilent leur quotidien.
-                    </p>
-                  </div>
-                  <div className="grid gap-4">
-                    {["Emil Frey France", "SACEM", "PONANT"].map((v, i) => (
-                      <div key={i} className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-3xl hover:bg-white/10 transition-all cursor-pointer group">
-                        <div className="w-16 h-12 bg-gray-800 rounded-xl relative overflow-hidden shrink-0">
-                           <FiPlayCircle className="absolute inset-0 m-auto text-secondary text-2xl group-hover:scale-125 transition-transform" />
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm">Culture+ {v}</p>
-                          <p className="text-[10px] text-white/40 uppercase">17 Janvier 2024</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-               </div>
-            </div>
-          </section> */}
-
-         
+      
 
           {/* CTA : RECRUTEUR */}
           <section className="mt-32 bg-secondary rounded-[3rem] p-12 text-center text-primary relative overflow-hidden group">

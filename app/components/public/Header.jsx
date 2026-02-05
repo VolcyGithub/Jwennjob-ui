@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { LuMenu, LuX } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
+import { useCandidateConnected } from "@/app/lib/contexts/ConnectContext";
 
 const navLinks = [
   { href: "/", label: "Accueil" },
@@ -15,6 +16,11 @@ const navLinks = [
 ];
 
 export default function Header() {
+
+  const {isConnected} = useCandidateConnected();
+
+
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,10 +60,10 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="/signup"
+              href={isConnected ? "/candidate" : "/signin"}
               className="ml-2 px-4 py-2 rounded-4xl text-sm bg-secondary text-white hover:opacity-90 transition"
             >
-              Se connecter
+             {isConnected ? "Mon compte" : "Se connecter"}
             </Link>
           </nav>
 
@@ -88,11 +94,11 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="/signup"
+              href={isConnected ? "/candidate" : "/signin"}
               onClick={() => setIsMenuOpen(false)}
               className="w-full max-w-xs text-center px-4 py-2 rounded-4xl text-sm bg-primary text-white hover:opacity-90 transition"
             >
-              Se connecter
+              {isConnected ? "Mon compte" : "Se connecter"}
             </Link>
           </nav>
         </div>

@@ -12,10 +12,9 @@ export function CandidateProvider({ children, candidate, isLoading, error }) {
   );
 }
 
-
 export function useCandidateAuth(){
+  
   const context = useContext(CandidateContext);
-
   if(!context){
      throw new Error("Context not defined");
   }

@@ -4,7 +4,30 @@ import { candidateApi } from "../../endpoints/candidate";
 
 export const useMe = (params?: Record<string, any>) =>
   useQuery({
-    queryKey: [KEYS.candidates, params],
+    queryKey: [KEYS.candidates.me, params],
     queryFn: () => candidateApi.getMe(params),
     staleTime: CACHE_TIME,
   });
+
+export const useCandidateApplications = (params?: Record<string, any>) =>
+  useQuery({
+    queryKey: [KEYS.candidates.applications, params],
+    queryFn: () => candidateApi.getApplications(params),
+    staleTime: CACHE_TIME,
+  });
+
+export const useCandidateDocuments = (params?: Record<string, any>) =>
+  useQuery({
+    queryKey: [KEYS.candidates.documents, params],
+    queryFn: () => candidateApi.getDocuments(params),
+    staleTime: CACHE_TIME,
+  });
+
+
+export const useCandidateJobSaved = (params?: Record<string, any>) =>
+  useQuery({
+    queryKey: [KEYS.candidates.saved, params],
+    queryFn: () => candidateApi.getJobSaved(params),
+    staleTime: CACHE_TIME,
+  });
+

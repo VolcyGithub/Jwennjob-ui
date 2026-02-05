@@ -17,7 +17,7 @@ export default function NavAside({ isOpen }) {
     >
       <div className="bg-primary w-full h-full rounded-4xl">
         <div className="bg-gradient-to-b from-transparent to-black rounded-4xl w-full h-full p-4">
-          <div className="flex pl-3 mt-2 mb-8 gap-2 items-center">
+          <Link className="flex pl-3 mt-2 mb-8 gap-1 items-center" href="/">
             <Image
               src={`/white-logo.PNG`}
               width={20}
@@ -25,7 +25,7 @@ export default function NavAside({ isOpen }) {
               alt="Jwennjob Logo"
             />
             <span className="text-white text-md uppercase">wennjob</span>
-          </div>
+          </Link>
 
           <span className="mb-2 border-b border-secondary/30 pb-2 block">
             Menu

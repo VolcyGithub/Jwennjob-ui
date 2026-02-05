@@ -95,12 +95,12 @@ export default function Page() {
       {/* Formulaire */}
       <div className="w-full md:h-screen flex flex-col items-center justify-center pt-12 px-4">
         <Link href="/">
-          <img className="w-48 mb-8 object-cover" src="/logo.webp" alt="Logo" />
+          <img className="w-30 mb-2 object-cover" src="/logo.webp" alt="Logo" />
         </Link>
 
         <form
           onSubmit={handleSubmit}
-          className="md:w-96 w-full max-w-sm flex flex-col items-center"
+          className="md:w-96 w-full p-6 max-w-sm flex flex-col items-center"
         >
           <h2 className="text-4xl text-primary font-medium">Connexion</h2>
           <p className="text-sm text-gray-500/90 mt-3 text-center">

@@ -6,7 +6,7 @@ import StatCard from "@/app/components/candidate/cards/StatCard";
 import ProgressBar from "@/app/components/candidate/stats/ProgressBar";
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
 import ApplicationTable from "@/app/components/candidate/tables/ApplicationTable";
-import { BiUser, BiBriefcase,BiStar,BiBookmark,BiLogoWhatsapp,} from "react-icons/bi";
+import { BiBriefcase,BiStar,BiBookmark,BiLogoWhatsapp, BiChevronRight,} from "react-icons/bi";
 import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
 
 
@@ -14,7 +14,7 @@ import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
 export default function Home() {
   
   const {candidate , isLoading , error} = useCandidateAuth();
-
+  
 
   return (
     <div>
@@ -35,7 +35,7 @@ export default function Home() {
                   d’offres d’emploi.
                 </p>
                 <Link
-                  href="/student/courses/"
+                  href="/candidate/jobs"
                   className="whitespace-nowrap rounded-full bg-white border border-white px-4 py-2 text-center text-sm font-medium tracking-wide text-primary transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75"
                   role="button"
                 >
@@ -53,16 +53,12 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <StatCard
-              icon={<BiUser className="size-8 text-primary" />}
-              value={5238}
-              label="Profile Views"
-            />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <StatCard
               icon={<BiBriefcase className="size-8 text-primary" />}
               value={42}
-              label="Jobs Posted"
+              label="Emplois postulés"
             />
             <StatCard
               icon={<BiStar className="size-8 text-primary" />}
@@ -72,7 +68,7 @@ export default function Home() {
             <StatCard
               icon={<BiBookmark className="size-8 text-primary" />}
               value={128}
-              label="Saved Items"
+              label="Emplois sauvegardés"
             />
           </div>
           {/* Last Applications */}
@@ -82,9 +78,9 @@ export default function Home() {
             </span>
             <Link
               href="/candidate/applications"
-              className="text-sm text-gray-500"
+              className="text-sm flex hover:text-primary hover:underline items-center text-nowrap text-gray-500"
             >
-              Voir tout
+              Voir tout <BiChevronRight className="size-4"/>
             </Link>
           </div>
           <ApplicationTable />
