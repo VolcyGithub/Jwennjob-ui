@@ -15,7 +15,7 @@ export default function EnterprisesPage() {
   const {data : recruiters , isLoading , error} = useRecruiters();
 
   return (
-    <main className="bg-third min-h-screen pb-24">
+    <main className="bg-third min-h-screen">
       <SkeletonTheme baseColor="#f3f4f6" highlightColor="#ffffff">
         
         {/* HERO SECTION (Même style que Jobs) */}
@@ -67,13 +67,43 @@ export default function EnterprisesPage() {
 
       
 
-          {/* CTA : RECRUTEUR */}
-          <section className="mt-32 bg-secondary rounded-[3rem] p-12 text-center text-primary relative overflow-hidden group">
-             <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-             <h2 className="text-3xl font-black mb-4">Vous aimeriez voir votre entreprise ici ?</h2>
-             <p className="max-w-xl mx-auto font-medium mb-8">Créez votre page d'entreprise et commencez à attirer les talents qui correspondent à votre culture.</p>
-             <Link href="/contact/recruiter" className="bg-primary text-white px-12 py-4 rounded-full font-black uppercase tracking-widest text-xs inline-block shadow-2xl">Commencer maintenant</Link>
-          </section>
+          {/* SECTION "POURQUOI PAS VOUS ? - ENTREPRISE" */}
+               <div className="my-24 bg-white rounded-4xl max-w-7xl mx-auto p-10 md:p-16 text-center">
+                 <div className="flex-col md:flex md:items-center lg:flex-row lg:items-start gap-8 lg:gap-16 justify-center">
+                   <Image
+                     src="/Hiring-Manager.gif" // Suggestion : changer pour un GIF lié au recrutement
+                     alt="Recrutement Entreprise"
+                     width={300}
+                     height={300}
+                   />
+                   <div className="block text-left">
+                     <h3 className="text-3xl font-black text-primary mb-4">
+                       Optimisez vos recrutements dès aujourd'hui
+                     </h3>
+                     <p className="text-gray-500 max-md:text-xs max-w-2xl mb-8 leading-relaxed">
+                       Rejoignez les entreprises qui transforment leur processus RH grâce à Jwennjob.
+                       Accédez instantanément à notre data center de talents vérifiés et profitez d'un système de <span className="font-bold text-secondary">matching automatisé</span> pour trouver les meilleurs profils.
+                     </p>
+         
+                     <div className="flex gap-4 flex-wrap">
+                       <Link
+                         href="/contact/recruiter"
+                         className="bg-primary text-white px-8 py-4 rounded-full font-semibold text-lg shadow-md transition-all active:scale-95"
+                       >
+                         Devenir recruteur
+                       </Link>
+                     
+                     </div>
+         
+                     <div className="mt-8 flex flex-col gap-2">
+                       <p className="text-sm text-gray-500">
+                         Vous souhaitez en savoir plus ? <Link href="/contact/become-recruiter" className="text-primary font-bold hover:underline">Demander une démo</Link>
+                       </p>
+                       
+                     </div>
+                   </div>
+                 </div>
+               </div>
 
         </div>
       </SkeletonTheme>
