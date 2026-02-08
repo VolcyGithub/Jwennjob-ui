@@ -6,6 +6,7 @@ import { useCandidateRegister } from "@/app/lib/api/hooks/mutations/useCandidate
 import { BiLoaderAlt } from "react-icons/bi";
 
 
+
 const InputField = ({ icon, error, ...props }) => (
 
   <div className="w-full mb-3">
@@ -57,6 +58,7 @@ export default function Page() {
     password: "",
     password_confirmation: "",
   });
+
 
   const register = useCandidateRegister();
   const errors = register.isError ? register.error?.response?.data?.errors : {};

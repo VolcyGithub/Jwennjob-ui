@@ -7,7 +7,6 @@ interface ApiClientOptions {
 }
 
 export class ApiClient {
-  
   private instance: AxiosInstance;
   private interceptor: InterceptorsManager;
 
@@ -79,14 +78,27 @@ export const candidateClient = new ApiClient({
   baseURL: API_URL,
 });
 
+export const recruiterClient = new ApiClient({
+  baseURL: API_URL,
+});
+
 export const publicClientKey = new ApiClient({
   baseURL: API_URL,
 });
 
-candidateClient.useBearerAuth(() =>
+candidateClient.useBearerAuth(
+  () =>
     document.cookie
       .split("; ")
       .find((row) => row.startsWith("candidate_token="))
+      ?.split("=")[1],
+);
+
+recruiterClient.useBearerAuth(
+  () =>
+    document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("recruiter_token="))
       ?.split("=")[1],
 );
 

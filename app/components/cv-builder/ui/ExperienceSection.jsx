@@ -4,17 +4,20 @@ import { useCv } from '../../../lib/contexts/CvContext';
 import { NavigationButtons } from './NavigationButtons';
 
 export default function ExperienceSection({ setAlert }) {
-    const { formData, handleArrayChange, addItem, removeItem } = useCv();
+    const { formData, handleArrayChange,handleNestedArrayChange, addItem, removeItem,addResponsibility,removeResponsibility,} = useCv();
 
     return (
         <div>
-            {formData.experience.map((exp, k) => (
+            {formData.experiences.map((exp, k) => (
                 <Experience 
                     key={k} 
                     index={k} 
                     data={exp} 
                     onUpdate={handleArrayChange} 
                     onRemove={removeItem} 
+                    onAddResponsibility={addResponsibility}
+                    onRemoveResponsibility={removeResponsibility}
+                    onUpdateResponsibility={handleNestedArrayChange}
                 />
             ))}
             <button onClick={() => addItem("experience")}>Add Experience</button>

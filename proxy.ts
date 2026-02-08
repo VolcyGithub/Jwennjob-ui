@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { checkAuthCandidate } from './app/lib/middlewares/candidate';
+import { checkAuthRecruiter } from './app/lib/middlewares/recruiter';
 
 export function proxy(request: NextRequest) {
   
@@ -10,10 +11,14 @@ export function proxy(request: NextRequest) {
     return checkAuthCandidate(request);
    }
 
+   if(pathname.startsWith("/recruiter")){
+    return checkAuthRecruiter(request);
+   }
+
    return NextResponse.next();
 
 }
 
 export const config = {
-  matcher: ['/candidate/:path*'],
+  matcher: ['/candidate/:path*' , '/recruiter/:path*'],
 };

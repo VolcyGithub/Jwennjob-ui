@@ -39,19 +39,6 @@ export default function NavAside({ isOpen }) {
               <BiBarChartAlt className="size-5 text-secondary" />
               <span>Dashboard</span>
             </Link>
-
-            <Link
-              href="/recruiter/applications"
-              className="flex items-center justify-between text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
-            >
-              <div className="flex items-center gap-2">
-                <BiBriefcase className="size-5 text-secondary" />
-                <span>Applications</span>
-              </div>
-              <span className="px-[8px] text-xs font-bold py-1 bg-red-500 rounded-full">
-                2
-              </span>
-            </Link>
             <Link
               href="/recruiter/candidates"
               className="flex text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"

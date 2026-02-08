@@ -22,6 +22,13 @@ const styles = StyleSheet.create({
     color: '#1f3a8a',
   },
 
+  profession: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#4b5563',
+    marginBottom: 6,
+  },
+
   contact: {
     fontSize: 10.5,
     color: '#4b5563',
@@ -68,9 +75,18 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     fontSize: 10.5,
     color: '#374151',
+    marginBottom: 3,
+  },
+
+  skillCategory: {
+    marginBottom: 6,
+  },
+
+  award: {
+    marginBottom: 4,
+    fontSize: 10.5,
   },
 });
-
 
 const MyDocument = ({ formData }) => (
   <Document>
@@ -79,14 +95,22 @@ const MyDocument = ({ formData }) => (
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.name}>
-          {formData?.personal?.name || 'Your Name'}
+          {formData?.personal?.name || 
+           `${formData?.personal?.firstname || ''} ${formData?.personal?.lastname || ''}`.trim() || 
+           'Your Name'}
         </Text>
+
+        {formData?.personal?.profession && (
+          <Text style={styles.profession}>
+            {formData.personal.profession}
+          </Text>
+        )}
 
         <Text style={styles.contact}>
           {[
             formData?.personal?.email,
             formData?.personal?.phone,
-            formData?.personal?.location,
+            formData?.personal?.address,
             formData?.personal?.linkedin,
           ]
             .filter(Boolean)
@@ -103,47 +127,49 @@ const MyDocument = ({ formData }) => (
       )}
 
       {/* Education */}
-      {formData?.education?.length > 0 && (
+      {formData?.educations?.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Education</Text>
 
-          {formData.education.map((edu, index) => (
+          {formData.educations.map((edu, index) => (
             <View key={index} style={styles.item}>
               <View style={styles.itemHeader}>
                 <Text style={styles.itemTitle}>
                   {edu.degree} — {edu.institution}
                 </Text>
                 <Text style={styles.itemDate}>
-                  {edu.start} – {edu.end}
+                  {edu.start} – {edu.endtime}
                 </Text>
               </View>
-
-              {edu.details && (
-                <Text style={styles.bullet}>• {edu.details}</Text>
-              )}
             </View>
           ))}
         </View>
       )}
 
       {/* Experience */}
-      {formData?.experience?.length > 0 && (
+      {formData?.experiences?.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Experience</Text>
 
-          {formData.experience.map((exp, index) => (
+          {formData.experiences.map((exp, index) => (
             <View key={index} style={styles.item}>
               <View style={styles.itemHeader}>
                 <Text style={styles.itemTitle}>
-                  {exp.jobTitle} — {exp.company}
+                  {exp.position} — {exp.company}
                 </Text>
                 <Text style={styles.itemDate}>
-                  {exp.start} – {exp.end}
+                  {exp.start} – {exp.endtime}
                 </Text>
               </View>
 
-              {exp.details && (
-                <Text style={styles.bullet}>• {exp.details}</Text>
+              {exp.responsibilities && exp.responsibilities.length > 0 && (
+                <View>
+                  {exp.responsibilities.map((resp, respIndex) => (
+                    <Text key={respIndex} style={styles.bullet}>
+                      • {resp.responsability}
+                    </Text>
+                  ))}
+                </View>
               )}
             </View>
           ))}
@@ -151,29 +177,43 @@ const MyDocument = ({ formData }) => (
       )}
 
       {/* Skills */}
-      {(formData?.skills?.technical ||
-        formData?.skills?.soft ||
-        formData?.skills?.languages) && (
+      {formData?.skills?.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Skills</Text>
+          <View style={styles.skillCategory}>
+            {formData.skills.map((skill, index) => (
+              <Text key={index}>• {skill.skill || skill}</Text>
+            ))}
+          </View>
+        </View>
+      )}
 
-          {formData.skills.technical && (
-            <Text>Technical: {formData.skills.technical}</Text>
-          )}
+      {/* Awards */}
+      {formData?.awards?.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Awards & Certifications</Text>
+          {formData.awards.map((award, index) => (
+            <Text key={index} style={styles.award}>
+              • {award.award}
+            </Text>
+          ))}
+        </View>
+      )}
 
-          {formData.skills.soft && (
-            <Text>Soft: {formData.skills.soft}</Text>
-          )}
-
-          {formData.skills.languages && (
-            <Text>Languages: {formData.skills.languages}</Text>
-          )}
+      {/* Activities */}
+      {formData?.activities?.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Activities & Volunteering</Text>
+          {formData.activities.map((activity, index) => (
+            <Text key={index} style={styles.award}>
+              • {activity.activity}
+            </Text>
+          ))}
         </View>
       )}
 
     </Page>
   </Document>
 );
-
 
 export default MyDocument;

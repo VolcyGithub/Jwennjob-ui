@@ -1,20 +1,32 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   BiGridAlt,
   BiFile,
   BiUserCircle,
   BiSearch,
   BiBriefcase,
+  BiLogOut,
 } from "react-icons/bi";
 
-export default function NavAside({ isOpen }) {
+export default function NavAside({ isOpen, setIsOpen }) {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    document.cookie =
+      "candidate_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push("/");
+  };
+
   return (
     <div
       className={`fixed h-full z-40 text-sm left-0 w-[300px] xl:w-[15%] text-white p-2 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"} xl:translate-x-0`}
     >
       <div className="bg-primary rounded-4xl w-full h-full">
-        <div className="bg-gradient-to-b from-transparent to-black rounded-4xl w-full h-full p-4">
+        <div className="bg-gradient-to-b from-transparent to-black rounded-4xl w-full h-full p-4 flex flex-col">
           <Link className="flex pl-3 mt-2 mb-8 gap-1 items-center" href="/">
             <Image
               src={`/white-logo.PNG`}
@@ -29,8 +41,9 @@ export default function NavAside({ isOpen }) {
             Menu
           </span>
 
-          <div className="navigation-bar">
+          <div className="navigation-bar flex-1">
             <Link
+              onClick={() => setIsOpen((isOpen = false))}
               href="/candidate"
               className="flex mb-2 text-white p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
@@ -38,6 +51,7 @@ export default function NavAside({ isOpen }) {
               <span>Dashboard</span>
             </Link>
             <Link
+              onClick={() => setIsOpen((isOpen = false))}
               href="/candidate/applications"
               className="flex items-center justify-between text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
@@ -50,6 +64,7 @@ export default function NavAside({ isOpen }) {
               </span>
             </Link>
             <Link
+              onClick={() => setIsOpen((isOpen = false))}
               href="/candidate/documents"
               className="flex items-center justify-between text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
@@ -62,6 +77,7 @@ export default function NavAside({ isOpen }) {
               </span>
             </Link>
             <Link
+              onClick={() => setIsOpen((isOpen = false))}
               href="/candidate/jobs"
               className="flex text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
@@ -69,6 +85,7 @@ export default function NavAside({ isOpen }) {
               <span>Trouver un emploi</span>
             </Link>
             <Link
+              onClick={() => setIsOpen((isOpen = false))}
               href="/candidate/saved"
               className="flex text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
@@ -76,12 +93,24 @@ export default function NavAside({ isOpen }) {
               <span>Emplois sauvegardés</span>
             </Link>
             <Link
+              onClick={() => setIsOpen((isOpen = false))}
               href="/candidate/profile"
               className="flex text-white mb-2 p-3 hover:bg-secondary/10 rounded-xl gap-2 items-center"
             >
               <BiUserCircle className="size-5 text-secondary" />
               <span>Mon profil</span>
             </Link>
+          </div>
+
+          {/* Bouton de déconnexion */}
+          <div className="mt-auto pt-4 border-t border-secondary/30">
+            <button
+              onClick={handleLogout}
+              className="flex w-full text-white p-3 hover:bg-red-500/20 hover:text-red-300 rounded-xl gap-2 items-center transition-colors duration-200"
+            >
+              <BiLogOut className="size-5 text-secondary" />
+              <span>Se déconnecter</span>
+            </button>
           </div>
         </div>
       </div>

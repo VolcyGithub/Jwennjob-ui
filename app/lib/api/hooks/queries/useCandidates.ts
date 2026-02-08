@@ -31,3 +31,23 @@ export const useCandidateJobSaved = (params?: Record<string, any>) =>
     staleTime: CACHE_TIME,
   });
 
+export const useCandidateCvs= (params?: Record<string, any>) =>
+  useQuery({
+    queryKey: [KEYS.candidates.cvs, params],
+    queryFn: () => candidateApi.getCvs(params),
+    staleTime: CACHE_TIME,
+  });
+
+export const useCandidateCv = (id: string) =>
+  useQuery({
+    // Include id in the key so each CV has its own cache entry
+    queryKey: [KEYS.candidates.cvs, id], 
+    
+    // Pass the id to your API function
+    queryFn: () => candidateApi.getCvById(id), 
+    
+    staleTime: CACHE_TIME,
+    
+    // Optional: Only run the query if an ID actually exists
+    enabled: !!id, 
+  });

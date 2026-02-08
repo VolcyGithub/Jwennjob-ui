@@ -1,6 +1,6 @@
 const Pagination = () => {
   return (
-    <div className="flex items-center mt-6 gap-2">
+    <div className="flex items-center mt-2 gap-2">
       <button type="button" aria-label="Previous" className="mr-4">
         <svg
           width="9"

@@ -5,7 +5,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const ApplicationTableSkeleton = () => {
   // Générer 5 lignes de skeleton
-  const rows = Array.from({ length: 5 }, (_, i) => i);
+  const rows = Array.from({ length: 8 }, (_, i) => i);
 
   return (
     <div>

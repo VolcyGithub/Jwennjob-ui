@@ -6,6 +6,7 @@ import CandidateCard from "@/app/components/recruiter/cards/CandidateCard";
 import CandidateCardSkeleton from "@/app/components/recruiter/cards/CandidateCardSkeleton";
 import Application from "@/app/components/recruiter/tables/Application";
 import { useUsers } from "@/app/lib/api/hooks/queries/useUsers";
+import { useRecruiterAuth } from "@/app/lib/contexts/RecruiterContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +19,8 @@ import {
 
 export default function Index() {
   const { data, isLoading, error } = useUsers({ limit: 3 });
+
+  const {recruiter, isLoading: authLoading, error: authError} = useRecruiterAuth();
   return (
     <div>
       <BreadCrumb
@@ -32,7 +35,7 @@ export default function Index() {
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <h1 className="text-md md:text-4xl">
-                  <span className="text-white/75">Bienvenue !</span> Recruteur
+                  <span className="text-white">{recruiter.nom}</span> 
                 </h1>
                 <p className="text-white/60 max-md:line-clamp-2 mb-3 text-xs md:text-sm leading-relaxed">
                   Découvrez les meilleurs talents et publiez vos offres d'emploi
