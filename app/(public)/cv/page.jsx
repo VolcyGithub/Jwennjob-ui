@@ -1,8 +1,14 @@
 "use client";
+import { useCandidateCvs } from "@/app/lib/api/hooks/queries/useCandidates";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-
+import Image from "next/image";
+import ErrorState from "@/app/components/candidate/cards/CardError";
+import Link from "next/link";
 export default function CVPage() {
   const [cv, setCv] = useState(null);
+  const { data: cvs, isLoading, isError, refetch } = useCandidateCvs()
+  console.log("cvs", cvs, isLoading, isError);
 
   const handleCVUpload = (e) => {
     const file = e.target.files?.[0];
@@ -10,8 +16,44 @@ export default function CVPage() {
       setCv(file);
     }
   };
-
+  if (isLoading) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 bg-white z-[9999] flex items-center justify-center"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Image
+              src="https://jwennjob.com/assets/j-logo.png"
+              alt="JwennJob Logo"
+              width={80}
+              height={80}
+            />
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+  if (isError) {
+    return (
+      <ErrorState
+        title="Impossible de charger vos CVs"
+        message="Nous rencontrons des difficultés pour récupérer vos CVs. Cela peut être dû à une connexion instable ou à un problème temporaire avec nos serveurs."
+        onRetry={refetch}
+        showHome={true}
+        showBack={true}
+      />
+    );
+  }
   return (
+
     <div className="container mx-auto">
       <div className="relative flex flex-col pb-10 items-center py-14 justify-center m-2 md:m-4 lg:m-6 rounded-4xl text-sm px-4 md:px-16 lg:px-24 xl:px-32 bg-primary text-white">
         <a
@@ -147,6 +189,76 @@ export default function CVPage() {
             <span className="text-slate-400">Résultats instantanés</span>
           </p>
         </div>
+      </div>
+      {/* display cvs */}
+      <div className="mt-10 px-6">
+        <h2 className="text-2xl font-semibold mb-6 text-primary">Mes CVs</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+    {cvs.data.map((cv) => {
+      const isComplete = cv.completion_rate === 100;
+      
+      return (
+    <div
+      key={cv.id}
+      className="group rounded-md hover:shadow-lg transition-all duration-300 bg-white overflow-hidden"
+    >
+      {/* Cover Image */}
+      <div className="relative overflow-hidden ">
+        <Image
+      width={400}
+      height={300}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-2xl"
+      src={cv.template.cover}
+      alt={cv.id}
+        />
+        {/* Badge */}
+        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
+      isComplete
+        ? 'bg-primary text-third'
+        : cv.completion_rate >= 80
+        ? 'bg-secondary text-white'
+        : 'bg-third text-primary'
+        }`}>
+      {isComplete ? '✓ Complet' : `${cv.completion_rate}%`}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-5">
+        {/* Progress Bar */}
+        <div className="mb-4">
+      <div className="flex justify-between text-xs text-primary mb-1.5">
+        <span>Progression</span>
+        <span className="font-medium">{cv.completion_rate}%</span>
+      </div>
+      <div className="w-full bg-third rounded-full h-1.5 overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-700 ${
+        isComplete
+          ? 'bg-primary'
+          : cv.completion_rate >= 80
+          ? 'bg-secondary'
+          : 'bg-primary/60'
+          }`}
+          style={{ width: `${cv.completion_rate}%` }}
+        />
+      </div>
+        </div>
+
+        {/* Action Button */}
+        <Link href={`/cv/build/${cv.id}`} className={`w-full py-2.5 px-4 text-sm font-medium rounded-xl transition-all ${
+      isComplete
+        ? 'bg-primary text-third hover:bg-primary/90 shadow-sm'
+        : 'bg-secondary text-white hover:bg-secondary/90 shadow-sm'
+        }`}>
+      {isComplete ? 'Voir le CV' : cv.completion_rate === 0 ? 'Commencer' : 'Continuer'}
+        </Link>
+      </div>
+    </div>
+      );
+    })}
+  </div> 
+  
       </div>
     </div>
   );

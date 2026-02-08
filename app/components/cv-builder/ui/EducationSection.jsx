@@ -8,7 +8,7 @@ export default function EducationSection({ setAlert }) {
 
     return (
         <div>
-            {formData.education.map((edu, k) => (
+            {formData.educations.map((edu, k) => (
                 <Education key={k} index={k} data={edu} onUpdate={handleArrayChange} onRemove={removeItem} />
             ))}
             <button onClick={() => addItem("education")} className='bg-secondary px-4 py-2 text-white font-semibold hover:underline'>Add Education</button>
