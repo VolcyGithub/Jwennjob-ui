@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useCallback } from "react";
+import { API_URL } from "../utils/constants";
 
 export const CvContext = createContext(null);
 
@@ -199,7 +200,7 @@ export function CvProvider({ children }) {
                 const parts = value.split(`; ${name}=`);
                 if (parts.length === 2) return parts.pop().split(';').shift();
             }
-            const response = await fetch(`http://localhost:8000/api/v1/candidates/cvs/${candidateId}`, {
+            const response = await fetch(`${API_URL}/candidates/cvs/${candidateId}`, {
                 method: 'PUT', // or 'POST' depending on your API
                 headers: {
                     'Content-Type': 'application/json',
