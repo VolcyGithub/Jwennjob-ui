@@ -2,7 +2,7 @@
  * Base api url for the api call in the platform
  */
 export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+  process.env.NEXT_PUBLIC_API_URL || "https://api.jwennjob.com/api/v1";
 
 export const API_KEY =
   process.env.NEXY_PUBLIC_API_KEY ||
