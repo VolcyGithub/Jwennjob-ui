@@ -4,6 +4,7 @@ import {
   BiUser,
 } from "react-icons/bi";
 import ProgressRing from "../stats/ProgressRing";
+import Image from "next/image";
 
 export default function CandidateCard({ data }) {
   const {
@@ -30,7 +31,10 @@ export default function CandidateCard({ data }) {
             <BiSolidCheckCircle className="text-xl bg-white text-primary shadow-lg rounded-full" />
           </div>
         )}
-        <img
+        <Image
+          width={100}
+          height={100}
+          referrerPolicy="no-referrer"
           src={avatar}
           alt={name}
           className="w-18 h-18 rounded-full object-cover"

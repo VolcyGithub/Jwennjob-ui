@@ -25,6 +25,19 @@ export const KEYS = {
     documents : "documents",
     saved : "saved"
   },
-  recruiters: "recruiters",
+  socials : {
+    redirect : "redirect",
+    callback : "callback"
+  },
+  recruiters: {
+    me : "recruiters_me",
+    public : "recruiters_public",
+    show : "recruiters_show",
+    jobs : "recruiters_jobs",
+    applications : "recruiters_applications",
+    byJob : "recruiters_applications_by_job",
+    byCandidate : "recruiters_candidates_by_id",
+    candidates : "recruiters_candidates"
+  },
   jobs: "jobs",
 };

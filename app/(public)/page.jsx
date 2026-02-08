@@ -22,11 +22,12 @@ export default function Home() {
       <LatestJobs />
       <Faqs />
       <ReviewSection />
+
       {/* SECTION "POURQUOI PAS VOUS ? - ENTREPRISE" */}
       <div className="my-24 bg-white rounded-4xl max-w-7xl mx-auto p-10 md:p-16 text-center">
         <div className="flex-col md:flex md:items-center lg:flex-row lg:items-start gap-8 lg:gap-16 justify-center">
           <Image
-            src="/Hiring-Manager.gif" // Suggestion : changer pour un GIF lié au recrutement
+            src="/Hiring-Manager.gif"
             alt="Recrutement Entreprise"
             width={300}
             height={300}

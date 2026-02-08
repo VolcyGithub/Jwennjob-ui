@@ -1,7 +1,11 @@
+import { useRecruiterAuth } from "@/app/lib/contexts/RecruiterContext";
 import Image from "next/image";
 import { BiMenuAltLeft, BiBell } from "react-icons/bi";
 
 export default function NavTop({ isOpen, setIsOpen }) {
+
+  const {recruiter, isLoading: authLoading, error: authError} = useRecruiterAuth();
+
   return (
     <div className="p-3 z-2 fixed w-full lg:w-[85%]">
       <div className="p-4 bg-white/80 backdrop-blur rounded-3xl shadow-sm w-full">
@@ -27,7 +31,7 @@ export default function NavTop({ isOpen, setIsOpen }) {
             </button>
             <Image
               className="size-8 rounded-full object-cover"
-              src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
+              src={recruiter.logo}
               alt="Rounded avatar"
               width={80}
               height={80}

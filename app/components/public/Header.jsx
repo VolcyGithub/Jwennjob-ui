@@ -60,7 +60,7 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href={isConnected ? "/candidate" : "/signin"}
+              href={isConnected ? "/candidate" : "/signin/candidate"}
               className="ml-2 px-4 py-2 rounded-4xl text-sm bg-secondary text-white hover:opacity-90 transition"
             >
              {isConnected ? "Mon compte" : "Se connecter"}
@@ -94,7 +94,7 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href={isConnected ? "/candidate" : "/signin"}
+              href={isConnected ? "/candidate" : "/signin/candidate"}
               onClick={() => setIsMenuOpen(false)}
               className="w-full max-w-xs text-center px-4 py-2 rounded-4xl text-sm bg-primary text-white hover:opacity-90 transition"
             >
@@ -111,7 +111,7 @@ export default function Header() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 bg-white z-[9999] flex items-center justify-center"
+            className="fixed inset-0 bg-white z-[2000] flex items-center justify-center"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}

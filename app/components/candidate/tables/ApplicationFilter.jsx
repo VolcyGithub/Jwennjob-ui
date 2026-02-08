@@ -1,6 +1,6 @@
 "use client";
 
-import { BiFilter, BiReset } from "react-icons/bi";
+import { BiExport, BiFilter, BiReset } from "react-icons/bi";
 import { useState } from "react";
 import SlimSelect from "slim-select/react";
 import "slim-select/styles";
@@ -49,11 +49,11 @@ export default function ApplicationFilter() {
 
       {/* Reset */}
       <button
-        className="ml-auto rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium text-primary hover:bg-gray-200 disabled:opacity-75"
+        className="ml-auto flex items-center gap-2 rounded-sm bg-primary px-3 py-2 text-sm font-medium text-white hover:bg-gray-200"
         disabled
       >
-        <BiReset className="inline mr-1" />
-        Réinitialiser
+        <BiExport className="inline mr-1" />
+        Exporter
       </button>
     </div>
   );

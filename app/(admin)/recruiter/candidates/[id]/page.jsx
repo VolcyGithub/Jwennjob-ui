@@ -1,42 +1,56 @@
+// app/recruiter/candidates/[id]/page.jsx
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import {BiBookOpen,BiCog,BiWorld,BiUser} from "react-icons/bi";
+import { useParams } from "next/navigation";
+import { BiBookOpen, BiCog, BiWorld, BiUser } from "react-icons/bi";
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
 import ProgressRing from "@/app/components/recruiter/stats/ProgressRing";
 import CandidateDocsPage from "@/app/components/recruiter/cards/CandidateDocsPage";
-import { useUser } from "@/app/lib/api/hooks/queries/useUsers";
-import { useParams } from "next/navigation";
+import { useRecruiterCandidatesById } from "@/app/lib/api/hooks/queries/useRecruiters";
+import CandidateProfileSkeleton from "@/app/components/recruiter/cards/CandidateProfileSkeleton";
+import ErrorState from "@/app/components/candidate/cards/CardError";
 
 const tabs = ["personal", "study", "skills", "languages"];
 
-export default function Show() {
 
+export default function Show() {
   const params = useParams();
   const id = params.id;
-  const {data , isLoading , error } = useUser(id);
+  const {
+    data: response,
+    isLoading,
+    error,
+    refetch,
+  } = useRecruiterCandidatesById(id);
   const [activeTab, setActiveTab] = useState("personal");
 
-  // Données fictives
-  const candidate = {
-    name: "Jean-Robert Pierre-Louis",
-    title: "Développeur Full-Stack React / Node.js",
-    email: "jeanrobert.pl@example.ht",
-    phone: "+509 37 01 2345",
-    location: "Pétion-Ville, Port-au-Prince",
-    department: "Ouest",
-    degree: "Licence Informatique",
-    institution: "Université d'État d'Haïti",
-    studyLevel: ["Licence"],
-    techSkills: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
-    softSkills: ["Travail en équipe", "Communication", "Gestion du temps"],
-    languages: ["Français", "Créole haïtien", "Anglais"],
-    profileCompletion: 56,
-    cvCompletion: 70,
-    applications: 5,
-  };
+  if (isLoading) {
+    return <CandidateProfileSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <ErrorState
+        title="Impossible de charger le profil"
+        message="Nous n'avons pas pu récupérer les informations de ce candidat."
+        onRetry={refetch}
+      />
+    );
+  }
+
+  if (!response?.data) {
+    return (
+      <ErrorState
+        title="Candidat non trouvé"
+        message="Ce candidat n'existe pas ou a été supprimé."
+      />
+    );
+  }
+
+  const candidate = response.data;
 
   return (
     <div>
@@ -47,27 +61,40 @@ export default function Show() {
           { label: candidate.name },
         ]}
       />
+
       <div className="flex my-4 w-full justify-between items-center">
         <h2 className="text-2xl text-primary">Profil</h2>
+        <Link
+          href={`mailto:${candidate.email}`}
+          className="flex gap-2 items-center justify-center px-5 py-2 text-xs border border-primary rounded-full text-white bg-primary transition hover:bg-white hover:border-primary hover:text-primary"
+        >
+          <BiUser />
+          Contacter
+        </Link>
       </div>
 
       <div className="relative mt-4 gap-3 grid grid-cols-1 md:grid-cols-4">
         {/* Colonne gauche : carte résumé */}
         <div className="col-span-1">
-          <div className="bg-white rounded-4xl p-10">
+          <div className="bg-white rounded-4xl p-6 md:p-10">
             <div className="flex flex-col items-center gap-3 w-full">
               <Image
-                width={50}
-                height={50}
+                width={120}
+                height={120}
                 className="size-25 md:size-30 rounded-full object-cover"
-                src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
+                src={
+                  candidate.profile_photo ||
+                  "https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
+                }
                 alt={candidate.name}
               />
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 text-center">
                 <span className="text-primary text-xl font-semibold">
                   {candidate.name}
                 </span>
-                <span className="text-gray-500 text-xs">{candidate.title}</span>
+                <span className="text-gray-500 text-xs">
+                  {candidate.sector?.title || "Secteur non spécifié"}
+                </span>
               </div>
             </div>
 
@@ -77,12 +104,12 @@ export default function Show() {
               </h4>
               <div className="flex justify-center gap-4 items-center">
                 <ProgressRing
-                  percent={candidate.profileCompletion}
+                  percent={candidate.applications_count > 0 ? 100 : 50}
                   color="#2a2773"
                   label="Profil"
                 />
                 <ProgressRing
-                  percent={candidate.cvCompletion}
+                  percent={candidate.cvs[0].completion_rate}
                   color="#2a2773"
                   label="CV"
                 />
@@ -91,42 +118,66 @@ export default function Show() {
 
             <div className="grid mt-6 grid-cols-1 gap-4 text-sm">
               <div>
-                <span className="text-gray-500 text-xs">Nom complet</span>
+                <span className="text-gray-500 text-xs block mb-1">
+                  Nom complet
+                </span>
                 <p className="font-semibold text-primary">{candidate.name}</p>
               </div>
               <div>
-                <span className="text-gray-500 text-xs">Poste recherché</span>
-                <p className="font-semibold text-primary">{candidate.title}</p>
-              </div>
-              <div>
-                <span className="text-gray-500 text-xs">E-mail</span>
-                <p className="font-semibold text-primary">{candidate.email}</p>
-              </div>
-              <div>
-                <span className="text-gray-400">Téléphone</span>
-                <p className="font-semibold text-primary">{candidate.phone}</p>
-              </div>
-              <div>
-                <span className="text-gray-500 text-xs">Adresse</span>
-                <p className="font-semibold text-primary">
-                  {candidate.location}
+                <span className="text-gray-500 text-xs block mb-1">E-mail</span>
+                <p className="font-semibold text-primary text-xs break-all">
+                  {candidate.email}
                 </p>
               </div>
               <div>
-                <span className="text-gray-500">Département</span>
+                <span className="text-gray-500 text-xs block mb-1">
+                  Téléphone
+                </span>
+                <p className="font-semibold text-primary">
+                  {candidate.phone || "Non renseigné"}
+                </p>
+              </div>
+              <div>
+                <span className="text-gray-500 text-xs block mb-1">
+                  Adresse
+                </span>
+                <p className="font-semibold text-primary">
+                  {candidate.address || "Non renseignée"}
+                </p>
+              </div>
+              <div>
+                <span className="text-gray-500 text-xs block mb-1">
+                  Département
+                </span>
                 <p className="font-semibold text-gray-900">
-                  {candidate.department}
+                  {candidate.department?.title || "Non renseigné"}
+                </p>
+              </div>
+              <div>
+                <span className="text-gray-500 text-xs block mb-1">
+                  Niveau d'études
+                </span>
+                <p className="font-semibold text-primary">
+                  {candidate.education || "Non renseigné"}
+                </p>
+              </div>
+              <div>
+                <span className="text-gray-500 text-xs block mb-1">Genre</span>
+                <p className="font-semibold text-primary">
+                  {candidate.gender || "Non renseigné"}
+                </p>
+              </div>
+              <div>
+                <span className="text-gray-500 text-xs block mb-1">
+                  Date de naissance
+                </span>
+                <p className="font-semibold text-primary">
+                  {candidate.birth_date
+                    ? new Date(candidate.birth_date).toLocaleDateString("fr-FR")
+                    : "Non renseignée"}
                 </p>
               </div>
             </div>
-
-            <Link
-              href="/recruiter/candidates/1"
-              className="flex gap-5 items-center w-fit mt-5 px-4 py-2 text-xs border border-primary rounded-full text-white bg-primary transition hover:bg-white hover:border-primary hover:text-primary"
-            >
-              <BiUser />
-              Telecharger CV
-            </Link>
           </div>
         </div>
 
@@ -155,7 +206,7 @@ export default function Show() {
                       {tab === "skills" && <BiCog className="size-4" />}
                       {tab === "languages" && <BiWorld className="size-4" />}
                       {tab === "personal" && "Biographie"}
-                      {tab === "study" && "Formation académique"}
+                      {tab === "study" && "Formation"}
                       {tab === "skills" && "Compétences"}
                       {tab === "languages" && "Langues"}
                     </label>
@@ -164,53 +215,59 @@ export default function Show() {
               </div>
             </div>
 
-            {/* Contenu en lecture */}
+            {/* Contenu */}
             <div className="mt-10">
-              {/* Informations personnelles */}
+              {/* Biographie */}
               {activeTab === "personal" && (
-                <section className="personal-info text-md text-gray-500">
-                  <p className="mb-4">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dolorem natus sint maxime quae consequuntur, at saepe
-                    consequatur voluptas veniam qui voluptate et beatae
-                    perspiciatis voluptates itaque. Veritatis voluptatum nisi
-                    deleniti praesentium, laudantium minus minima cumque. Ea
-                    aspernatur labore unde similique enim, facilis repellendus.
-                    Rem dolore perferendis corrupti! Esse voluptatem iure
-                  </p>
-
-                  <p>
-                    assumenda dignissimos, amet consequuntur consectetur fugiat
-                    asperiores quasi eum nostrum ipsam omnis modi et! Tempore
-                    obcaecati cumque placeat praesentium atque adipisci dolor
-                    saepe, exercitationem eos fugit hic reiciendis nihil illo
-                    debitis similique numquam iure eveniet aliquid voluptates
-                    dignissimos asperiores? Quod sed facere accusamus explicabo
-                    accusantium atque ratione reiciendis praesentium in.
-                  </p>
+                <section className="personal-info text-sm text-gray-600">
+                  {candidate.bio ? (
+                    <div>
+                      <h3 className="font-semibold text-primary mb-3">
+                        À propos
+                      </h3>
+                      <p  dangerouslySetInnerHTML={{ __html: candidate.bio }} className="leading-relaxed whitespace-pre-line">
+                       
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-center py-10">
+                      <p className="text-gray-400 italic">
+                        Aucune biographie renseignée
+                      </p>
+                    </div>
+                  )}
                 </section>
               )}
 
               {/* Formation */}
               {activeTab === "study" && (
-                <section className="study">
+                <section className="study space-y-6">
+                  <h3 className="font-semibold text-primary mb-4">Formation</h3>
                   <div className="space-y-4 text-sm">
-                    <div>
-                      <span className="text-gray-500">Niveau d’étude</span>
-                      <p className="font-semibold text-primary">
-                        {candidate.studyLevel.join(", ")}
+                    <div className="bg-gray-50 rounded-2xl px-6 py-3">
+                      <span className="text-gray-500 text-xs block mb-1">
+                        Niveau d'études
+                      </span>
+                      <p className="font-semibold text-primary text-lg">
+                        {candidate.education || "Non renseigné"}
                       </p>
                     </div>
-                    <div>
-                      <span className="text-gray-500">Diplôme</span>
+
+                    <div className="bg-gray-50 rounded-2xl px-6 py-3">
+                      <span className="text-gray-500 text-xs block mb-1">
+                        Secteur d'activité
+                      </span>
                       <p className="font-semibold text-primary">
-                        {candidate.degree}
+                        {candidate.sector?.title || "Non renseigné"}
                       </p>
                     </div>
-                    <div>
-                      <span className="text-gray-500">Établissement</span>
+
+                    <div className="bg-gray-50 rounded-2xl px-6 py-3">
+                      <span className="text-gray-500 text-xs block mb-1">
+                        Département
+                      </span>
                       <p className="font-semibold text-primary">
-                        {candidate.institution}
+                        {candidate.department?.title || "Non renseigné"}
                       </p>
                     </div>
                   </div>
@@ -220,64 +277,73 @@ export default function Show() {
               {/* Compétences */}
               {activeTab === "skills" && (
                 <section className="skills">
-                  <div className="space-y-4 text-sm">
+                  {candidate.competences?.length > 0 ? (
                     <div>
-                      <span className="text-gray-500">
-                        Compétences techniques
-                      </span>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {candidate.techSkills.map((s) => (
+                      <h3 className="font-semibold text-primary mb-4">
+                        Domaines de compétence
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {candidate.competences.map((comp) => (
                           <span
-                            key={s}
-                            className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
+                            key={comp.id}
+                            className="px-4 py-2 text-xs font-medium bg-primary/10 text-primary rounded-full"
                           >
-                            {s}
+                            {comp.title}
                           </span>
                         ))}
                       </div>
                     </div>
-                    <div>
-                      <span className="text-gray-500">
-                        Compétences professionnelles
-                      </span>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {candidate.softSkills.map((s) => (
-                          <span
-                            key={s}
-                            className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
-                          >
-                            {s}
-                          </span>
-                        ))}
-                      </div>
+                  ) : (
+                    <div className="text-center py-10">
+                      <p className="text-gray-400 italic">
+                        Aucune compétence renseignée
+                      </p>
                     </div>
-                  </div>
+                  )}
                 </section>
               )}
 
               {/* Langues */}
               {activeTab === "languages" && (
                 <section className="languages">
-                  <div className="text-sm">
-                    <span className="text-gray-500">Langues parlées</span>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {candidate.languages.map((l) => (
-                        <span
-                          key={l}
-                          className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
-                        >
-                          {l}
-                        </span>
-                      ))}
+                  {candidate.languages?.length > 0 ? (
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-primary mb-4">
+                        Langues maîtrisées
+                      </h3>
+                      <div className="flex gap-2 items-center">
+                        {candidate.languages.map((lang) => (
+                          <div
+                            key={lang.id}
+                            className="flex items-center justify-between bg-primary/10 rounded-3xl px-4 py-2"
+                          >
+                            <div className="flex items-center gap-2">
+                              <BiWorld className="text-primary text-md" />
+                              <span className="font-semibold text-xs text-primary">
+                                {lang.title}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="text-center py-10">
+                      <p className="text-gray-400 italic">
+                        Aucune langue renseignée
+                      </p>
+                    </div>
+                  )}
                 </section>
               )}
             </div>
           </div>
 
-          <h2 className="text-lg mb-2 mt-4 font-bold text-primary">Documents</h2>
-          <CandidateDocsPage />
+          {/* Documents */}
+          <h2 className="text-lg mb-2 mt-6 font-bold text-primary">
+            Documents
+          </h2>
+          <CandidateDocsPage docs={candidate.documents} />
         </div>
       </div>
     </div>

@@ -62,7 +62,7 @@ export default function CandidateLayout({ children }) {
         <NavFloatingButton />
         <NavOverlay isOpen={isOpen} setIsOpen={setIsOpen} />
         <NavTop isOpen={isOpen} setIsOpen={setIsOpen} />
-        <NavAside isOpen={isOpen} />
+        <NavAside isOpen={isOpen} setIsOpen={setIsOpen} />
         <main className="pt-[100px] font-sans px-5 pb-4 w-[100%] xl:w-[85%]">
           {children}
         </main>

@@ -15,7 +15,6 @@ export default function Home() {
   
   const {candidate , isLoading , error} = useCandidateAuth();
   
-
   return (
     <div>
       <BreadCrumb

@@ -1,180 +1,229 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
-  BiCheck,
   BiCheckCircle,
-  BiMinus,
-  BiSolidCheckCircle,
-  BiUserCheck,
-  BiUserX,
+  BiXCircle,
+  BiUser,
+  BiCalendar,
+  BiFile,
+  BiMap,
+  BiBuilding,
+  BiEnvelope,
+  BiPhone,
+  BiIdCard,
+  BiBook,
+  BiDollar,
 } from "react-icons/bi";
 
-const fakeApps = [
-  {
-    id: 1,
-    job: "Dév Full-Stack",
-    company: "AlphaTech",
-    status: "En attente",
-    applied: "2025-06-20",
-    logo: "https://i.pravatar.cc/40?u=1",
-    profileCompletion: 75,
-    cvCompletion: 90,
-    isVerified: true,
-  },
-  {
-    id: 2,
-    job: "Designer UI",
-    company: "CréaDesign",
-    status: "Accepté",
-    applied: "2025-06-18",
-    logo: "https://i.pravatar.cc/40?u=2",
-    profileCompletion: 45,
-    cvCompletion: 60,
-    isVerified: false,
-  },
-  {
-    id: 3,
-    job: "Data Analyst",
-    company: "DataCorp",
-    status: "Refusé",
-    applied: "2025-06-15",
-    logo: "https://i.pravatar.cc/40?u=3",
-    profileCompletion: 100,
-    cvCompletion: 100,
-    isVerified: true,
-  },
-  {
-    id: 4,
-    job: "Data Analyst",
-    company: "DataCorp",
-    status: "Refusé",
-    applied: "2025-06-15",
-    logo: "https://i.pravatar.cc/40?u=4",
-    profileCompletion: 30,
-    cvCompletion: 20,
-    isVerified: false,
-  },
-];
-
+// Mapping des couleurs pour le statut de candidature
 const statusColors = {
-  "En attente": "bg-blue-100 text-blue-700",
-  Accepté: "bg-green-100 text-green-700",
-  Refusé: "bg-red-100 text-red-700",
+  pending: "bg-yellow-100 text-yellow-700",
+  accepted: "bg-green-100 text-green-700",
+  rejected: "bg-red-100 text-red-700",
+  null: "bg-gray-100 text-gray-600",
 };
 
-const getProgressColor = (value) =>
-  value >= 80 ? "bg-primary" : "bg-primary/100";
+const statusLabels = {
+  pending: "En attente",
+  accepted: "Accepté",
+  rejected: "Refusé",
+  null: "Nouveau",
+};
 
-export default function Application() {
+
+
+export default function Applications({ applications = [] }) {
+
+  // Fonction pour formater la date
+  const formatDate = (dateString) => {
+    if (!dateString) return "Non spécifié";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  // Fonction pour obtenir le statut formaté
+  const getStatus = (status) => {
+    if (!status) return "null";
+    return status.toLowerCase();
+  };
+ 
   return (
     <div>
       <div className="overflow-x-auto">
-        <table className="w-[1000px] md:w-full border-separate border-spacing-y-[15px] text-left text-sm text-gray-700">
+        <table className="w-[1200px] md:w-full border-separate border-spacing-y-[15px] text-left text-sm text-gray-700">
           {/* HEAD */}
           <thead>
             <tr className="text-xs font-bold text-gray-900">
-              <th className="px-4">Poste</th>
               <th className="px-4">Candidat</th>
+              <th className="px-4">Contact</th>
+              <th className="px-4">Localisation</th>
+              <th className="px-4">Formation</th>
+              <th className="px-4">Documents</th>
               <th className="px-4">Statut</th>
-              <th className="px-4">Profil</th>
-              <th className="px-4">CV</th>
-              <th className="px-4">Vérifié</th>
-              <th className="px-4">Date</th>
+              <th className="px-4">Postulé le</th>
+              <th className="px-4">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {fakeApps.map((a) => (
-              <tr
-                key={a.id}
-                className="rounded-xl border border-white hover:border-primary text-xs bg-white transition-shadow"
-              >
-                {/* POSTE */}
-                <td className="rounded-l-xl border-y border-l border-transparent px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <span className="font-medium text-gray-500 whitespace-nowrap">
-                      {a.job}
-                    </span>
-                  </div>
-                </td>
+            {applications.map((app) => {
+              const candidate = app.candidate;
+  
+              const statusKey = getStatus(app.status);
 
-                {/* ENTREPRISE */}
-                <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
-                  <div className="flex items-center gap-3">
-                    <Image
-                      width={30}
-                      height={30}
-                      className="size-8 rounded-full object-cover"
-                      src={a.logo}
-                      alt={`${a.company} logo`}
-                    />
-                    <span className="font-medium text-gray-500 whitespace-nowrap">
-                      {a.company}
-                    </span>
-                  </div>
-                </td>
-
-                {/* STATUT */}
-                <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
-                  <span
-                    className={`rounded-full px-4 py-1 text-xs font-medium ${statusColors[a.status]}`}
-                  >
-                    {a.status}
-                  </span>
-                </td>
-
-                {/* COMPLETION PROFIL */}
-                <td className="border-y border-transparent px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-30 bg-gray-200 rounded-full h-1">
-                      <div
-                        className={`h-1 rounded-full ${getProgressColor(a.profileCompletion)}`}
-                        style={{ width: `${a.profileCompletion}%` }}
-                      ></div>
+              return (
+                <tr
+                  key={app.id}
+                  className="rounded-xl text-xs bg-white border border-transparent hover:border-gray-200"
+                >
+                  {/* CANDIDAT */}
+                  <td className="rounded-l-xl border-y border-l border-transparent px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      {candidate.profile_photo ? (
+                        <Image
+                          width={40}
+                          height={40}
+                          referrerPolicy="no-referrer"
+                          className="size-10 rounded-full object-cover border-2 border-white shadow-sm"
+                          src={candidate.profile_photo}
+                          alt={`${candidate.name} photo`}
+                        />
+                      ) : (
+                        <div className={`size-10 rounded-full bg-gradient-to-br ${genderColors[candidate.gender] || "from-gray-400 to-gray-500"} flex items-center justify-center text-white font-bold text-sm shadow-sm`}>
+                          {candidate.first_name?.charAt(0).toUpperCase()}
+                          {candidate.last_name?.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div>
+                        <div className="font-medium text-gray-900 whitespace-nowrap">
+                          {candidate.name}
+                        </div>
+                        <div className="text-[10px] text-gray-500 flex items-center gap-1">
+                          <BiUser className="text-gray-400" />
+                          {candidate.gender}
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-[10px] font-medium text-gray-600">
-                      {a.profileCompletion}%
-                    </span>
-                  </div>
-                </td>
+                  </td>
 
-                {/* COMPLETION CV */}
-                <td className="border-y border-transparent px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-30 bg-gray-200 rounded-full h-1">
-                      <div
-                        className={`h-1 rounded-full ${getProgressColor(a.cvCompletion)}`}
-                        style={{ width: `${a.cvCompletion}%` }}
-                      ></div>
+                  {/* CONTACT */}
+                  <td className="border-y border-transparent px-4 py-3">
+                    <div className="flex flex-col gap-1">
+                      <a
+                        href={`mailto:${candidate.email}`}
+                        className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition"
+                        title={candidate.email}
+                      >
+                        <BiEnvelope className="text-gray-400 flex-shrink-0" />
+                        <span className="truncate max-w-[120px]">{candidate.email}</span>
+                      </a>
+                      <a
+                        href={`tel:${candidate.phone}`}
+                        className="flex items-center gap-1 text-gray-600 hover:text-green-600 transition"
+                      >
+                        <BiPhone className="text-gray-400 flex-shrink-0" />
+                        <span>{candidate.phone}</span>
+                      </a>
                     </div>
-                    <span className="text-[10px] font-medium text-gray-600">
-                      {a.cvCompletion}%
+                  </td>
+
+                  {/* LOCALISATION */}
+                  <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-1">
+                        <BiMap />
+                        <span className="truncate max-w-[150px]">{candidate.address}</span>
+                      </div>
+                      <div className="flex items-center w-fit bg-secondary/10 rounded-3xl  px-2 py-1 gap-1 text-[10px] text-primary">
+                        <BiBuilding className="text-gray-400" />
+                        {candidate.department?.title || "Non spécifié"}
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* FORMATION */}
+                  <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center  rounded-3xl gap-1 ">
+                        <BiBook className="text-gray-400" />
+                        <span>{candidate.education || "Non spécifié"}</span>
+                      </div>
+                      <div className="text-[10px] w-fit bg-secondary/10 rounded-3xl  px-2 py-1 gap-1 text-primary">
+                        {candidate.sector?.title || "Secteur non défini"}
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* DOCUMENTS */}
+                  <td className="border-y border-transparent px-4 py-3 whitespace-nowrap text-center">
+                    <div className="flex items-center justify-center gap-1">
+                      <BiFile className={candidate.documents_count > 0 ? "text-green-500" : "text-gray-300"} />
+                      <span className={`font-medium ${candidate.documents_count > 0 ? "text-green-600" : "text-gray-400"}`}>
+                        {candidate.documents_count}
+                      </span>
+                    </div>
+                    <div className="text-[10px] text-gray-400">
+                      {candidate.documents_count === 1 ? "document" : "documents"}
+                    </div>
+                  </td>
+
+                  {/* STATUT CANDIDATURE */}
+                  <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${statusColors[statusKey]}`}
+                    >
+                      {statusLabels[statusKey]}
                     </span>
-                  </div>
-                </td>
+                  </td>
 
-                {/* STATUT VERIFICATION */}
-                <td className="rounded-r-xl border-y border-r border-transparent px-4 py-3 whitespace-nowrap text-center">
-                  {a.isVerified ? (
-                    <BiSolidCheckCircle
-                      className="w-5 h-5 text-primary mx-auto"
-                      title="Vérifié"
-                    />
-                  ) : (
-                    <BiMinus
-                      className="size-6 text-gray-400 mx-auto"
-                      title="Non vérifié"
-                    />
-                  )}
-                </td>
+                  {/* DATE DE POSTULATION */}
+                  <td className="border-y border-transparent px-4 py-3 whitespace-nowrap text-gray-600">
+                    <div className="flex items-center gap-1">
+                      <BiCalendar className="text-gray-400" />
+                      {formatDate(app.applied_at)}
+                    </div>
+                  </td>
 
-                {/* DATE */}
-                <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
-                  {a.applied}
-                </td>
-              </tr>
-            ))}
+                  {/* ACTIONS */}
+                  <td className="rounded-r-xl border-y border-r border-transparent px-4 py-3 whitespace-nowrap">
+                    <div className="flex items-center gap-1">
+                      <Link
+                        href={`/recruiter/candidates/${candidate.id}`}
+                        className="p-2 hover:bg-blue-50 rounded-lg text-gray-500 hover:text-blue-600 transition"
+                        title="Voir le profil complet"
+                      >
+                        <BiUser className="text-lg" />
+                      </Link>
+                      <button
+                        className="p-2 hover:bg-green-50 rounded-lg text-gray-500 hover:text-green-600 transition"
+                        title="Accepter"
+                      >
+                        <BiCheckCircle className="text-lg" />
+                      </button>
+                      <button
+                        className="p-2 hover:bg-red-50 rounded-lg text-gray-500 hover:text-red-600 transition"
+                        title="Refuser"
+                      >
+                        <BiXCircle className="text-lg" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+
+        {applications.length === 0 && (
+          <div className="text-center py-12 text-gray-500">
+            <BiUser className="mx-auto text-4xl mb-3 text-gray-300" />
+            <p className="text-sm">Aucune candidature reçue</p>
+          </div>
+        )}
       </div>
     </div>
   );

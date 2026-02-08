@@ -1,10 +1,20 @@
+"use client"
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
+import ApplicationTableSkeleton from "@/app/components/candidate/tables/ApplicationTableSkeleton";
 import Pagination from "@/app/components/recruiter/paginations/Pagination";
 import Jobs from "@/app/components/recruiter/tables/Jobs";
+import { useRecruiterJobs } from "@/app/lib/api/hooks/queries/useRecruiters";
 import Link from "next/link";
 import { BiPlus } from "react-icons/bi";
 
 export default function Index() {
+
+  const {data : jobs, isLoading , error} = useRecruiterJobs();
+
+  if(isLoading){
+    return <ApplicationTableSkeleton/>
+  }
+
   return (
     <div>
       <BreadCrumb
@@ -23,7 +33,7 @@ export default function Index() {
           <p className="mb-0.5">Publier</p>
         </Link>
       </div>
-      <Jobs/>
+      <Jobs jobs={jobs.data}/>
       <Pagination/>
     </div>
   );

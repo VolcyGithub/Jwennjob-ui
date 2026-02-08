@@ -19,29 +19,7 @@ export default function Index() {
           ]}
         />
 
-        <div className="bg-primary mt-4 mb-8 text-white w-full rounded-[2rem] py-5 px-5">
-          <div className="flex items-center justify-between">
-            <div className="space-y-2">
-              <h1 className="text-md md:text-4xl font-black">
-                <span className="text-white">Rechercher le candidat idéal</span>
-              </h1>
-              <p className="text-white/60 max-md:line-clamp-2 mb-3 text-xs md:text-sm leading-relaxed">
-                Trouve l'opportunité qui te correspond parmi des centaines
-                d'offres d'emploi.
-              </p>
-            </div>
-            <div>
-              <Image
-                width="230"
-                height="230"
-                className="max-w-full h-auto"
-                src="/svgs/Forms-amico.png"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-
+        
         <div className="my-6 gap-4 grid grid-cols-1 md:grid-cols-4">
           <div className="col-span-1">
             <div className="sticky top-25">

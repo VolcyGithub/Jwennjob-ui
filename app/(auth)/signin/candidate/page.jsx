@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useCandidateLogin } from "@/app/lib/api/hooks/mutations/useCandidateLogin";
 import { BiLoaderAlt } from "react-icons/bi";
+import { useLoginSocialRedirect } from "@/app/lib/api/hooks/queries/useLoginSocial";
 
 // Composant Input réutilisable
 const InputField = ({ icon, ...props }) => (
@@ -68,6 +69,9 @@ export default function Page() {
 
   const login = useCandidateLogin();
 
+  // Google login
+  const { data : google, isLoading, error } = useLoginSocialRedirect("google");
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -108,18 +112,43 @@ export default function Page() {
             Connectez-vous pour continuer
           </p>
 
-          {/* Bouton Google */}
-          <button
-            type="button"
-            className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full hover:bg-gray-500/20 transition-colors"
-          >
-            <img
-              src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
-              alt="Google"
-            />
-            <span className="text-sm ml-3">Se connecter avec Google</span>
-          </button>
-
+          {isLoading ? (
+            // Spinner centré pleine largeur
+            <div className="w-full mt-8 flex items-center justify-center h-12">
+              <svg
+                className="animate-spin h-6 w-6 text-gray-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+            </div>
+          ) : (
+            // Bouton Google normal
+            <Link
+              href={google.url}
+              className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full hover:bg-gray-500/20 transition-colors"
+            >
+              <img
+                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
+                alt="Google"
+              />
+              <span className="text-sm ml-3">Se connecter avec Google</span>
+            </Link>
+          )}
           <Separator />
 
           {/* Champs Email & Password */}
