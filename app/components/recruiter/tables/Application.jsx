@@ -30,10 +30,7 @@ const statusLabels = {
   null: "Nouveau",
 };
 
-
-
 export default function Applications({ applications = [] }) {
-
   // Fonction pour formater la date
   const formatDate = (dateString) => {
     if (!dateString) return "Non spécifié";
@@ -50,7 +47,7 @@ export default function Applications({ applications = [] }) {
     if (!status) return "null";
     return status.toLowerCase();
   };
- 
+
   return (
     <div>
       <div className="overflow-x-auto">
@@ -72,7 +69,7 @@ export default function Applications({ applications = [] }) {
           <tbody>
             {applications.map((app) => {
               const candidate = app.candidate;
-  
+
               const statusKey = getStatus(app.status);
 
               return (
@@ -83,22 +80,14 @@ export default function Applications({ applications = [] }) {
                   {/* CANDIDAT */}
                   <td className="rounded-l-xl border-y border-l border-transparent px-4 py-3">
                     <div className="flex items-center gap-3">
-                      {candidate.profile_photo ? (
-                        <Image
-                          width={40}
-                          height={40}
-                          referrerPolicy="no-referrer"
-                          className="size-10 rounded-full object-cover border-2 border-white shadow-sm"
-                          src={candidate.profile_photo}
-                          alt={`${candidate.name} photo`}
-                        />
-                      ) : (
-                        <div className={`size-10 rounded-full bg-gradient-to-br ${genderColors[candidate.gender] || "from-gray-400 to-gray-500"} flex items-center justify-center text-white font-bold text-sm shadow-sm`}>
-                          {candidate.first_name?.charAt(0).toUpperCase()}
-                          {candidate.last_name?.charAt(0).toUpperCase()}
-                        </div>
-                      )}
-                      <div>
+                      <div
+                        className={`size-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-sm shadow-sm`}
+                      >
+                        {candidate.first_name?.charAt(0).toUpperCase()}
+                        {candidate.last_name?.charAt(0).toUpperCase()}
+                      </div>
+
+                      <div className="space-y-1">
                         <div className="font-medium text-gray-900 whitespace-nowrap">
                           {candidate.name}
                         </div>
@@ -119,14 +108,9 @@ export default function Applications({ applications = [] }) {
                         title={candidate.email}
                       >
                         <BiEnvelope className="text-gray-400 flex-shrink-0" />
-                        <span className="truncate max-w-[120px]">{candidate.email}</span>
-                      </a>
-                      <a
-                        href={`tel:${candidate.phone}`}
-                        className="flex items-center gap-1 text-gray-600 hover:text-green-600 transition"
-                      >
-                        <BiPhone className="text-gray-400 flex-shrink-0" />
-                        <span>{candidate.phone}</span>
+                        <span className="truncate max-w-[120px]">
+                          {candidate.email}
+                        </span>
                       </a>
                     </div>
                   </td>
@@ -136,7 +120,9 @@ export default function Applications({ applications = [] }) {
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-1">
                         <BiMap />
-                        <span className="truncate max-w-[150px]">{candidate.address}</span>
+                        <span className="truncate max-w-[150px]">
+                          {candidate.address}
+                        </span>
                       </div>
                       <div className="flex items-center w-fit bg-secondary/10 rounded-3xl  px-2 py-1 gap-1 text-[10px] text-primary">
                         <BiBuilding className="text-gray-400" />
@@ -161,13 +147,23 @@ export default function Applications({ applications = [] }) {
                   {/* DOCUMENTS */}
                   <td className="border-y border-transparent px-4 py-3 whitespace-nowrap text-center">
                     <div className="flex items-center justify-center gap-1">
-                      <BiFile className={candidate.documents_count > 0 ? "text-green-500" : "text-gray-300"} />
-                      <span className={`font-medium ${candidate.documents_count > 0 ? "text-green-600" : "text-gray-400"}`}>
+                      <BiFile
+                        className={
+                          candidate.documents_count > 0
+                            ? "text-green-500"
+                            : "text-gray-300"
+                        }
+                      />
+                      <span
+                        className={`font-medium ${candidate.documents_count > 0 ? "text-green-600" : "text-gray-400"}`}
+                      >
                         {candidate.documents_count}
                       </span>
                     </div>
                     <div className="text-[10px] text-gray-400">
-                      {candidate.documents_count === 1 ? "document" : "documents"}
+                      {candidate.documents_count === 1
+                        ? "document"
+                        : "documents"}
                     </div>
                   </td>
 

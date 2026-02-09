@@ -8,11 +8,8 @@
   --secondary: #35bdf2;
   --third: #f2f2f2;
 
-  /* Polices liées aux variables */
-  --font-sans: "Satoshi", sans-serif;
-  --font-display: "Cabinet Grotesk", sans-serif;
-
-  --ss-primary-color: var(--primary);
+  /* Colors */
+  --ss-primary-color: #2a2773;
   --ss-bg-color: #ffffff;
   --ss-font-color: #4d4d4d;
   --ss-border-color: #dcdee2;
@@ -32,8 +29,11 @@
   /* Other Properties */
   --ss-border-radius: 10px;
   --ss-animation-timing: 0.2s;
-}
 
+  /* Polices liées aux variables */
+  --font-sans: "Satoshi", sans-serif;
+  --font-display: "Cabinet Grotesk", sans-serif;
+}
 
 /* 3. CONFIGURATION DU THÈME TAILWIND */
 @theme {
@@ -55,9 +55,10 @@ html {
     font-family: var(--font-sans);
   }
 
-  h1,h2,h3 {
+  h1,
+  h2,
+  h3 {
     font-family: var(--font-display);
     @apply font-black tracking-tight;
   }
 }
-

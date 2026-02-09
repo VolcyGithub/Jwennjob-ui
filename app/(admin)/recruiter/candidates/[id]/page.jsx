@@ -1,8 +1,6 @@
-// app/recruiter/candidates/[id]/page.jsx
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { BiBookOpen, BiCog, BiWorld, BiUser } from "react-icons/bi";
@@ -14,7 +12,6 @@ import CandidateProfileSkeleton from "@/app/components/recruiter/cards/Candidate
 import ErrorState from "@/app/components/candidate/cards/CardError";
 
 const tabs = ["personal", "study", "skills", "languages"];
-
 
 export default function Show() {
   const params = useParams();
@@ -78,16 +75,11 @@ export default function Show() {
         <div className="col-span-1">
           <div className="bg-white rounded-4xl p-6 md:p-10">
             <div className="flex flex-col items-center gap-3 w-full">
-              <Image
-                width={120}
-                height={120}
-                className="size-25 md:size-30 rounded-full object-cover"
-                src={
-                  candidate.profile_photo ||
-                  "https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
-                }
-                alt={candidate.name}
-              />
+              <div
+                className={`size-15 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg shadow-sm`}
+              >
+                {candidate.name?.charAt(0).toUpperCase()}
+              </div>
               <div className="flex flex-col gap-2 text-center">
                 <span className="text-primary text-xl font-semibold">
                   {candidate.name}
@@ -225,9 +217,10 @@ export default function Show() {
                       <h3 className="font-semibold text-primary mb-3">
                         À propos
                       </h3>
-                      <p  dangerouslySetInnerHTML={{ __html: candidate.bio }} className="leading-relaxed whitespace-pre-line">
-                       
-                      </p>
+                      <p
+                        dangerouslySetInnerHTML={{ __html: candidate.bio }}
+                        className="leading-relaxed whitespace-pre-line"
+                      ></p>
                     </div>
                   ) : (
                     <div className="text-center py-10">

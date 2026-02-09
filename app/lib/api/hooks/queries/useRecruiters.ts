@@ -60,7 +60,7 @@ export const useRecruiterApplicationsByJob = (
 
 
   // Get candidates
-  export const useRecruiterCandidtes = (
+  export const useRecruiterCandidates = (
   params?: Record<string, any>,
 ) =>
   useQuery({

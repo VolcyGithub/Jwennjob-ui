@@ -41,4 +41,5 @@ export const KEYS = {
     candidates : "recruiters_candidates"
   },
   jobs: "jobs",
+  filters : "filters"
 };

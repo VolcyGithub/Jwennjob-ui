@@ -1,8 +1,5 @@
 import Link from "next/link";
-import {
-  BiSolidCheckCircle,
-  BiUser,
-} from "react-icons/bi";
+import { BiSolidCheckCircle, BiUser } from "react-icons/bi";
 import ProgressRing from "../stats/ProgressRing";
 import Image from "next/image";
 
@@ -21,33 +18,28 @@ export default function CandidateCard({ data }) {
     skills = ["React", "Node", "TypeScript", "GraphQL", "Docker"],
   } = data || {};
 
-
   return (
     <div className="w-full border border-white transition cursor-pointer hover:border-primary bg-white rounded-4xl p-6 gap-4">
-      
       <div className="flex relative w-full gap-6 items-center">
         {verified && (
-          <div className="absolute left-12 top-13">
+          <div className="absolute left-10 top-12">
             <BiSolidCheckCircle className="text-xl bg-white text-primary shadow-lg rounded-full" />
           </div>
         )}
-        <Image
-          width={100}
-          height={100}
-          referrerPolicy="no-referrer"
-          src={avatar}
-          alt={name}
-          className="w-18 h-18 rounded-full object-cover"
-        />
+        <div
+          className={`size-15 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg shadow-sm`}
+        >
+          {name?.charAt(0).toUpperCase()}
+        </div>
 
         <div className="space-y">
           <div className="flex gap-3 items-center">
-            <h3 className="text-md font-semibold text-gray-900">{name}</h3>
+            <h3 className="text-md line-clamp-1 font-semibold text-gray-900">{name}</h3>
           </div>
 
           <p className="text-sm text-gray-500">{title}</p>
-          <div className="mt-2 flex gap-2 flex-wrap text-xs text-gray-400 ">
-            <p>{location}</p>
+          <div className="mt-2 flex gap-2  flex-wrap text-xs text-gray-400 ">
+            <p className="line-clamp-1">{location}</p>
           </div>
         </div>
       </div>
