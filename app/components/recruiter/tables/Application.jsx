@@ -13,7 +13,11 @@ import {
   BiIdCard,
   BiBook,
   BiDollar,
+  BiUserPlus,
+  BiInfoCircle,
 } from "react-icons/bi";
+import EmptyState from "../cards/EmptyState";
+
 
 // Mapping des couleurs pour le statut de candidature
 const statusColors = {
@@ -215,10 +219,7 @@ export default function Applications({ applications = [] }) {
         </table>
 
         {applications.length === 0 && (
-          <div className="text-center py-12 text-gray-500">
-            <BiUser className="mx-auto text-4xl mb-3 text-gray-300" />
-            <p className="text-sm">Aucune candidature reçue</p>
-          </div>
+           <EmptyState title={`Applications`} text={`Aucune candidature récentes`} icon={<BiInfoCircle/>}/>
         )}
       </div>
     </div>

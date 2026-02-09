@@ -48,7 +48,7 @@ export default function HeroJobSearch() {
         </div>
       </div>
       <div className="mx-auto max-w-7xl px-6 2xl:px-0 2xl:max-w-screen-2xl py-12">
-        <div className="grid  gap-16 lg:grid-cols-2 lg:items-center mt-16">
+        <div className="grid gap-16 lg:grid-cols-2 md:items-center mt-16">
           <div className="space-y-6 max-md:order-last">
             <h3 className="text-3xl font-bold text-gray-900">
               Propulsez votre carrière avec un CV professionnel
@@ -102,7 +102,7 @@ export default function HeroJobSearch() {
             </div>
           </div>
 
-          <div className="h-[650px] lg:min-h-screen p-8 relative">
+          <div className="h-[650px] p-8 relative">
             <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Left Column - CV Status Card */}

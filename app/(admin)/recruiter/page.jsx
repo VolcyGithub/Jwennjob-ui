@@ -140,7 +140,7 @@ export default function Index() {
               Candidatures récentes
             </span>
             <Link
-              href="/candidate/applications"
+              href="/recruiter/jobs"
               className="text-sm text-gray-500"
             >
               Voir les applications

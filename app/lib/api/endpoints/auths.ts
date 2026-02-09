@@ -9,5 +9,5 @@ export const authApi = {
 
 export const socialAuthApi = {
    loginSocialRedirect : (provider : string ) => publicClient.get(`/auth/${provider}/redirect`),
-   loginSocialCallback : (provider : string ) => publicClient.get(`/auth/${provider}/callback`)
+   loginSocialCallback : (provider : string , code : string ) => publicClient.get(`/auth/${provider}/callback?code=${code}`)
 }

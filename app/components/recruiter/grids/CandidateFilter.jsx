@@ -18,7 +18,7 @@ function FilterSection({ icon: Icon, title, children }) {
 }
 
 export default function CandidateFilterBar({ configFilters, onApply }) {
-  
+
   const { data: filters, isLoading, error } = useFilters();
   
   const [values, setValues] = useState({
@@ -66,7 +66,7 @@ export default function CandidateFilterBar({ configFilters, onApply }) {
                 multiple={filter.multiple}
                 onChange={(val) => handleChange(filter.key, val)}
                 settings={{
-                  showSearch: filter.multiple || ["departments", "communes", "universities"].includes(filter.dataKey),
+                  showSearch: filter.multiple || ["departments", "communes", "universities" , "sectors"].includes(filter.dataKey),
                   multiple: filter.multiple,
                 }}
               >

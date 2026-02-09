@@ -27,14 +27,14 @@ export default function CandidateCard({ data }) {
           </div>
         )}
         <div
-          className={`size-15 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg shadow-sm`}
+          className={`size-15 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg shadow-sm`}
         >
           {name?.charAt(0).toUpperCase()}
         </div>
 
         <div className="space-y">
           <div className="flex gap-3 items-center">
-            <h3 className="text-md line-clamp-1 font-semibold text-gray-900">{name}</h3>
+            <h3 className="text-md line-clamp-1 font-semibold text-primary">{name}</h3>
           </div>
 
           <p className="text-sm text-gray-500">{title}</p>

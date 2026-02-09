@@ -1,5 +1,4 @@
 import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
-import Image from "next/image";
 import { BiBell, BiMenu } from "react-icons/bi";
 
 export default function NavTop({ isOpen, setIsOpen }) {
@@ -31,13 +30,11 @@ export default function NavTop({ isOpen, setIsOpen }) {
             {isLoading ? (
               <div></div>
             ) : (
-              <Image
-                className="size-8 rounded-full object-cover"
-                src={`https://jwennjob.com${candidate.photo}`}
-                alt="Rounded avatar"
-                width={80}
-                height={80}
-              />
+              <div
+                className={`size-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm`}
+              >
+                {candidate.name?.charAt(0).toUpperCase()}
+              </div>
             )}
           </div>
         </div>

@@ -8,3 +8,10 @@ export const useLoginSocialRedirect = (provider: string) =>
     queryFn: () => socialAuthApi.loginSocialRedirect(provider),
     staleTime: CACHE_TIME,
   });
+
+  export const useLoginSocialCallback = (provider: string , code : string) =>
+  useQuery({
+    queryKey: [KEYS.socials.callback],
+    queryFn: () => socialAuthApi.loginSocialCallback(provider , code),
+    staleTime: CACHE_TIME,
+  });

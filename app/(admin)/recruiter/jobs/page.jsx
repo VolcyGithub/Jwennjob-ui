@@ -1,7 +1,6 @@
 "use client"
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
 import ApplicationTableSkeleton from "@/app/components/candidate/tables/ApplicationTableSkeleton";
-import Pagination from "@/app/components/recruiter/paginations/Pagination";
 import Jobs from "@/app/components/recruiter/tables/Jobs";
 import { useRecruiterJobs } from "@/app/lib/api/hooks/queries/useRecruiters";
 import Link from "next/link";
@@ -34,7 +33,6 @@ export default function Index() {
         </Link>
       </div>
       <Jobs jobs={jobs.data}/>
-      <Pagination/>
     </div>
   );
 }

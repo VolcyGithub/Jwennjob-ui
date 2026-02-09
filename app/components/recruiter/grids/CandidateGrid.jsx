@@ -6,20 +6,27 @@ import { useRecruiterCandidates } from "@/app/lib/api/hooks/queries/useRecruiter
 import ErrorState from "../../candidate/cards/CardError";
 import Pagination from "../../public/Pagination";
 import { useState } from "react";
+import EmptyState from "../cards/EmptyState";
+import { BiInfoCircle } from "react-icons/bi";
 
 export default function CandidateGrid({ filters }) {
   const [page, setPage] = useState(1);
 
-  const { data : candidates, isLoading, error, refetch } = useRecruiterCandidates({
+  const {
+    data: candidates,
+    isLoading,
+    error,
+    refetch,
+  } = useRecruiterCandidates({
     page,
     per_page: 6,
-    ...filters
+    ...filters,
   });
 
   if (isLoading) {
     return (
       <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-        {[1,2,3,4,5,6].map(i => (
+        {[1, 2, 3, 4, 5, 6].map((i) => (
           <CandidateCardSkeleton key={i} />
         ))}
       </div>
@@ -36,14 +43,17 @@ export default function CandidateGrid({ filters }) {
     );
   }
 
-
-  if (candidates.length === 0) {
+  if (candidates.data.length === 0) {
     return (
-      <div className="text-center py-20 bg-white rounded-3xl border border-gray-100">
-        <p className="text-gray-500 text-lg">Aucun candidat trouvé</p>
-        <p className="text-gray-400 text-sm mt-2">
-          Essayez d'autres critères de recherche
-        </p>
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+        <div className="col-span-3">
+          <EmptyState
+            title={`0 Resultats`}
+            text={`Aucun résultat pour cette recherche`}
+            icon={<BiInfoCircle />}
+            height="700px"
+          />
+        </div>
       </div>
     );
   }
@@ -69,7 +79,7 @@ export default function CandidateGrid({ filters }) {
           />
         ))}
       </motion.div>
-      
+
       {candidates?.meta?.last_page > 1 && (
         <Pagination
           currentPage={page}

@@ -5,9 +5,6 @@ import FileCard from "../../candidate/cards/FileCard";
 
 export default function CandidateDocsPage({ docs = [] }) {
   const [selected, setSelected] = useState(docs[0]);
-
-  console.log(docs);
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
       <div className="h-fit  md:h-[500px] overflow-y-auto">

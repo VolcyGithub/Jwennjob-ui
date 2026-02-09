@@ -39,7 +39,7 @@ export default function EnterpriseDetailPage() {
         <div className="grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8">
             <div className="rounded-4xl p-8 shadow-sm bg-primary mb-16">
-              <div className="flex items-start md:items-center gap-6">
+              <div className="flex items-center gap-6">
                 <div className="w-24 h-24 flex justify-center items-center rounded-3xl border-4 border-white shadow-lg overflow-hidden bg-white shrink-0">
                   <Image
                     src={company.data.logo}
@@ -51,7 +51,7 @@ export default function EnterpriseDetailPage() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <h1 className="text-3xl font-black text-third">
+                    <h1 className="text-xl md:text-3xl font-black text-third">
                       {company.data.nom}
                     </h1>
                     <MdVerified className="text-secondary" size={24} />

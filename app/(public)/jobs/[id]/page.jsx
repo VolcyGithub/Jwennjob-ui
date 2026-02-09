@@ -109,14 +109,14 @@ export default function JobDetailPage() {
 
                 <div className="flex flex-col gap-3 mt-2">
                   <Link
-                    href="/signin"
+                    href="/signin/candidate"
                     className="whitespace-nowrap block bg-secondary px-4 py-3 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:opacity-100 active:outline-offset-0 rounded-full"
                   >
                     Se connecter
                   </Link>
 
                   <Link
-                    href="/signup"
+                    href="/signup/candidate"
                     className="whitespace-nowrap block bg-primary px-4 py-3 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:opacity-100 active:outline-offset-0 rounded-full"
                   >
                     Créer un compte
