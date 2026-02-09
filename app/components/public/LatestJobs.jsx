@@ -15,7 +15,7 @@ export default function LatestJobs() {
 
   return (
     <section
-      className="px-4 md:px-16 lg:px-24 xl:px-32 py-16 third"
+      className="px-4  py-16 third"
       id="jobs-section"
     >
       <div className="max-w-7xl 2xl:max-w-screen-2xl mx-auto">

@@ -59,8 +59,8 @@ export default function TripletCards() {
 
             <div className="grid grid-cols-2 gap-3">
               <button className="flex items-center justify-center gap-1 p-1 border border-gray-300 rounded-3xl  transition">
-               
-                  <BiBuildings className="text-xl text-secondary" />
+
+                <BiBuildings className="text-xl text-secondary" />
                 <span className="text-xs text-primary">Par adresse</span>
               </button>
 

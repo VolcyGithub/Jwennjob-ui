@@ -3,6 +3,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import LogoMarquee from "@/app/components/public/LogoMarquee";
 import Image from "next/image";
 import HeroSection from "@/app/components/public/HeroSection";
 import ChatSection from "@/app/components/public/ChatSection";
@@ -11,14 +13,28 @@ import LatestJobs from "@/app/components/public/LatestJobs";
 import ExploreCompanies from "@/app/components/public/ExploreCompanies";
 import Faqs from "@/app/components/public/Faqs";
 import ReviewSection from "@/app/components/public/ReviewSection";
+import BlogSection from "@/app/components/public/BlogSection";
 
 export default function Home() {
   return (
     <div className="w-full overflow-hidden bg-third">
       <HeroSection />
       <ExploreCompanies />
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center my-4"
+      >
+       
+        <LogoMarquee />
+         <p className="text-gray-500 max-w-sm text-sm  md:max-w-2xl mx-auto">
+          Vous <Link href="/contact/recruiter" className="mt-8 font-bold text-primary underline">recrutez</Link>  ?  Découvrez nos offres entreprise.
+        </p>
+        
+      </motion.div>
       <HeroJobSearch />
       <ChatSection />
+      <BlogSection/>
       <LatestJobs />
       <Faqs />
       <ReviewSection />
@@ -48,14 +64,14 @@ export default function Home() {
               >
                 Devenir recruteur
               </Link>
-            
+
             </div>
 
             <div className="mt-8 flex flex-col gap-2">
               <p className="text-sm text-gray-500">
                 Vous souhaitez en savoir plus ? <Link href="/contact/become-recruiter" className="text-primary font-bold hover:underline">Demander une démo</Link>
               </p>
-              
+
             </div>
           </div>
         </div>
