@@ -53,7 +53,7 @@ export default function Index() {
   return (
     <div className="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
       <div className="flex flex-col items-center gap-3">
-        <ImSpinner8 className="animate-spin text-2xl text-primary" />
+        <ImSpinner8 className="animate-spin text-4xl text-primary" />
         <p className="text-gray-600">Redirection...</p>
       </div>
     </div>

@@ -1,14 +1,48 @@
 "use client";
+
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
 import JobSavedTableSkeleton from "@/app/components/candidate/tables/JobSavedTableSkeleton";
+import Alert from "@/app/components/recruiter/alerts/Alert";
+import { useCandidateUnsave } from "@/app/lib/api/hooks/mutations/useCandidateAction";
 import { useCandidateJobSaved } from "@/app/lib/api/hooks/queries/useCandidates";
 import formatDate from "@/app/lib/utils/functions/DateFormat";
 import Image from "next/image";
 import Link from "next/link";
 import { FaExternalLinkAlt, FaTrash } from "react-icons/fa";
+import { useState } from "react";
 
 export default function Index() {
-  const { data: savedJobs, isLoading, error } = useCandidateJobSaved();
+  const { data: savedJobs, isLoading, error, refetch } = useCandidateJobSaved();
+
+  const {
+    mutate: unsaveMutate,
+    isPending: isUnsavePending,
+    isSuccess: isUnsaveSuccess,
+    isError: isUnsaveError,
+    error: unSaveError,
+  } = useCandidateUnsave();
+
+  // ✅ État pour tracker quel job est en cours de suppression
+  const [deletingJobId, setDeletingJobId] = useState(null);
+
+  // ✅ Fonction pour retirer une sauvegarde
+  const handleUnsave = (jobId) => {
+    setDeletingJobId(jobId);
+    
+    unsaveMutate(jobId, {
+      onSuccess: () => {
+        refetch();
+        setDeletingJobId(null); // Reset après succès
+      },
+      onError: () => {
+        setDeletingJobId(null); // Reset même en cas d'erreur
+      },
+    });
+  };
+
+  const isDeleting = (jobId) => deletingJobId === jobId;
+  const errorMessage = unSaveError?.response?.data?.message || 
+    "Une erreur est survenue lors de la suppression.";
 
   if (isLoading) {
     return <JobSavedTableSkeleton />;
@@ -30,8 +64,6 @@ export default function Index() {
     );
   }
 
-  console.log(savedJobs);
-
   return (
     <div>
       <BreadCrumb
@@ -43,6 +75,34 @@ export default function Index() {
       <div className="flex my-4 justify-between w-full items-center">
         <span className="text-primary text-2xl">Emplois sauvegardés</span>
       </div>
+
+      {/* ✅ Alertes */}
+      {isUnsaveSuccess && !deletingJobId && (
+        <div className="mb-4">
+          <Alert
+            type="success"
+            autoClose={true}
+            autoCloseDelay={3000}
+            title="Succès"
+          >
+            L'offre a été retirée de vos favoris.
+          </Alert>
+        </div>
+      )}
+
+      {isUnsaveError && !deletingJobId && (
+        <div className="mb-4">
+          <Alert
+            type="danger"
+            autoClose={true}
+            autoCloseDelay={4000}
+            title="Erreur"
+          >
+            {errorMessage}
+          </Alert>
+        </div>
+      )}
+
       <div className="overflow-x-auto">
         <table className="w-[800px] md:w-full border-separate border-spacing-y-[15px] text-left text-sm text-gray-700">
           {/* HEAD */}
@@ -87,7 +147,7 @@ export default function Index() {
                         className="size-10 rounded-full object-cover bg-gray-100"
                         src={
                           job?.recruiter?.logo ||
-                          "https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp"
+                          "https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp "
                         }
                         alt={job?.recruiter?.nom || "Entreprise"}
                       />
@@ -100,7 +160,7 @@ export default function Index() {
                   {/* TYPE DE CONTRAT */}
                   <td className="border-y border-gray-100 px-4 py-4 whitespace-nowrap">
                     <span className="rounded-full px-3 py-1.5 text-xs font-semibold bg-secondary/10 text-primary">
-                      {job?.contract  || "Non précisé"}
+                      {job?.contract || "Non précisé"}
                     </span>
                   </td>
 
@@ -120,11 +180,36 @@ export default function Index() {
                         <FaExternalLinkAlt size={14} />
                       </Link>
                       <button
-                        onClick={() => remove(job.id)}
-                        className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                        onClick={() => handleUnsave(job.id)}
+                        disabled={isDeleting(job.id)}
+                        className="px-4 py-2 bg-red-500/10 text-red-500 rounded-full flex items-center gap-2 transition-colors disabled:opacity-50"
                         title="Retirer des favoris"
                       >
-                        <FaTrash size={14} />
+                        {isDeleting(job.id) ? ( 
+                          <svg
+                            className="animate-spin h-3 w-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        ) : (
+                          <FaTrash size={10} />
+                        )}
+                        {isDeleting(job.id) ? "Suppression..." : "Retirer"} 
                       </button>
                     </div>
                   </td>

@@ -95,7 +95,7 @@ export default function ApplicationTable() {
                     <span
                       className={`rounded-full px-3 py-1.5 text-xs font-semibold ${statusColors["En attente"]}`}
                     >
-                      {app.status == null ? "En attente" : "Approuvé"}
+                      {app.status == "pending" || app.status == null ? "En attente" : "Approuvé"}
                     </span>
                   </td>
 

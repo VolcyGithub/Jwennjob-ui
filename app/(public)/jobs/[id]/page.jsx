@@ -29,12 +29,37 @@ import {
   MdClose,
 } from "react-icons/md";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  useCandidateApply,
+  useCandidateSave,
+} from "@/app/lib/api/hooks/mutations/useCandidateAction";
+import Alert from "@/app/components/recruiter/alerts/Alert";
 
 export default function JobDetailPage() {
   const { id } = useParams();
   const { data: details, isLoading, error } = useJob(id);
   const { isConnected } = useCandidateConnected();
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  // ✅ Hook pour postuler
+  const {
+    mutate,
+    isPending: isApplyPending,
+    isSuccess: isApplySuccess,
+    isError: isApplyError,
+    error: applyError,
+  } = useCandidateApply();
+
+  // ✅ Hook pour sauvegarder (renommage des variables pour éviter les conflits)
+  const {
+    mutate: saveMutate,
+    isPending: isSavePending,
+    isSuccess: isSaveSuccess,
+    isError: isSaveError,
+    error: saveError,
+  } = useCandidateSave();
 
   if (isLoading) {
     return <JobDetailSkeleton />;
@@ -42,11 +67,31 @@ export default function JobDetailPage() {
 
   const job = details.data;
 
+  // ✅ Gestion de la candidature
   const handleApply = () => {
     if (!isConnected) {
       setShowModal(true);
     } else {
-      // Logique de postulation ici
+      mutate(id, {
+        onSuccess: () => {
+          setSuccessMessage("Votre candidature a été envoyée avec succès !");
+          setShowSuccessModal(true);
+        },
+      });
+    }
+  };
+
+  // ✅ Gestion de la sauvegarde
+  const handleSave = () => {
+    if (!isConnected) {
+      setShowModal(true);
+    } else {
+      saveMutate(id, {
+        onSuccess: () => {
+          setSuccessMessage("Offre sauvegardée avec succès !");
+          setShowSuccessModal(true);
+        },
+      });
     }
   };
 
@@ -54,8 +99,20 @@ export default function JobDetailPage() {
     setShowModal(false);
   };
 
+  const closeSuccessModal = () => {
+    setShowSuccessModal(false);
+  };
+
+  const applyErrorMessage =
+    applyError?.response?.data?.message ||
+    "Une erreur est survenue lors de l'envoi de votre candidature.";
+  const saveErrorMessage =
+    saveError?.response?.data?.message ||
+    "Une erreur est survenue lors de la sauvegarde de l'offre.";
+
   return (
     <main className="bg-[#fdfdfd] min-h-screen pb-100 font-sans text-gray-900 relative">
+      {/* Modal de connexion requise */}
       <AnimatePresence>
         {!isConnected && showModal && (
           <motion.div
@@ -136,6 +193,52 @@ export default function JobDetailPage() {
         )}
       </AnimatePresence>
 
+      {/* Modal de succès générique */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeSuccessModal}
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-4xl max-w-md w-full p-8 text-center"
+            >
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  className="w-8 h-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-primary mb-2">Succès !</h3>
+              <p className="text-gray-600 mb-6">{successMessage}</p>
+              <button
+                onClick={closeSuccessModal}
+                className="bg-secondary text-white px-6 py-3 rounded-full font-bold hover:opacity-75 transition-opacity"
+              >
+                Fermer
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="absolute bg-primary top-0 left-0 w-full h-[400px] 2xl:h-[500px] overflow-hidden"></div>
 
       <div className="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 md:px-8 py-8 relative top-32 md:top-90">
@@ -200,15 +303,98 @@ export default function JobDetailPage() {
                     </div>
                   </div>
 
-                  <div className="flex gap-3 w-full md:w-auto shrink-0">
+                  {/* ✅ Alertes d'erreur pour postuler */}
+                  {isApplyError && (
+                    <Alert
+                      type="danger"
+                      autoClose={true}
+                      autoCloseDelay={4000}
+                      title="Erreur de candidature"
+                    >
+                      {applyErrorMessage}
+                    </Alert>
+                  )}
+
+                  {/* ✅ Alertes d'erreur pour sauvegarder */}
+                  {isSaveError && (
+                    <Alert
+                      type="danger"
+                      autoClose={true}
+                      autoCloseDelay={4000}
+                      title="Erreur de sauvegarde"
+                    >
+                      {saveErrorMessage}
+                    </Alert>
+                  )}
+
+                  
+                  <div className="flex mt-4 gap-3 w-full md:w-auto shrink-0">
+                    {/* Bouton Postuler */}
                     <button
                       onClick={handleApply}
-                      className="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-full shadow-md transition-all active:scale-95"
+                      disabled={isApplyPending}
+                      className="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-full shadow-md transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                     >
-                      Postuler
+                      {isApplyPending ? (
+                        <>
+                          <svg
+                            className="animate-spin h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        </>
+                      ) : (
+                        "Postuler"
+                      )}
                     </button>
-                    <button className="flex items-center justify-center gap-2 border-2 border-gray-200 font-bold py-3 px-8 rounded-full hover:bg-gray-50 transition-all">
-                      <FaBookmark className="text-gray-400" /> Sauvegarder
+
+                    <button
+                      onClick={handleSave}
+                      disabled={isSavePending}
+                      className={`flex items-center justify-center gap-2 border-2 font-bold py-3 px-8 rounded-full transition-all
+                      border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    >
+                      {isSavePending ? (
+                        <svg
+                          className="animate-spin h-5 w-5 text-gray-400"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <>
+                          <FaBookmark className="text-gray-400" /> Sauvegarder
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>

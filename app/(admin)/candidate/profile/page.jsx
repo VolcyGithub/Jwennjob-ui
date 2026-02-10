@@ -2,594 +2,451 @@
 
 import "slim-select/styles";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import "react-loading-skeleton/dist/skeleton.css";
 import SlimSelect from "slim-select/react";
-import {BiBookOpen,BiBriefcase,BiCheckCircle,BiCog,BiFile,BiUser,BiUserCheck,BiWorld,BiX,} from "react-icons/bi";
+import {
+  BiBookOpen,
+  BiBriefcase,
+  BiCalendar,
+  BiCheckCircle,
+  BiCog,
+  BiEnvelope,
+  BiFile,
+  BiGlobe,
+  BiIdCard,
+  BiMap,
+  BiPhone,
+  BiUser,
+  BiUserCheck,
+  BiX,
+  BiBuilding,
+  BiMoney,
+  BiFlag,
+} from "react-icons/bi";
 import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
 import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
-
+import CandidateProfileSkeleton from "@/app/components/recruiter/cards/CandidateProfileSkeleton";
+import { useFilters } from "@/app/lib/api/hooks/queries/useFilters";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 export default function Index() {
-  
-  const {candidate , isLoading} = useCandidateAuth();
+  const { candidate, isLoading } = useCandidateAuth();
+  const { data: filters, isLoading: isLoadingFilters } = useFilters();
 
   const [activeTab, setActiveTab] = useState("personal");
-  const [techSkills, setTechSkills] = useState(["react", "node", "mongodb"]);
-  const [softSkills, setSoftSkills] = useState(["team", "comm"]);
-  const [languages, setLanguages] = useState(["fr", "ht", "en"]);
-  const [studyLevel, setStudyLevel] = useState(["bac", "licence", "diplome"]);
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    address: "",
+    bio: "",
+    birth_date: "",
+    gender: "",
+    nif: "",
+    salary_id: "",
+    education_id: "",
+    study_level_id: "",
+    department_id: "",
+    sector_id: "",
+    university_id: "",
+    commune_id: "",
+  });
 
-  const studyOptions = [
-    { value: "bac", text: "Baccalaureat 1" },
-    { value: "licence", text: "Licence" },
-    { value: "diplome", text: "Diplome" },
-    { value: "bac2", text: "Baccalaureat 2" },
-  ];
+  const [techSkills, setTechSkills] = useState([]);
+  const [languages, setLanguages] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const langOptions = [
-    { value: "fr", text: "Français" },
-    { value: "ht", text: "Créole haïtien" },
-    { value: "en", text: "Anglais" },
-    { value: "es", text: "Espagnol" },
-    { value: "pt", text: "Portugais" },
-    { value: "de", text: "Allemand" },
-    { value: "it", text: "Italien" },
-    { value: "zh", text: "Chinois" },
-    { value: "ar", text: "Arabe" },
-  ];
+  useEffect(() => {
+    if (candidate && filters) {
+      const communeObj = filters.communes?.find((c) => c.title === candidate.commune);
+      const educationObj = filters.experienceLevels?.find((e) => e.title === candidate.education);
+      const universityObj = filters.universities?.find((u) => u.title === candidate.university);
+      const studyLevelObj = filters.experienceLevels?.find((s) => s.title === candidate.studyLevel);
+      const salaryObj = filters.salaries?.find((s) => s.title === candidate.salary);
 
-  const techOptions = [
-    { value: "react", text: "React" },
-    { value: "node", text: "Node.js" },
-    { value: "mongodb", text: "MongoDB" },
-    { value: "tailwind", text: "Tailwind CSS" },
-    { value: "ts", text: "TypeScript" },
-    { value: "express", text: "Express.js" },
-    { value: "next", text: "Next.js" },
-    { value: "vue", text: "Vue.js" },
-    { value: "python", text: "Python" },
-    { value: "docker", text: "Docker" },
-  ];
+      setFormData({
+        first_name: candidate.first_name || "",
+        last_name: candidate.last_name || "",
+        email: candidate.email || "",
+        phone: candidate.phone || "",
+        address: candidate.address || "",
+        bio: candidate.bio || "",
+        birth_date: candidate.birth_date || "",
+        gender: candidate.gender || "",
+        nif: candidate.nif || "",
+        salary_id: salaryObj?.id?.toString() || "",
+        education_id: educationObj?.id?.toString() || "",
+        study_level_id: studyLevelObj?.id?.toString() || "",
+        department_id: candidate.department?.id?.toString() || "",
+        sector_id: candidate.sector?.id?.toString() || "",
+        university_id: universityObj?.id?.toString() || "",
+        commune_id: communeObj?.id?.toString() || "",
+      });
 
-  const softOptions = [
-    { value: "team", text: "Travail en équipe" },
-    { value: "comm", text: "Communication" },
-    { value: "project", text: "Gestion de projet" },
-    { value: "problem", text: "Résolution de problèmes" },
-    { value: "lead", text: "Leadership" },
-    { value: "time", text: "Gestion du temps" },
-  ];
+      if (candidate.competences) {
+        setTechSkills(candidate.competences.map((c) => c.id.toString()));
+      }
+
+      if (candidate.languages) {
+        setLanguages(candidate.languages.map((l) => l.id.toString()));
+      }
+    }
+  }, [candidate, filters]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBioChange = (value) => {
+    setFormData((prev) => ({ ...prev, bio: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const dataToSend = {
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      birth_date: formData.birth_date,
+      gender: formData.gender,
+      nif: formData.nif,
+      commune_id: formData.commune_id ? parseInt(formData.commune_id) : null,
+      education_id: formData.education_id ? parseInt(formData.education_id) : null,
+      university_id: formData.university_id ? parseInt(formData.university_id) : null,
+      study_level_id: formData.study_level_id ? parseInt(formData.study_level_id) : null,
+      bio: formData.bio,
+      competences: techSkills.map((id) => parseInt(id)),
+      languages: languages.map((id) => parseInt(id)),
+      department_id: formData.department_id ? parseInt(formData.department_id) : null,
+      sector_id: formData.sector_id ? parseInt(formData.sector_id) : null,
+      salary_id: formData.salary_id ? parseInt(formData.salary_id) : null,
+    };
+
+    console.log("Données à envoyer:", dataToSend);
+    console.log("JSON:", JSON.stringify(dataToSend, null, 2));
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }, 1000);
+  };
+
+  if (isLoading || isLoadingFilters) {
+    return <CandidateProfileSkeleton />;
+  }
+
+  if (!candidate || !filters) {
+    return (
+      <div className="p-8 text-center text-red-500">
+        Erreur lors du chargement du profil
+      </div>
+    );
+  }
 
   return (
     <div>
-      <BreadCrumb
-        items={[{ label: "Accueil", href: "/" }, { label: "Profil" }]}
-      />
+      <BreadCrumb items={[{ label: "Accueil", href: "/" }, { label: "Profil" }]} />
+
+      {/* Header */}
       <div className="bg-primary mt-4 mb-6 text-white w-full rounded-[2rem] py-5 px-5">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <h1 className="text-md md:text-4xl">
-              <span className="text-white/75">Compléter votre </span> profil
+              <span className="text-white/75">Modifier votre </span> profil
             </h1>
             <p className="text-white/60 max-md:line-clamp-2 mb-3 text-xs md:text-sm leading-relaxed">
-              Trouve l’opportunité qui te correspond parmi des centaines
-              d’offres d’emploi.
+              Mettez à jour vos informations pour augmenter vos chances de trouver l'emploi idéal.
             </p>
           </div>
           <div>
-            <Image
-              width="230"
-              height="230"
-              className="max-w-full h-auto"
-              src="/svgs/Forms-amico.png"
-              alt=""
-            />
+            <Image width="230" height="230" className="max-w-full h-auto" src="/svgs/Forms-amico.png" alt="" />
           </div>
         </div>
       </div>
+
       <div className="relative gap-3 grid grid-cols-1 md:grid-cols-3">
+        {/* Sidebar */}
         <div className="col-span-1">
           <div className="bg-white rounded-3xl p-4">
             <div className="flex gap-1 mt-4 flex-col items-center justify-center w-full">
-              <Image
-                width={50}
-                height={50}
-                className="size-14 md:size-20 rounded-full object-cover"
-                src={`https://jwennjob.com${candidate.photo}`}
-                alt="Rounded avatar"
-              />
-              <span className="text-primary text-md">{candidate.name}</span>
-              <span className="text-gray-500 text-xs">Web Developer</span>
+              <div className="relative">
+                <Image
+                  width={80}
+                  height={80}
+                  className="size-14 md:size-20 rounded-full object-cover"
+                  src={candidate.profile_photo?.trim() || "https://jwennjob.com/img/non-profile.png"}
+                  alt={candidate.name}
+                />
+                <button className="absolute bottom-0 right-0 bg-secondary text-white p-1.5 rounded-full hover:bg-secondary/80 transition">
+                  <BiUser className="w-3 h-3" />
+                </button>
+              </div>
+              <span className="text-primary text-md font-semibold">{candidate.name}</span>
+              <span className="text-gray-500 text-xs">{candidate.sector?.title || "Secteur non spécifié"}</span>
+              <span className="text-gray-400 text-[10px] mt-1">{candidate.department?.title || "Département non spécifié"}</span>
             </div>
+
             <div className="flex my-4 px-4 md:px-6 items-center justify-between">
               <div className="flex text-xs text-primary items-center gap-2">
                 <BiBriefcase className="size-4 text-secondary" />
                 <span className="font-bold">Applications</span>
               </div>
-              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">
-                5
-              </span>
+              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">{candidate.applications_count || 0}</span>
             </div>
             <div className="flex my-4 px-4 md:px-6 items-center justify-between">
               <div className="flex text-xs text-primary items-center gap-2">
                 <BiUserCheck className="size-4 text-secondary" />
-                <span className="font-bold">Profil</span>
+                <span className="font-bold">Sauvegardes</span>
               </div>
-              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">
-                56%
-              </span>
+              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">{candidate.saved_jobs_count || 0}</span>
             </div>
             <div className="flex my-4 px-4 md:px-6 items-center justify-between">
               <div className="flex text-xs text-primary items-center gap-2">
                 <BiFile className="size-4 text-secondary" />
-                <span className="font-bold">CV</span>
+                <span className="font-bold">Documents</span>
               </div>
-              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">
-                70%
-              </span>
+              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">{candidate.documents_count || 0}</span>
             </div>
           </div>
         </div>
+
+        {/* Main Content */}
         <div className="col-span-1 md:col-span-2">
           <div className="bg-white rounded-3xl p-6">
+            {/* Tabs */}
             <div className="overflow-y-auto">
               <div className="flex space-x-2 w-fit md:w-full bg-white p-1 border border-gray-400/50 rounded-full text-xs">
-                {/* Informations personnelles */}
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="personal"
-                    className="hidden peer"
-                    checked={activeTab === "personal"}
-                    onChange={() => setActiveTab("personal")}
-                  />
-                  <label
-                    htmlFor="personal"
-                    className="cursor-pointer font-bold flex gap-1 items-center text-nowrap rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-secondary/20 peer-checked:text-primary"
-                  >
-                    <BiUser className="size-4" />
-                    Informations personnelles
-                  </label>
-                </div>
-
-                {/* Formation Académique */}
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="study"
-                    className="hidden peer"
-                    checked={activeTab === "study"}
-                    onChange={() => setActiveTab("study")}
-                  />
-                  <label
-                    htmlFor="study"
-                    className="cursor-pointer font-bold flex gap-1 items-center text-nowrap rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-secondary/20 peer-checked:text-primary"
-                  >
-                    <BiBookOpen className="size-4" />
-                    Formation Académique
-                  </label>
-                </div>
-
-                {/* Compétences */}
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="skills"
-                    className="hidden peer"
-                    checked={activeTab === "skills"}
-                    onChange={() => setActiveTab("skills")}
-                  />
-                  <label
-                    htmlFor="skills"
-                    className="cursor-pointer font-bold flex gap-1 items-center text-nowrap rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-secondary/20 peer-checked:text-primary"
-                  >
-                    <BiCog className="size-4" />
-                    Compétences
-                  </label>
-                </div>
-
-                {/* Langues */}
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="languages"
-                    className="hidden peer"
-                    checked={activeTab === "languages"}
-                    onChange={() => setActiveTab("languages")}
-                  />
-                  <label
-                    htmlFor="languages"
-                    className="cursor-pointer font-bold flex gap-1 items-center text-nowrap rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-secondary/20 peer-checked:text-primary"
-                  >
-                    <BiWorld className="size-4" />
-                    Langues
-                  </label>
-                </div>
+                {[
+                  { id: "personal", icon: BiUser, label: "Informations personnelles" },
+                  { id: "education", icon: BiBookOpen, label: "Formation" },
+                  { id: "skills", icon: BiCog, label: "Compétences" },
+                  { id: "preferences", icon: BiGlobe, label: "Préférences" },
+                ].map((tab) => (
+                  <div key={tab.id} className="flex items-center">
+                    <input
+                      type="radio"
+                      name="options"
+                      id={tab.id}
+                      className="hidden peer"
+                      checked={activeTab === tab.id}
+                      onChange={() => setActiveTab(tab.id)}
+                    />
+                    <label
+                      htmlFor={tab.id}
+                      className="cursor-pointer font-bold flex gap-1 items-center text-nowrap rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-secondary/20 peer-checked:text-primary"
+                    >
+                      <tab.icon className="size-4" />
+                      {tab.label}
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="flex items-center justify-between rounded-xl mt-8 mb-4 text-blue-600 w-full bg-blue-50 h-10">
-              <div className="flex w-full h-10 gap-2 items-center">
-                <div className="h-full w-1.5 bg-primary rounded-l-xl"></div>
-                <div className="flex items-center">
-                  <BiCheckCircle />
-                  <p className="text-sm ml-2">
-                    Success! Your task is fully completed.
-                  </p>
+            {/* Success Alert */}
+            {showSuccess && (
+              <div className="flex items-center justify-between rounded-xl mt-8 mb-4 text-green-600 w-full bg-green-50 h-10">
+                <div className="flex w-full h-10 gap-2 items-center">
+                  <div className="h-full w-1.5 bg-green-500 rounded-l-xl"></div>
+                  <div className="flex items-center">
+                    <BiCheckCircle />
+                    <p className="text-sm ml-2">Profil mis à jour avec succès !</p>
+                  </div>
                 </div>
+                <button type="button" onClick={() => setShowSuccess(false)} className="active:scale-90 transition-all mr-3">
+                  <BiX />
+                </button>
               </div>
+            )}
 
-              <button
-                type="button"
-                aria-label="close"
-                className="active:scale-90 transition-all mr-3"
-              >
-                <BiX />
-              </button>
-            </div>
-
-            {/* Formulaire unique englobant tous les onglets */}
-            <form className="mt-8 mb-2">
-              {/* Informations personnelles */}
+            {/* Formulaire */}
+            <form onSubmit={handleSubmit} className="mt-8 mb-2">
+              {/* ONGLET 1: INFORMATIONS PERSONNELLES */}
               {activeTab === "personal" && (
                 <section className="personal-info">
                   <div className="flex gap-3 w-full flex-wrap">
-                    {/* Nom complet */}
                     <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label
-                        htmlFor="fullName"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Nom complet
-                      </label>
+                      <label htmlFor="first_name" className="text-sm font-bold text-gray-700">Prénom</label>
                       <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="fullName"
-                          name="fullName"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="text"
-                          placeholder="Nom complet"
-                          defaultValue="Jean-Robert Pierre-Louis"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M15 15.75v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5m9-10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        <BiUser className="text-gray-400 ml-2" />
+                        <input id="first_name" name="first_name" value={formData.first_name} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
                       </div>
                     </div>
 
-                    {/* Titre du poste recherché */}
                     <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label
-                        htmlFor="jobTitle"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Titre du poste recherché
-                      </label>
+                      <label htmlFor="last_name" className="text-sm font-bold text-gray-700">Nom</label>
                       <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="jobTitle"
-                          name="jobTitle"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="text"
-                          placeholder="Titre du poste recherché"
-                          defaultValue="Développeur Full-Stack React / Node.js"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M3.75 3.75v10.5a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V3.75a.75.75 0 0 0-.75-.75h-9a.75.75 0 0 0-.75.75zM16.5 4.5v9a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1-.75-.75V4.5M12 13.5V2.25M6 13.5V2.25"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        <BiUser className="text-gray-400 ml-2" />
+                        <input id="last_name" name="last_name" value={formData.last_name} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
                       </div>
                     </div>
 
-                    {/* Email */}
                     <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label
-                        htmlFor="email"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Adresse e-mail
-                      </label>
+                      <label htmlFor="email" className="text-sm font-bold text-gray-700">Email</label>
                       <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="email"
-                          name="email"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="email"
-                          placeholder="Adresse e-mail"
-                          defaultValue="jeanrobert.pl@example.ht"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M3.75 4.5h10.5a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-.75.75H3.75a.75.75 0 0 1-.75-.75V5.25a.75.75 0 0 1 .75-.75zM16.5 4.5l-7.5 4.5-7.5-4.5"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        <BiEnvelope className="text-gray-400 ml-2" />
+                        <input id="email" name="email" value={formData.email} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="email" />
                       </div>
                     </div>
 
-                    {/* Téléphone */}
                     <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label
-                        htmlFor="phone"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Numéro de téléphone
-                      </label>
+                      <label htmlFor="phone" className="text-sm font-bold text-gray-700">Téléphone</label>
                       <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="phone"
-                          name="phone"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="tel"
-                          placeholder="Numéro de téléphone"
-                          defaultValue="+509 37 01 2345"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M16.5 12.75v1.5a1.5 1.5 0 0 1-1.635 1.493 17.93 17.93 0 0 1-7.8-2.771 17.93 17.93 0 0 1-2.77-7.8A1.5 1.5 0 0 1 5.25 3h1.5a1.5 1.5 0 0 1 1.5 1.293 11.99 11.99 0 0 0 .655 2.7 1.5 1.5 0 0 1-.353 1.614l-.75.75a12 12 0 0 0 4.242 4.242l.75-.75a1.5 1.5 0 0 1 1.614-.353 11.99 11.99 0 0 0 2.7.655A1.5 1.5 0 0 1 16.5 12.75z"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        <BiPhone className="text-gray-400 ml-2" />
+                        <input id="phone" name="phone" value={formData.phone} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="tel" />
                       </div>
                     </div>
 
-                    {/* Localisation */}
                     <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label
-                        htmlFor="location"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Adresse
-                      </label>
+                      <label htmlFor="address" className="text-sm font-bold text-gray-700">Adresse</label>
                       <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="location"
-                          name="location"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="text"
-                          placeholder="Localisation"
-                          defaultValue="Pétion-Ville, Port-au-Prince"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M9 1.5c-2.25 0-4.25 1.75-4.25 4.25 0 2.25 4.25 8.5 4.25 8.5s4.25-6.25 4.25-8.5C13.25 3.25 11.25 1.5 9 1.5zM9 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        <BiMap className="text-gray-400 ml-2" />
+                        <input id="address" name="address" value={formData.address} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
                       </div>
                     </div>
 
-                    {/* Departement */}
                     <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label
-                        htmlFor="department"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Departement
-                      </label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="department"
-                          name="department"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="text"
-                          placeholder="Département"
-                          defaultValue="Ouest"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M9 1.5c-2.25 0-4.25 1.75-4.25 4.25 0 2.25 4.25 8.5 4.25 8.5s4.25-6.25 4.25-8.5C13.25 3.25 11.25 1.5 9 1.5zM9 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* Formation Académique */}
-              {activeTab === "study" && (
-                <section className="study">
-                  <div className="space-y-6">
-                    {/* Niveau d'étude */}
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">
-                        Niveau d'étude
-                      </label>
+                      <label className="text-sm font-bold text-gray-700">Commune</label>
                       <SlimSelect
-                        value={studyLevel}
-                        onChange={setStudyLevel}
-                        name="studyLevel"
-                        placeholder="Sélectionnez votre niveau"
-                        allowDeselect
+                        value={formData.commune_id ? [formData.commune_id] : []}
+                        onChange={(values) => setFormData((prev) => ({ ...prev, commune_id: values[0] || "" }))}
+                        placeholder="Sélectionnez votre commune"
                       >
-                        {studyOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.text}
-                          </option>
+                        {filters.communes?.map((comm) => (
+                          <option key={comm.id} value={comm.id}>{comm.title}</option>
                         ))}
                       </SlimSelect>
                     </div>
 
-                    {/* Diplôme */}
-                    <div className="flex flex-col gap-2">
-                      <label
-                        htmlFor="degree"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Diplôme
-                      </label>
+                    <div className="flex flex-col gap-2 w-full max-w-md">
+                      <label htmlFor="birth_date" className="text-sm font-bold text-gray-700">Date de naissance</label>
                       <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="degree"
-                          name="degree"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="text"
-                          placeholder="Diplôme obtenu"
-                          defaultValue="Licence Informatique"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M9 1.5L3.75 4.5v6l5.25 3 5.25-3v-6L9 1.5zM9 13.5L3.75 10.5M9 13.5l5.25-3M9 7.5v6"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        <BiCalendar className="text-gray-400 ml-2" />
+                        <input id="birth_date" name="birth_date" value={formData.birth_date} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="date" />
                       </div>
                     </div>
 
-                    {/* Établissement */}
-                    <div className="flex flex-col gap-2">
-                      <label
-                        htmlFor="institution"
-                        className="text-sm font-bold text-gray-700"
-                      >
-                        Établissement
-                      </label>
+                    <div className="flex flex-col gap-2 w-full max-w-md">
+                      <label htmlFor="gender" className="text-sm font-bold text-gray-700">Genre</label>
                       <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <input
-                          id="institution"
-                          name="institution"
-                          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-                          type="text"
-                          placeholder="Nom de l'établissement"
-                          defaultValue="Université d'État d'Haïti"
-                        />
-                        <svg
-                          className="mr-3"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                        >
-                          <path
-                            d="M3.75 3.75v10.5a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V3.75a.75.75 0 0 0-.75-.75h-9a.75.75 0 0 0-.75.75zM16.5 4.5v9a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1-.75-.75V4.5M12 13.5V2.25M6 13.5V2.25"
-                            stroke="#6B7280"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        <BiFlag className="text-gray-400 ml-2" />
+                        <select id="gender" name="gender" value={formData.gender} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent">
+                          <option value="">Sélectionnez</option>
+                          {filters.sexes?.map((s) => (
+                            <option key={s.id} value={s.title}>{s.title}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 w-full max-w-md">
+                      <label htmlFor="nif" className="text-sm font-bold text-gray-700">NIF</label>
+                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
+                        <BiIdCard className="text-gray-400 ml-2" />
+                        <input id="nif" name="nif" value={formData.nif} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
                       </div>
                     </div>
                   </div>
                 </section>
               )}
 
-              {/* Compétences */}
+              {/* ONGLET 2: FORMATION */}
+              {activeTab === "education" && (
+                <section className="education">
+                  <div className="space-y-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-bold text-gray-700">Niveau d'étude</label>
+                      <SlimSelect
+                        value={formData.education_id ? [formData.education_id] : []}
+                        onChange={(values) => setFormData((prev) => ({ ...prev, education_id: values[0] || "" }))}
+                        placeholder="Sélectionnez"
+                      >
+                        {filters.experienceLevels?.map((level) => (
+                          <option key={level.id} value={level.id}>{level.title}</option>
+                        ))}
+                      </SlimSelect>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-bold text-gray-700">Université / Établissement</label>
+                      <SlimSelect
+                        value={formData.university_id ? [formData.university_id] : []}
+                        onChange={(values) => setFormData((prev) => ({ ...prev, university_id: values[0] || "" }))}
+                        placeholder="Sélectionnez votre université"
+                      >
+                        {filters.universities?.map((uni) => (
+                          <option key={uni.id} value={uni.id}>{uni.title}</option>
+                        ))}
+                      </SlimSelect>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-bold text-gray-700">Niveau d'expérience</label>
+                      <SlimSelect
+                        value={formData.study_level_id ? [formData.study_level_id] : []}
+                        onChange={(values) => setFormData((prev) => ({ ...prev, study_level_id: values[0] || "" }))}
+                        placeholder="Sélectionnez"
+                      >
+                        {filters.experienceLevels?.map((level) => (
+                          <option key={level.id} value={level.id}>{level.title}</option>
+                        ))}
+                      </SlimSelect>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="bio" className="text-sm font-bold text-gray-700">Biographie</label>
+                      <div className="quill-wrapper">
+                        <ReactQuill
+                          theme="snow"
+                          value={formData.bio}
+                          onChange={handleBioChange}
+                          className="bg-white rounded-2xl"
+                          style={{ height: "200px", marginBottom: "50px" }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              {/* ONGLET 3: COMPÉTENCES */}
               {activeTab === "skills" && (
                 <section className="skills">
                   <div className="space-y-6">
-                    {/* Compétences techniques */}
                     <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">
-                        Compétences techniques
-                      </label>
+                      <label className="text-sm font-bold text-gray-700">Compétences techniques</label>
                       <SlimSelect
                         value={techSkills}
                         onChange={setTechSkills}
-                        name="techSkills"
                         multiple
-                        placeholder="Sélectionnez ou ajoutez des compétences"
-                        allowDeselect
+                        placeholder="Sélectionnez vos compétences"
                       >
-                        {techOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.text}
-                          </option>
+                        {filters.competences?.map((comp) => (
+                          <option key={comp.id} value={comp.id}>{comp.title}</option>
                         ))}
                       </SlimSelect>
                     </div>
 
-                    {/* Compétences professionnelles */}
                     <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">
-                        Compétences professionnelles
-                      </label>
+                      <label className="text-sm font-bold text-gray-700">Langues</label>
                       <SlimSelect
-                        value={softSkills}
-                        onChange={setSoftSkills}
-                        name="softSkills"
+                        value={languages}
+                        onChange={setLanguages}
                         multiple
-                        placeholder="Sélectionnez ou ajoutez des compétences"
-                        allowDeselect
+                        placeholder="Sélectionnez les langues"
                       >
-                        {softOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.text}
-                          </option>
+                        {filters.languages?.map((lang) => (
+                          <option key={lang.id} value={lang.id}>{lang.title}</option>
                         ))}
                       </SlimSelect>
                     </div>
@@ -597,38 +454,75 @@ export default function Index() {
                 </section>
               )}
 
-              {/* Langues */}
-              {activeTab === "languages" && (
-                <section className="languages">
-                  <div className="flex flex-col gap-2">
-                    <label className="text-sm font-bold text-gray-700">
-                      Langues parlées
-                    </label>
-                    <SlimSelect
-                      value={languages}
-                      onChange={setLanguages}
-                      name="languages"
-                      multiple
-                      placeholder="Sélectionnez les langues que vous parlez"
-                      allowDeselect
-                    >
-                      {langOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.text}
-                        </option>
-                      ))}
-                    </SlimSelect>
+              {/* ONGLET 4: PRÉFÉRENCES */}
+              {activeTab === "preferences" && (
+                <section className="preferences">
+                  <div className="flex gap-3 w-full flex-wrap">
+                    <div className="flex flex-col gap-2 w-full max-w-md">
+                      <label className="text-sm font-bold text-gray-700">Département</label>
+                      <SlimSelect
+                        value={formData.department_id ? [formData.department_id] : []}
+                        onChange={(values) => setFormData((prev) => ({ ...prev, department_id: values[0] || "" }))}
+                        placeholder="Sélectionnez"
+                      >
+                        {filters.departments?.map((dept) => (
+                          <option key={dept.id} value={dept.id}>{dept.title}</option>
+                        ))}
+                      </SlimSelect>
+                    </div>
+
+                    <div className="flex flex-col gap-2 w-full max-w-md">
+                      <label className="text-sm font-bold text-gray-700">Secteur d'activité</label>
+                      <SlimSelect
+                        value={formData.sector_id ? [formData.sector_id] : []}
+                        onChange={(values) => setFormData((prev) => ({ ...prev, sector_id: values[0] || "" }))}
+                        placeholder="Sélectionnez"
+                      >
+                        {filters.sectors?.map((sector) => (
+                          <option key={sector.id} value={sector.id}>{sector.title}</option>
+                        ))}
+                      </SlimSelect>
+                    </div>
+
+                    <div className="flex flex-col gap-2 w-full max-w-md">
+                      <label className="text-sm font-bold text-gray-700">Type de contrat préféré</label>
+                      <SlimSelect placeholder="Sélectionnez">
+                        {filters.contracts?.map((contract) => (
+                          <option key={contract.id} value={contract.id}>{contract.title}</option>
+                        ))}
+                      </SlimSelect>
+                    </div>
+
+                    <div className="flex flex-col gap-2 w-full max-w-md">
+                      <label className="text-sm font-bold text-gray-700">Préférence salariale</label>
+                      <SlimSelect
+                        value={formData.salary_id ? [formData.salary_id] : []}
+                        onChange={(values) => setFormData((prev) => ({ ...prev, salary_id: values[0] || "" }))}
+                        placeholder="Sélectionnez une fourchette"
+                      >
+                        {filters.salaries?.map((sal) => (
+                          <option key={sal.id} value={sal.id}>{sal.title}</option>
+                        ))}
+                      </SlimSelect>
+                    </div>
                   </div>
                 </section>
               )}
 
-              {/* Bouton de soumission global */}
+              {/* Bouton */}
               <div className="mt-8 flex justify-end">
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-primary text-white rounded-full text-xs font-medium hover:bg-primary/90 transition"
-                >
-                  Enregistrer les modifications
+                <button type="submit" disabled={isSubmitting} className="px-6 py-3 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Enregistrement...
+                    </>
+                  ) : (
+                    "Enregistrer les modifications"
+                  )}
                 </button>
               </div>
             </form>
