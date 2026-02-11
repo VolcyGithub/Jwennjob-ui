@@ -1,6 +1,7 @@
-import { useCv } from "../../../lib/contexts/CvContext";
-import Activity from "../../../components/cv-builder/Activity";
-import { NavigationButtons } from "./NavigationButtons";
+import { useCv } from "@/features/cv/contexts/CvContext";
+import Activity from "@/features/cv/components/sections/Activity";
+import { NavigationButtons } from "@/features/cv/components/ui/NavigationButtons";
+
 
 export default function ActivitiesSection({ setAlert }) {
   const { formData, handleArrayChange, addItem, removeItem } = useCv();

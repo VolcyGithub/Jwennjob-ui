@@ -1,8 +1,9 @@
 "use client"
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import ApplicationTableSkeleton from "@/features/candidate/shared/components/tables/ApplicationTableSkeleton";
+import { useRecruiterJobs } from "@/features/recruiter/jobs/hooks/queries/useRecruiterJobs";
 import Jobs from "@/features/recruiter/shared/components/tables/Jobs";
-import { useRecruiterJobs } from "@/features/recruiter/shared/hooks/queries/useRecruiters";
+
 import Link from "next/link";
 import { BiPlus } from "react-icons/bi";
 

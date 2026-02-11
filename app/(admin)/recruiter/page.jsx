@@ -2,11 +2,10 @@
 
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import StatCard from "@/features/candidate/shared/components/cards/StatCard";
-import CandidateCard from "@/components/recruiter/cards/CandidateCard";
-import CandidateCardSkeleton from "@/components/recruiter/cards/CandidateCardSkeleton";
-import Application from "@/features/recruiter/shared/components/tables/Application";
-import { useUsers } from "@/app/lib/api/hooks/queries/useUsers";
-import { useRecruiterAuth } from "@/app/lib/contexts/RecruiterContext";
+import CandidateCard from "@/features/recruiter/shared/components/cards/CandidateCard";
+import CandidateCardSkeleton from "@/features/recruiter/shared/components/cards/CandidateCardSkeleton";
+import { useRecruiterAuth } from "@/features/recruiter/shared/contexts/RecruiterContext";
+import { useRecruiterApplications } from "@/features/recruiter/shared/hooks/queries/useRecruiters";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +17,7 @@ import {
 } from "react-icons/bi";
 
 export default function Index() {
-  const { data, isLoading, error } = useUsers({ limit: 3 });
+ 
 
   const {recruiter, isLoading: authLoading, error: authError} = useRecruiterAuth();
   return (
@@ -86,7 +85,7 @@ export default function Index() {
               Voir les applications
             </Link>
           </div>
-          <AnimatePresence mode="wait">
+          {/* <AnimatePresence mode="wait">
             {isLoading ? (
               <motion.div
                 key="skeleton-grid"
@@ -112,7 +111,7 @@ export default function Index() {
                 transition={{ duration: 0.3 }}
               >
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-                  {data.users.map((user) => (
+                  {candidates.data.map((user) => (
                     <CandidateCard
                       data={{
                         id: user.id,
@@ -132,7 +131,7 @@ export default function Index() {
                 ></motion.div>
               </motion.div>
             )}
-          </AnimatePresence>
+          </AnimatePresence> */}
         </div>
         <div className="col-span-1">
           <div className="flex my-6 text-sm md:text-md mb-6 justify-between items-center">

@@ -2,11 +2,12 @@
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import ApplicationFilter from "@/features/candidate/shared/components/tables/ApplicationFilter";
 import ApplicationTableSkeleton from "@/features/candidate/shared/components/tables/ApplicationTableSkeleton";
-import Pagination from "@/components/global/Pagination";
+
 import Applications from "@/features/recruiter/shared/components/tables/Application";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useRecruiterApplicationsByJob } from "@/features/recruiter/shared/hooks/queries/useRecruiters";
+import Pagination from "@/components/paginations/Pagination";
 
 export default function Page() {
   const { id } = useParams();

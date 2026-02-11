@@ -1,7 +1,7 @@
 import React from 'react';
-import Experience from '../../../components/cv-builder/Experience';
-import { useCv } from '../../../lib/contexts/CvContext';
-import { NavigationButtons } from './NavigationButtons';
+import { useCv } from "@/features/cv/contexts/CvContext";
+import Experience from "@/features/cv/components/sections/Experience";
+import { NavigationButtons } from "@/features/cv/components/ui/NavigationButtons";
 
 export default function ExperienceSection({ setAlert }) {
     const { formData, handleArrayChange,handleNestedArrayChange, addItem, removeItem,addResponsibility,removeResponsibility,} = useCv();

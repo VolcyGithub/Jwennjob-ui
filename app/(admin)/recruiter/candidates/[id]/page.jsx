@@ -6,10 +6,12 @@ import { useParams } from "next/navigation";
 import { BiBookOpen, BiCog, BiWorld, BiUser } from "react-icons/bi";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import ProgressRing from "@/features/recruiter/shared/components/stats/ProgressRing";
-import CandidateDocsPage from "@/components/recruiter/cards/CandidateDocsPage";
-import CandidateProfileSkeleton from "@/components/recruiter/cards/CandidateProfileSkeleton";
+
+
 import ErrorState from "@/features/candidate/shared/components/cards/CardError";
 import { useRecruiterCandidatesById } from "@/features/recruiter/shared/hooks/queries/useRecruiters";
+import CandidateProfileSkeleton from "@/features/recruiter/shared/components/cards/CandidateProfileSkeleton";
+import CandidateDocsPage from "@/features/recruiter/shared/components/cards/CandidateDocsPage";
 
 const tabs = ["personal", "study", "skills", "languages"];
 

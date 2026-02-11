@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Education from '../../../components/cv-builder/Education';
-import { useCv } from '../../../lib/contexts/CvContext'
-import { NavigationButtons } from './NavigationButtons';
+import { useCv } from "@/features/cv/contexts/CvContext";
+import Education from "@/features/cv/components/ui/Education";
+import { NavigationButtons } from "@/features/cv/components/ui/NavigationButtons";
 
 export default function EducationSection({ setAlert }) {
     const { formData, handleChange, handleArrayChange, addItem, removeItem } = useCv();

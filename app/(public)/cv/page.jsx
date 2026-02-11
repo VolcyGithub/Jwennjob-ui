@@ -1,10 +1,10 @@
 "use client";
-import { useCandidateCvs } from "@/app/lib/api/hooks/queries/useCandidates";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
 import ErrorState from "@/features/candidate/shared/components/cards/CardError";
 import Link from "next/link";
+import { useCandidateCvs } from "@/features/candidate/shared/hooks/queries/useCandidates";
 export default function CVPage() {
   const [cv, setCv] = useState(null);
   const { data: cvs, isLoading, isError, refetch } = useCandidateCvs()

@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import SlimSelect from "slim-select/react";
 import "slim-select/styles";
-import "@/app/globals.css";
-import { useFilters } from "@/app/lib/api/hooks/queries/useFilters";
+import "@/styles/globals.css";
+import { useFilters } from "@/features/shared/hooks/queries/useFilters";
 import FilterBarSkeleton from "../cards/FilterBarSkeleton";
+
 
 function FilterSection({ icon: Icon, title, children }) {
   return (

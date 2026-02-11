@@ -1,13 +1,16 @@
 "use client";
-import CandidateCard from "../cards/CandidateCard";
+
 import { motion } from "framer-motion";
-import CandidateCardSkeleton from "@/components/recruiter/cards/CandidateCardSkeleton";
-import { useRecruiterCandidates } from "@/app/lib/api/hooks/queries/useRecruiters";
-import ErrorState from "../../../../candidate/shared/components/cards/CardError";
-import Pagination from "../../../../../components/global/Pagination";
+
 import { useState } from "react";
-import EmptyState from "../cards/EmptyState";
+
 import { BiInfoCircle } from "react-icons/bi";
+import { useRecruiterCandidates } from "../../hooks/queries/useRecruiters";
+import CandidateCardSkeleton from "../cards/CandidateCardSkeleton";
+import ErrorState from "@/features/candidate/shared/components/cards/CardError";
+import EmptyState from "../cards/EmptyState";
+import CandidateCard from "../cards/CandidateCard";
+import Pagination from "@/components/paginations/Pagination";
 
 export default function CandidateGrid({ filters }) {
   const [page, setPage] = useState(1);

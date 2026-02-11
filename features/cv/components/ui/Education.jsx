@@ -1,4 +1,5 @@
-import { InputField } from "../../features/cv/ui/InputField.jsx";
+import { InputField } from "@/features/cv/components/ui/InputField";
+
 
 export default function Education({ data, onUpdate, onRemove, index }) {
   return (

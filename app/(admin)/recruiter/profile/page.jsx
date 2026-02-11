@@ -1,6 +1,6 @@
 "use client";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import EnterpriseTabs from "@/components/recruiter/cards/EntrepriseTabs";
+import EnterpriseTabs from "@/features/recruiter/shared/components/cards/EntrepriseTabs";
 import Image from "next/image";
 import Link from "next/link";
 

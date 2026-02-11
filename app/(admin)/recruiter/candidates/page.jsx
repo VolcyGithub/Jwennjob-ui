@@ -18,7 +18,8 @@ import {
   BiHome,
   BiSearch,
 } from "react-icons/bi";
-import EmptyState from "@/components/recruiter/cards/EmptyState";
+import EmptyState from "@/features/recruiter/shared/components/cards/EmptyState";
+
 
 const FILTERS_CONFIG = [
   {

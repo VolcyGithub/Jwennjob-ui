@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import LogoMarquee from "@/components/global/LogoMarquee";
+
 import {
   BiBuildings,
   BiMoney,
@@ -12,6 +12,7 @@ import {
 } from "react-icons/bi";
 import "swiper/css";
 import "swiper/css/pagination";
+import LogoMarquee from "@/features/shared/components/sections/LogoMarquee";
 
 
 export default function BecomeRecruiterPage() {

@@ -1,6 +1,7 @@
-import { useRecruiterAuth } from "@/app/lib/contexts/RecruiterContext";
+
 import Image from "next/image";
 import { BiMenuAltLeft, BiBell } from "react-icons/bi";
+import { useRecruiterAuth } from "@/features/recruiter/shared/contexts/RecruiterContext";
 
 export default function NavTop({ isOpen, setIsOpen }) {
 

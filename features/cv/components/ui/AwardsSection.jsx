@@ -1,6 +1,6 @@
-import { useCv } from "../../../lib/contexts/CvContext";
-import Award from "../../../components/cv-builder/Award";
-import { NavigationButtons } from "./NavigationButtons";
+import { useCv } from "@/features/cv/contexts/CvContext";
+import Award from "@/features/cv/components/sections/Award";
+import { NavigationButtons } from "@/features/cv/components/ui/NavigationButtons";
 
 export default function AwardsSection({ setAlert }) {
   const { formData, handleArrayChange, addItem, removeItem } = useCv();
