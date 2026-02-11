@@ -1,18 +1,18 @@
 "use client";
-import Alert from "../../../../components/public/Alert";
-import { InputField } from "../../../../components/cv-builder/ui/InputField";
-import { NavigationButtons } from "../../../../components/cv-builder/ui/NavigationButtons";
+import Alert from "../../../../../components/global/Alert";
+import { InputField } from "../../../../../features/cv/components/ui/InputField";
+import { NavigationButtons } from "../../../../../features/cv/components/ui/NavigationButtons";
 import { useTab } from "../../../../lib/contexts/TabContext.jsx";
 import { useCv } from "../../../../lib/contexts/CvContext.jsx";
 import { useState, useEffect, useRef } from "react";
-import ExperienceSection from "../../../../components/cv-builder/ui/ExperienceSection";
-import EducationSection from "../../../../components/cv-builder/ui/EducationSection";
+import ExperienceSection from "../../../../../features/cv/components/ui/ExperienceSection";
+import EducationSection from "../../../../../features/cv/components/ui/EducationSection";
 import { PDFViewer } from "@react-pdf/renderer";
-import MyDocument from "../../../../components/cv-builder/ui/PreviewSection";
+import MyDocument from "../../../../../features/cv/components/ui/PreviewSection";
 import { useParams } from "next/navigation";
 import { useCandidateCv } from "@/app/lib/api/hooks/queries/useCandidates";
-import AwardsSection from "../../../../components/cv-builder/ui/AwardsSection";
-import ActivitiesSection from "../../../../components/cv-builder/ui/ActivitiesScetion";
+import AwardsSection from "../../../../../features/cv/components/ui/AwardsSection";
+import ActivitiesSection from "../../../../../features/cv/components/ui/ActivitiesScetion";
 
 export default function CVBuilder() {
   const [alert, setAlert] = useState(null);

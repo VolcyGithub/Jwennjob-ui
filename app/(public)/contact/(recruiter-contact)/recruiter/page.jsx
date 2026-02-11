@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import LogoMarquee from "@/app/components/public/LogoMarquee";
+import LogoMarquee from "@/components/global/LogoMarquee";
 import {
   BiBuildings,
   BiMoney,

@@ -1,6 +1,6 @@
-import { Providers } from "./lib/providers";
-import "@/app/globals.css";
 
+import "@/styles/globals.css";
+import { Providers } from "@/providers/TanstackProviders";
 
 export default function RootLayout({ children }) {
   return (

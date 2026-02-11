@@ -3,7 +3,7 @@ import { useCandidateCvs } from "@/app/lib/api/hooks/queries/useCandidates";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
-import ErrorState from "@/app/components/candidate/cards/CardError";
+import ErrorState from "@/features/candidate/global/components/cards/CardError";
 import Link from "next/link";
 export default function CVPage() {
   const [cv, setCv] = useState(null);

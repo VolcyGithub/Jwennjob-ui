@@ -2,9 +2,9 @@
 import { useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import { SkeletonTheme } from "react-loading-skeleton";
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import CandidateFilterBar from "@/app/components/recruiter/grids/CandidateFilter";
-import CandidateGrid from "@/app/components/recruiter/grids/CandidateGrid";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import CandidateFilterBar from "@/features/recruiter/global/components/grids/CandidateFilter";
+import CandidateGrid from "@/features/recruiter/global/components/grids/CandidateGrid";
 import {
   BiBuilding,
   BiCog,
@@ -18,7 +18,7 @@ import {
   BiHome,
   BiSearch,
 } from "react-icons/bi";
-import EmptyState from "@/app/components/recruiter/cards/EmptyState";
+import EmptyState from "@/components/recruiter/cards/EmptyState";
 
 const FILTERS_CONFIG = [
   {

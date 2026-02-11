@@ -1,9 +1,9 @@
 
 "use client";
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import Input from "@/app/components/recruiter/forms/Input";
-import { Section } from "@/app/components/recruiter/forms/Section";
-import { TextArea } from "@/app/components/recruiter/forms/TextArea";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import Input from "@/components/forms/Input";
+import { Section } from "@/components/forms/Section";
+import { TextArea } from "@/components/forms/TextArea";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

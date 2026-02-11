@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import JobDetailSkeleton from "@/app/components/public/details/JobDetailSkeleton";
+import JobDetailSkeleton from "@/components/global/details/JobDetailSkeleton";
 import { useJob } from "@/app/lib/api/hooks/queries/useJobs";
 import { useCandidateConnected } from "@/app/lib/contexts/ConnectContext";
 import Image from "next/image";
@@ -33,7 +33,7 @@ import {
   useCandidateApply,
   useCandidateSave,
 } from "@/app/lib/api/hooks/mutations/useCandidateAction";
-import Alert from "@/app/components/recruiter/alerts/Alert";
+import Alert from "@/components/alerts/Alert";
 
 export default function JobDetailPage() {
   const { id } = useParams();

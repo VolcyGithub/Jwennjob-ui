@@ -1,6 +1,6 @@
 "use client"
 
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 
 export default function Index() {
 

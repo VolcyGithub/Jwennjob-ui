@@ -1,9 +1,9 @@
 "use client";
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import ApplicationFilter from "@/app/components/candidate/tables/ApplicationFilter";
-import ApplicationTableSkeleton from "@/app/components/candidate/tables/ApplicationTableSkeleton";
-import Pagination from "@/app/components/public/Pagination";
-import Applications from "@/app/components/recruiter/tables/Application";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import ApplicationFilter from "@/features/candidate/global/components/tables/ApplicationFilter";
+import ApplicationTableSkeleton from "@/features/candidate/global/components/tables/ApplicationTableSkeleton";
+import Pagination from "@/components/global/Pagination";
+import Applications from "@/features/recruiter/global/components/tables/Application";
 import { useRecruiterApplicationsByJob } from "@/app/lib/api/hooks/queries/useRecruiters";
 import { useParams } from "next/navigation";
 import { useState } from "react";

@@ -1,8 +1,8 @@
 "use client";
 
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import JobSavedTableSkeleton from "@/app/components/candidate/tables/JobSavedTableSkeleton";
-import Alert from "@/app/components/recruiter/alerts/Alert";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import JobSavedTableSkeleton from "@/features/candidate/global/components/tables/JobSavedTableSkeleton";
+import Alert from "@/components/alerts/Alert";
 import { useCandidateUnsave } from "@/app/lib/api/hooks/mutations/useCandidateAction";
 import { useCandidateJobSaved } from "@/app/lib/api/hooks/queries/useCandidates";
 import formatDate from "@/app/lib/utils/functions/DateFormat";

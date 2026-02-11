@@ -1,8 +1,8 @@
 "use client";
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import SlimSelect from "slim-select/react";
 import "slim-select/styles";
-import InfoAlert from "@/app/components/recruiter/alerts/InfoAlert";
+import InfoAlert from "@/components/alerts/InfoAlert";
 
 export default function CreateJob() {
   /* données fictives pour les selects */

@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import EnterpriseTabs from "@/app/components/public/EnterpriseTabs";
+import EnterpriseTabs from "@/components/global/EnterpriseTabs";
 import { MdVerified } from "react-icons/md";
 import React from "react";
 import { useParams } from "next/navigation";
 import { useRecruiter } from "@/app/lib/api/hooks/queries/useRecruiters";
 import "react-loading-skeleton/dist/skeleton.css";
-import EnterpriseDetailSkeleton from "@/app/components/public/details/CompanyDetailSkeleton";
+import EnterpriseDetailSkeleton from "@/components/global/details/CompanyDetailSkeleton";
 
 export default function EnterpriseDetailPage() {
   const { id } = useParams();

@@ -1,10 +1,10 @@
 "use client";
 
-import ErrorState from "@/app/components/candidate/cards/CardError";
-import NavAside from "@/app/components/candidate/header/NavAside";
-import NavFloatingButton from "@/app/components/candidate/header/NavFloatingButton";
-import NavOverlay from "@/app/components/candidate/header/NavOverlay";
-import NavTop from "@/app/components/candidate/header/NavTop";
+import ErrorState from "@/features/candidate/global/components/cards/CardError";
+import NavAside from "@/features/candidate/global/components/header/NavAside";
+import NavFloatingButton from "@/features/candidate/global/components/header/NavFloatingButton";
+import NavOverlay from "@/features/candidate/global/components/header/NavOverlay";
+import NavTop from "@/features/candidate/global/components/header/NavTop";
 import { useMe } from "@/app/lib/api/hooks/queries/useCandidates";
 import { CandidateProvider } from "@/app/lib/contexts/CandidateContext";
 import { AnimatePresence, motion } from "framer-motion";

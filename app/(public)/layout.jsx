@@ -1,7 +1,7 @@
-import Footer from "@/app/components/public/Footer";
-import Header from "@/app/components/public/Header";
+import Footer from "@/components/global/Footer";
+import Header from "@/components/global/Header";
+import { ConnectProvider } from "@/contexts/ConnectContext";
 import { cookies } from "next/headers";
-import { ConnectProvider } from "../lib/contexts/ConnectContext";
 
 export const metadata = {
   title: {

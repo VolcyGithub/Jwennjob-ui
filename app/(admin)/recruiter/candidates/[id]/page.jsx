@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { BiBookOpen, BiCog, BiWorld, BiUser } from "react-icons/bi";
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import ProgressRing from "@/app/components/recruiter/stats/ProgressRing";
-import CandidateDocsPage from "@/app/components/recruiter/cards/CandidateDocsPage";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import ProgressRing from "@/features/recruiter/global/components/stats/ProgressRing";
+import CandidateDocsPage from "@/components/recruiter/cards/CandidateDocsPage";
 import { useRecruiterCandidatesById } from "@/app/lib/api/hooks/queries/useRecruiters";
-import CandidateProfileSkeleton from "@/app/components/recruiter/cards/CandidateProfileSkeleton";
-import ErrorState from "@/app/components/candidate/cards/CardError";
+import CandidateProfileSkeleton from "@/components/recruiter/cards/CandidateProfileSkeleton";
+import ErrorState from "@/features/candidate/global/components/cards/CardError";
 
 const tabs = ["personal", "study", "skills", "languages"];
 

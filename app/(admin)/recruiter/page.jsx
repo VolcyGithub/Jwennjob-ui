@@ -1,10 +1,10 @@
 "use client";
 
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import StatCard from "@/app/components/candidate/cards/StatCard";
-import CandidateCard from "@/app/components/recruiter/cards/CandidateCard";
-import CandidateCardSkeleton from "@/app/components/recruiter/cards/CandidateCardSkeleton";
-import Application from "@/app/components/recruiter/tables/Application";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import StatCard from "@/features/candidate/global/components/cards/StatCard";
+import CandidateCard from "@/components/recruiter/cards/CandidateCard";
+import CandidateCardSkeleton from "@/components/recruiter/cards/CandidateCardSkeleton";
+import Application from "@/features/recruiter/global/components/tables/Application";
 import { useUsers } from "@/app/lib/api/hooks/queries/useUsers";
 import { useRecruiterAuth } from "@/app/lib/contexts/RecruiterContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -146,7 +146,7 @@ export default function Index() {
               Voir les applications
             </Link>
           </div>
-          <Application />
+        
           <div className="bg-primary my-6 text-white w-full rounded-[2rem] py-6 px-5">
             <div className="flex flex-col items-center justify-between">
               <div>

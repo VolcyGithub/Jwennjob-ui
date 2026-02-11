@@ -24,9 +24,9 @@ import {
   BiMoney,
   BiFlag,
 } from "react-icons/bi";
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
-import CandidateProfileSkeleton from "@/app/components/recruiter/cards/CandidateProfileSkeleton";
+import CandidateProfileSkeleton from "@/components/recruiter/cards/CandidateProfileSkeleton";
 import { useFilters } from "@/app/lib/api/hooks/queries/useFilters";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";

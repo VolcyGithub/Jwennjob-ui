@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import JobCard from "@/app/components/public/card/Jobcard";
+import JobCard from "@/components/global/card/Jobcard";
 import {
   FiSearch,
   FiMapPin,
@@ -13,9 +13,9 @@ import {
   FiChevronRight,
   FiChevronLeft,
 } from "react-icons/fi";
-import JobCardSkeleton from "@/app/components/public/card/JobCardSkeleton";
+import JobCardSkeleton from "@/components/global/card/JobCardSkeleton";
 import { useJobs } from "@/app/lib/api/hooks/queries/useJobs";
-import Pagination from "@/app/components/public/Pagination";
+import Pagination from "@/components/global/Pagination";
 
 const popular = [
   "Communication",

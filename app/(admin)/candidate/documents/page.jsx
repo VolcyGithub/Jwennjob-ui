@@ -1,7 +1,7 @@
 "use client";
-import BreadCrumb from "@/app/components/candidate/breadcrumbs/BreadCrumb";
-import FileCardSkeleton from "@/app/components/candidate/cards/FileCardSkeleton";
-import CandidateDocsPage from "@/app/components/recruiter/cards/CandidateDocsPage";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import FileCardSkeleton from "@/features/candidate/global/components/cards/FileCardSkeleton";
+import CandidateDocsPage from "@/components/recruiter/cards/CandidateDocsPage";
 import { useCandidateDocuments } from "@/app/lib/api/hooks/queries/useCandidates";
 import Link from "next/link";
 import { BiCertification, BiGridAlt, BiListUl } from "react-icons/bi";
