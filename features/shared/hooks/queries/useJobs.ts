@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { CACHE_TIME, KEYS } from "@/config/constants";
-import { jobsApi } from"@/features/global/api/jobs";
+import { jobsApi } from"@/features/shared/api/jobs";
 
 export const useJobs = (params?: Record<string, any>) =>
   useQuery({

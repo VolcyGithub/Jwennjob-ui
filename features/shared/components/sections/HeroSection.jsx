@@ -1,7 +1,7 @@
 "use client";
 import { FiSearch, FiUsers, FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { useJobs } from "@/features/global/hooks/queries/useJobs";
+import { useJobs } from "@/features/shared/hooks/queries/useJobs";
 
 
 

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { checkAuthCandidate } from '@/features/candidate/global/middlewares/candidateCheck';
-import { checkAuthRecruiter } from '@/features/recruiter/global/middlewares/recruiterCheck';
+import { checkAuthCandidate } from '@/features/candidate/shared/middlewares/candidateCheck';
+import { checkAuthRecruiter } from '@/features/recruiter/shared/middlewares/recruiterCheck';
 
 export function proxy(request: NextRequest) {
   

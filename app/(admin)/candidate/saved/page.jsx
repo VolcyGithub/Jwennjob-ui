@@ -1,7 +1,7 @@
 "use client";
 
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import JobSavedTableSkeleton from "@/features/candidate/global/components/tables/JobSavedTableSkeleton";
+import JobSavedTableSkeleton from "@/features/candidate/shared/components/tables/JobSavedTableSkeleton";
 import Alert from "@/components/alerts/Alert";
 import { useCandidateUnsave } from "@/app/lib/api/hooks/mutations/useCandidateAction";
 import { useCandidateJobSaved } from "@/app/lib/api/hooks/queries/useCandidates";

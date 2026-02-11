@@ -4,8 +4,8 @@ import Image from "next/image";
 import { BiFileBlank, BiPalette, BiDownload, BiStar, BiEditAlt, BiCloudUpload } from "react-icons/bi";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import TripletCards from "@/features/global/components/card/TripletCards";
-import TitleHead from "@/features/global/components/card/TitleHead";
+import TripletCards from "@/features/shared/components/card/TripletCards";
+import TitleHead from "@/features/shared/components/card/TitleHead";
 
 
 export default function HeroJobSearch() {

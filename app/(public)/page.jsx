@@ -4,15 +4,15 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import HeroSection from "@/features/global/components/sections/HeroSection";
-import ExploreCompanies from "@/features/global/components/sections/ExploreCompanies";
-import LogoMarquee from "@/features/global/components/sections/LogoMarquee";
-import HeroJobSearch from "@/features/global/components/sections/HeroJobSearch";
-import ChatSection from "@/features/global/components/sections/ChatSection";
-import BlogSection from "@/features/global/components/sections/BlogSection";
-import LatestJobs from "@/features/global/components/sections/LatestJobs";
-import Faqs from "@/features/global/components/sections/Faqs";
-import ReviewSection from "@/features/global/components/sections/ReviewSection";
+import HeroSection from "@/features/shared/components/sections/HeroSection";
+import ExploreCompanies from "@/features/shared/components/sections/ExploreCompanies";
+import LogoMarquee from "@/features/shared/components/sections/LogoMarquee";
+import HeroJobSearch from "@/features/shared/components/sections/HeroJobSearch";
+import ChatSection from "@/features/shared/components/sections/ChatSection";
+import BlogSection from "@/features/shared/components/sections/BlogSection";
+import LatestJobs from "@/features/shared/components/sections/LatestJobs";
+import Faqs from "@/features/shared/components/sections/Faqs";
+import ReviewSection from "@/features/shared/components/sections/ReviewSection";
 import Image from "next/image";
 
 

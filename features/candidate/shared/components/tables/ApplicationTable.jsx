@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCandidateApplications } from "@/features/candidate/global/hooks/queries/useCandidates";
-import ApplicationTableSkeleton from "@/features/candidate/global/components/tables/ApplicationTableSkeleton";
+import { useCandidateApplications } from "@/features/candidate/shared/hooks/queries/useCandidates";
+import ApplicationTableSkeleton from "@/features/candidate/shared/components/tables/ApplicationTableSkeleton";
 import formatDate from "@/utils/functions/DateFormat";
 
 const statusColors = {

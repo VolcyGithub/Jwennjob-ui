@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import StatCard from "@/features/candidate/global/components/cards/StatCard";
-import ProgressBar from "@/features/candidate/global/components/stats/ProgressBar";
+import StatCard from "@/features/candidate/shared/components/cards/StatCard";
+import ProgressBar from "@/features/candidate/shared/components/stats/ProgressBar";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import ApplicationTable from "@/features/candidate/global/components/tables/ApplicationTable";
+import ApplicationTable from "@/features/candidate/shared/components/tables/ApplicationTable";
 import { BiBriefcase,BiStar,BiBookmark,BiLogoWhatsapp, BiChevronRight,} from "react-icons/bi";
 import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
 

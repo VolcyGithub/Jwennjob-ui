@@ -1,4 +1,8 @@
-
+/**
+ * Helper function to get the cookie from a value name
+ * @param name Cookie name
+ * @returns Cookie value
+ */
 const getCookies = (name : string) => {
      return document.cookie
       .split("; ")

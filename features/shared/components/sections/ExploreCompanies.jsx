@@ -10,8 +10,8 @@ import "swiper/css/pagination";
 
 import { SiFuturelearn, SiHandshake, SiBlogger } from "react-icons/si";
 import { MdOutlineElectricBolt, MdOutlineAttachMoney } from "react-icons/md";
-import { useRecruiters } from "@/features/global/hooks/queries/useGlobalRecruiter";
-import CompanyCardSkeleton from "@/features/global/components/card/CompanyCardSkeleton";
+import { useRecruiters } from "@/features/shared/hooks/queries/useGlobalRecruiter";
+import CompanyCardSkeleton from "@/features/shared/components/card/CompanyCardSkeleton";
 
 
 

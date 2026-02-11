@@ -1,10 +1,10 @@
 "use client";
 
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import StatCard from "@/features/candidate/global/components/cards/StatCard";
+import StatCard from "@/features/candidate/shared/components/cards/StatCard";
 import CandidateCard from "@/components/recruiter/cards/CandidateCard";
 import CandidateCardSkeleton from "@/components/recruiter/cards/CandidateCardSkeleton";
-import Application from "@/features/recruiter/global/components/tables/Application";
+import Application from "@/features/recruiter/shared/components/tables/Application";
 import { useUsers } from "@/app/lib/api/hooks/queries/useUsers";
 import { useRecruiterAuth } from "@/app/lib/contexts/RecruiterContext";
 import { motion, AnimatePresence } from "framer-motion";

@@ -3,8 +3,8 @@ import { useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import { SkeletonTheme } from "react-loading-skeleton";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import CandidateFilterBar from "@/features/recruiter/global/components/grids/CandidateFilter";
-import CandidateGrid from "@/features/recruiter/global/components/grids/CandidateGrid";
+import CandidateFilterBar from "@/features/recruiter/shared/components/grids/CandidateFilter";
+import CandidateGrid from "@/features/recruiter/shared/components/grids/CandidateGrid";
 import {
   BiBuilding,
   BiCog,

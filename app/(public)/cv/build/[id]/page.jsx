@@ -2,7 +2,7 @@
 
 import { useCv } from "@/contexts/CvContext";
 import { useTab } from "@/contexts/TabContext";
-import { useCandidateCv } from "@/features/candidate/global/hooks/queries/useCandidates";
+import { useCandidateCv } from "@/features/candidate/shared/hooks/queries/useCandidates";
 import ActivitiesSection from "@/features/cv/components/ui/ActivitiesScetion";
 import AwardsSection from "@/features/cv/components/ui/AwardsSection";
 import EducationSection from "@/features/cv/components/ui/EducationSection";
@@ -10,7 +10,7 @@ import ExperienceSection from "@/features/cv/components/ui/ExperienceSection";
 import { InputField } from "@/features/cv/components/ui/InputField";
 import { NavigationButtons } from "@/features/cv/components/ui/NavigationButtons";
 import MyDocument from "@/features/cv/components/ui/PreviewSection";
-import Alert from "@/features/global/components/alerts/Alert";
+import Alert from "@/features/shared/components/alerts/Alert";
 import { PDFViewer } from "@react-pdf/renderer";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

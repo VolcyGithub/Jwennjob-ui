@@ -8,10 +8,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import TitleHead from "@/features/global/components/card/TitleHead";
-import JobCardSkeleton from "@/features/global/components/card/JobCardSkeleton";
-import JobCard from "@/features/global/components/card/Jobcard";
-import { useJobs } from "@/features/global/hooks/queries/useJobs";
+import TitleHead from "@/features/shared/components/card/TitleHead";
+import JobCardSkeleton from "@/features/shared/components/card/JobCardSkeleton";
+import JobCard from "@/features/shared/components/card/Jobcard";
+import { useJobs } from "@/features/shared/hooks/queries/useJobs";
 
 export default function LatestJobs() {
   const { data: jobs, isLoading, error } = useJobs();

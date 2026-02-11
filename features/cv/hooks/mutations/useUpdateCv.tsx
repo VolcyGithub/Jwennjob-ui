@@ -1,5 +1,5 @@
 import { KEYS } from '@/config/constants';
-import { candidateApi } from '@/features/candidate/global/api/candidate';
+import { candidateApi } from '@/features/candidate/shared/api/candidate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 

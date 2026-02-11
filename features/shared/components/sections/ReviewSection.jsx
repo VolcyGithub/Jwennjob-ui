@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination, Autoplay } from "swiper/modules";
-import TitleHead from "@/features/global/components/card/TitleHead";
+import TitleHead from "@/features/shared/components/card/TitleHead";
 
 const reviews = [
   {

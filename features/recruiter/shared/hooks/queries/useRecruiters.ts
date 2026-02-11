@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { CACHE_TIME, KEYS } from "@/config/constants";
-import { recruiterApi } from "@/features/recruiter/global/api/recruiter";
+import { recruiterApi } from "@/features/recruiter/shared/api/recruiter";
 
 // Recruiter ME
 export const useRecruiterMe = (params?: Record<string, any>) =>

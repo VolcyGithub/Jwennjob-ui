@@ -1,6 +1,6 @@
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import ApplicationFilter from "@/features/candidate/global/components/tables/ApplicationFilter";
-import ApplicationTable from "@/features/candidate/global/components/tables/ApplicationTable";
+import ApplicationFilter from "@/features/candidate/shared/components/tables/ApplicationFilter";
+import ApplicationTable from "@/features/candidate/shared/components/tables/ApplicationTable";
 
 export default function Index() {
   return (

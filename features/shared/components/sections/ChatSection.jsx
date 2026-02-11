@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import TitleHead from "@/features/global/components/card/TitleHead";
+import TitleHead from "@/features/shared/components/card/TitleHead";
 
 const messages = [
   {

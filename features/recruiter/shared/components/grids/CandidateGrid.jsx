@@ -3,7 +3,7 @@ import CandidateCard from "../cards/CandidateCard";
 import { motion } from "framer-motion";
 import CandidateCardSkeleton from "@/components/recruiter/cards/CandidateCardSkeleton";
 import { useRecruiterCandidates } from "@/app/lib/api/hooks/queries/useRecruiters";
-import ErrorState from "../../../../candidate/global/components/cards/CardError";
+import ErrorState from "../../../../candidate/shared/components/cards/CardError";
 import Pagination from "../../../../../components/global/Pagination";
 import { useState } from "react";
 import EmptyState from "../cards/EmptyState";

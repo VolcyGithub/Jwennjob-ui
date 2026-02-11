@@ -7,7 +7,7 @@ import ExperienceSection from "@/features/cv/components/ui/ExperienceSection";
 import { InputField } from "@/features/cv/components/ui/InputField";
 import { NavigationButtons } from "@/features/cv/components/ui/NavigationButtons";
 import MyDocument from "@/features/cv/components/ui/PreviewSection";
-import Alert from "@/features/global/components/alerts/Alert";
+import Alert from "@/features/shared/components/alerts/Alert";
 import { PDFViewer } from "@react-pdf/renderer";
 import { useState } from "react";
 

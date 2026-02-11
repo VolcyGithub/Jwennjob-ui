@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { CACHE_TIME, KEYS } from "@/config/constants";
-import { candidateApi } from "@/features/candidate/global/api/candidate";
+import { candidateApi } from "@/features/candidate/shared/api/candidate";
 
 
 export const useMe = (params?: Record<string, any>) =>

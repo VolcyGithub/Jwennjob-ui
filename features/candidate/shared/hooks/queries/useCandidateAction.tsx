@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { KEYS } from '@/config/constants';
-import { candidateApi } from "@/features/candidate/global/api/candidate";
+import { candidateApi } from "@/features/candidate/shared/api/candidate";
 
 
 export const useCandidateApply = () => {
