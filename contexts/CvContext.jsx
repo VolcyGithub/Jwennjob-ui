@@ -1,5 +1,6 @@
+import { API_URL } from "@/config/constants";
 import { createContext, useState, useContext, useCallback } from "react";
-import { API_URL } from "../utils/constants";
+
 
 export const CvContext = createContext(null);
 

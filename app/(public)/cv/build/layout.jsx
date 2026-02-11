@@ -1,7 +1,8 @@
 'use client';
-import { CvProvider } from '../../../lib/contexts/CvContext';
-import { TabProvider } from '../../../lib/contexts/TabContext';
-import { useState } from 'react';
+
+import { CvProvider } from "@/contexts/CvContext";
+import { TabProvider } from "@/contexts/TabContext";
+
 
 
 

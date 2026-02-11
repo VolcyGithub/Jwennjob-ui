@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { authApi } from '../../endpoints/auths';
+import { authApi } from '@/features/auth/api/auths';
 
 export const useCandidateRegister = () => {
   return useMutation({

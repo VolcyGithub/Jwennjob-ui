@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { CACHE_TIME, KEYS } from "@/config/constants";
-import { candidateApi } from "../../endpoints/candidate";
+import { candidateApi } from "@/features/candidate/global/api/candidate";
+
 
 export const useMe = (params?: Record<string, any>) =>
   useQuery({
@@ -40,14 +41,8 @@ export const useCandidateCvs= (params?: Record<string, any>) =>
 
 export const useCandidateCv = (id: string) =>
   useQuery({
-    // Include id in the key so each CV has its own cache entry
     queryKey: [KEYS.candidates.cvs, id], 
-    
-    // Pass the id to your API function
     queryFn: () => candidateApi.getCvById(id), 
-    
     staleTime: CACHE_TIME,
-    
-    // Optional: Only run the query if an ID actually exists
     enabled: !!id, 
   });

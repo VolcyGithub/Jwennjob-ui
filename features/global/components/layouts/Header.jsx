@@ -4,7 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { LuMenu, LuX } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
-import { useCandidateConnected } from "@/app/lib/contexts/ConnectContext";
+import { useCandidateConnected } from "@/contexts/ConnectContext";
+
 
 const navLinks = [
   { href: "/", label: "Accueil" },

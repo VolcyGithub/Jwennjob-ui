@@ -1,23 +1,26 @@
 "use client";
-import Alert from "../../../../components/global/Alert";
-import { InputField } from "../../../../features/cv/components/ui/InputField";
-import { NavigationButtons } from "../../../../features/cv/components/ui/NavigationButtons";
-import { useTab } from "../../../lib/contexts/TabContext.jsx";
-import { useCv } from "../../../lib/contexts/CvContext.jsx";
+
+import { useCv } from "@/contexts/CvContext";
+import { useTab } from "@/contexts/TabContext";
+import EducationSection from "@/features/cv/components/ui/EducationSection";
+import ExperienceSection from "@/features/cv/components/ui/ExperienceSection";
+import { InputField } from "@/features/cv/components/ui/InputField";
+import { NavigationButtons } from "@/features/cv/components/ui/NavigationButtons";
+import MyDocument from "@/features/cv/components/ui/PreviewSection";
+import Alert from "@/features/global/components/alerts/Alert";
+import { PDFViewer } from "@react-pdf/renderer";
 import { useState } from "react";
-import ExperienceSection from "../../../../features/cv/components/ui/ExperienceSection";
-import EducationSection from "../../../../features/cv/components/ui/EducationSection";
-import { pdf, PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import MyDocument from "../../../../features/cv/components/ui/PreviewSection";
+
 export default function CVBuilder() {
   const [alert, setAlert] = useState(null);
- const { formData, handleChange } = useCv();
-  const {tabs, activeTab, setActiveTab, handleTabChange, alert: tabAlert} = useTab();
-  
-
- 
-
-  
+  const { formData, handleChange } = useCv();
+  const {
+    tabs,
+    activeTab,
+    setActiveTab,
+    handleTabChange,
+    alert: tabAlert,
+  } = useTab();
 
   return (
     <>
@@ -56,7 +59,8 @@ export default function CVBuilder() {
             </span>
           </h1>
           <p className="text-base text-center text-slate-200 max-w-lg mt-6">
-            Téléchargez votre CV, recevez des conseils personnalisés et améliorez vos chances d'être embauché
+            Téléchargez votre CV, recevez des conseils personnalisés et
+            améliorez vos chances d'être embauché
           </p>
         </div>
       </div>
@@ -92,7 +96,9 @@ export default function CVBuilder() {
           <div className="p-6 md:p-10">
             {activeTab === "personal" && (
               <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Personal Information</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                  Personal Information
+                </h2>
                 <div className="space-y-5">
                   <InputField
                     label="Full Name"
@@ -119,24 +125,36 @@ export default function CVBuilder() {
                   <InputField
                     label="Location"
                     value={formData.personal.location}
-                    onChange={(val) => handleChange("personal", "location", val)}
+                    onChange={(val) =>
+                      handleChange("personal", "location", val)
+                    }
                     placeholder="New York, NY"
                   />
                   <InputField
                     label="LinkedIn Profile"
                     type="url"
                     value={formData.personal.linkedin}
-                    onChange={(val) => handleChange("personal", "linkedin", val)}
+                    onChange={(val) =>
+                      handleChange("personal", "linkedin", val)
+                    }
                     placeholder="linkedin.com/in/johndoe"
                   />
                 </div>
-                <NavigationButtons nextTab="summary" nextLabel="Next: Summary" formData={formData} setAlert={setAlert} setActiveTab={setActiveTab} />
+                <NavigationButtons
+                  nextTab="summary"
+                  nextLabel="Next: Summary"
+                  formData={formData}
+                  setAlert={setAlert}
+                  setActiveTab={setActiveTab}
+                />
               </div>
             )}
 
             {activeTab === "summary" && (
               <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Professional Summary</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                  Professional Summary
+                </h2>
                 <div className="space-y-5">
                   <InputField
                     label="Professional Summary"
@@ -146,10 +164,16 @@ export default function CVBuilder() {
                     rows={6}
                   />
                   <p className="text-sm text-gray-500">
-                    Tip: Keep it concise (3-4 sentences) and highlight your unique value proposition.
+                    Tip: Keep it concise (3-4 sentences) and highlight your
+                    unique value proposition.
                   </p>
                 </div>
-                <NavigationButtons prevTab="personal" nextTab="education" formData={formData} nextLabel="Next: Education" />
+                <NavigationButtons
+                  prevTab="personal"
+                  nextTab="education"
+                  formData={formData}
+                  nextLabel="Next: Education"
+                />
               </div>
             )}
 
@@ -158,12 +182,14 @@ export default function CVBuilder() {
             )}
 
             {activeTab === "experience" && (
-            <ExperienceSection setAlert={setAlert} />
+              <ExperienceSection setAlert={setAlert} />
             )}
 
             {activeTab === "skills" && (
               <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Skills</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                  Skills
+                </h2>
                 <div className="space-y-5">
                   <InputField
                     label="Technical Skills"
@@ -186,7 +212,12 @@ export default function CVBuilder() {
                     placeholder="English (Native), Spanish (Fluent)"
                   />
                 </div>
-                <NavigationButtons prevTab="experience" formData={formData} nextTab="preview" nextLabel="Preview CV" />
+                <NavigationButtons
+                  prevTab="experience"
+                  formData={formData}
+                  nextTab="preview"
+                  nextLabel="Preview CV"
+                />
               </div>
             )}
 
@@ -305,26 +336,26 @@ export default function CVBuilder() {
               //     )}
               //   </div>
               // </div>
-    //           <PDFDownloadLink
-    //   document={<MyDocument />}
-    //   fileName="Yowensly_Volcy_CV.pdf"
-    //   style={{
-    //     textDecoration: 'none',
-    //     padding: '10px 16px',
-    //     backgroundColor: '#000',
-    //     color: '#fff',
-    //     borderRadius: 4,
-    //     fontSize: 14,
-    //   }}
-    // >
-    //   {({ loading }) =>
-    //     loading ? 'Preparing PDF...' : 'Download CV'
-    //   }
-    // </PDFDownloadLink>
+              //           <PDFDownloadLink
+              //   document={<MyDocument />}
+              //   fileName="Yowensly_Volcy_CV.pdf"
+              //   style={{
+              //     textDecoration: 'none',
+              //     padding: '10px 16px',
+              //     backgroundColor: '#000',
+              //     color: '#fff',
+              //     borderRadius: 4,
+              //     fontSize: 14,
+              //   }}
+              // >
+              //   {({ loading }) =>
+              //     loading ? 'Preparing PDF...' : 'Download CV'
+              //   }
+              // </PDFDownloadLink>
 
-      <PDFViewer style={{ width: '100%', height: '90vh' }}>
-        <MyDocument formData={formData}/>
-      </PDFViewer>
+              <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                <MyDocument formData={formData} />
+              </PDFViewer>
             )}
           </div>
         </div>

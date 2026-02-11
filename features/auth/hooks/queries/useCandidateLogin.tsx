@@ -1,19 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
-import { authApi } from '../../endpoints/auths';
+import { authApi } from '@/features/auth/api/auths';
 
-export const useRecruiterLogin = () => {
+export const useCandidateLogin = () => {
   return useMutation({
 
     mutationFn: (credentials) => {
-      return authApi.loginRecruiter(credentials);
+      return authApi.loginCandidate(credentials);
     },
 
     onSuccess: (data : {token : string }) => {
      const token = data.token;
-     document.cookie = `recruiter_token=${token}; path=/; max-age=86400`;
-     window.location.href= "/recruiter";
+     document.cookie = `candidate_token=${token}; path=/; max-age=86400`;
+     window.location.href= "/candidate";
     },
-    
     onError: (error: any) => {
       console.log(error.response?.data?.message || 'Erreur lors de la connexion du candidat');
     },

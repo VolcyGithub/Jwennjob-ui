@@ -7,11 +7,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import EnterpriseCard from "@/components/global/card/EnterpriseCard";
+
 import { SiFuturelearn, SiHandshake, SiBlogger } from "react-icons/si";
 import { MdOutlineElectricBolt, MdOutlineAttachMoney } from "react-icons/md";
-import { useRecruiters } from "@/app/lib/api/hooks/queries/useRecruiters";
-import CompanyCardSkeleton from "../card/CompanyCardSkeleton";
+import { useRecruiters } from "@/features/global/hooks/queries/useGlobalRecruiter";
+import CompanyCardSkeleton from "@/features/global/components/card/CompanyCardSkeleton";
+
+
 
 const sectors = [
   { id: "all", label: "Tous", icon: null, color: "bg-gray-700" },
@@ -43,8 +45,8 @@ const sectors = [
 ];
 
 export default function ExploreCompanies() {
-  const { data: recruiters, isLoading, error } = useRecruiters();
 
+  const { data: recruiters, isLoading, error } = useRecruiters();
   const [active, setActive] = useState("all");
 
   return (

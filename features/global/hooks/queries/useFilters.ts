@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { CACHE_TIME, KEYS } from "@/config/constants";
-import { filterApi } from "../../endpoints/filters";
+import { filterApi } from "@/features/global/api/filters";
 
 export const useFilters = (params?: Record<string, any>) =>
   useQuery({

@@ -1,14 +1,6 @@
-import { publicClientKey, recruiterClient } from "../client/client";
+import { recruiterClient } from "@/lib/client/client";
 
 export const recruiterApi = {
-  
-  // Public
-  getRecruiters: (params?: Record<string, any>) =>
-    publicClientKey.get("/recruiters", params),
-
-  // Public
-  getRecruiter: (id: number, params?: Record<string, any>) =>
-    publicClientKey.get(`/recruiters/${id}`, params),
 
   // Get authenticated recruiter
   getMe: (params?: Record<string, any>) =>

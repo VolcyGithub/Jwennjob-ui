@@ -4,16 +4,17 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import LogoMarquee from "@/components/global/LogoMarquee";
+import HeroSection from "@/features/global/components/sections/HeroSection";
+import ExploreCompanies from "@/features/global/components/sections/ExploreCompanies";
+import LogoMarquee from "@/features/global/components/sections/LogoMarquee";
+import HeroJobSearch from "@/features/global/components/sections/HeroJobSearch";
+import ChatSection from "@/features/global/components/sections/ChatSection";
+import BlogSection from "@/features/global/components/sections/BlogSection";
+import LatestJobs from "@/features/global/components/sections/LatestJobs";
+import Faqs from "@/features/global/components/sections/Faqs";
+import ReviewSection from "@/features/global/components/sections/ReviewSection";
 import Image from "next/image";
-import HeroSection from "@/components/global/HeroSection";
-import ChatSection from "@/components/global/ChatSection";
-import HeroJobSearch from "@/components/global/HeroJobSearch";
-import LatestJobs from "@/components/global/LatestJobs";
-import ExploreCompanies from "@/components/global/ExploreCompanies";
-import Faqs from "@/components/global/Faqs";
-import ReviewSection from "@/components/global/ReviewSection";
-import BlogSection from "@/components/global/BlogSection";
+
 
 export default function Home() {
   return (

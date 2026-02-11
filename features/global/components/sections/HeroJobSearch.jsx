@@ -1,10 +1,12 @@
 "use client";
 import Image from "next/image";
-import TitleHead from "./TitleHead";
+
 import { BiFileBlank, BiPalette, BiDownload, BiStar, BiEditAlt, BiCloudUpload } from "react-icons/bi";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import TripletCards from "./TripletCards";
+import TripletCards from "@/features/global/components/card/TripletCards";
+import TitleHead from "@/features/global/components/card/TitleHead";
+
 
 export default function HeroJobSearch() {
   const cardVariants = {

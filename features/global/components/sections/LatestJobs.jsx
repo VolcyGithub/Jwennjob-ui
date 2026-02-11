@@ -1,15 +1,18 @@
 "use client";
 import Link from "next/link";
-import TitleHead from "../alerts/TitleHead";
-import JobCard from "@/components/global/card/Jobcard";
+
 import { IoBriefcaseOutline } from "react-icons/io5";
-import { useJobs } from "@/lib/api/hooks/queries/useJobs";
-import JobCardSkeleton from "../card/JobCardSkeleton";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import TitleHead from "@/features/global/components/card/TitleHead";
+import JobCardSkeleton from "@/features/global/components/card/JobCardSkeleton";
+import JobCard from "@/features/global/components/card/Jobcard";
+import { useJobs } from "@/features/global/hooks/queries/useJobs";
+
 export default function LatestJobs() {
   const { data: jobs, isLoading, error } = useJobs();
 

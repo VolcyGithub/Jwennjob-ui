@@ -1,4 +1,4 @@
-import { publicClientKey } from "../client/client";
+import { publicClientKey } from  "@/lib/client/client";
 
 export const jobsApi = {
   getJobs: (params?: Record<string, any>) =>

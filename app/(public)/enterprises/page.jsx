@@ -1,11 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FiSearch, FiMapPin, FiUsers, FiPlayCircle, FiCode, FiArrowRight } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import EnterpriseCard from "@/components/global/card/EnterpriseCard";
 import CompanyCardSkeleton from "@/components/global/card/CompanyCardSkeleton";
 import { useRecruiters } from "@/app/lib/api/hooks/queries/useRecruiters";

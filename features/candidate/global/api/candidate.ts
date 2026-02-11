@@ -1,4 +1,4 @@
-import { candidateClient } from "../client/client";
+import { candidateClient } from  "@/lib/client/client";
 
 export const candidateApi = {
   getMe: (params?: Record<string, any>) =>

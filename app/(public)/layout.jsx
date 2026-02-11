@@ -1,6 +1,7 @@
-import Footer from "@/components/global/Footer";
-import Header from "@/components/global/Header";
+
 import { ConnectProvider } from "@/contexts/ConnectContext";
+import Footer from "@/features/global/components/layouts/Footer";
+import Header from "@/features/global/components/layouts/Header";
 import { cookies } from "next/headers";
 
 export const metadata = {

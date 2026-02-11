@@ -1,6 +1,7 @@
+import { KEYS } from '@/config/constants';
+import { candidateApi } from '@/features/candidate/global/api/candidate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { candidateApi } from '../../endpoints/candidate';
-import { KEYS } from '../../../../config/constants';
+
 
 export const useUpdateCv = (id: string) => {
     const queryClient = useQueryClient();

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { socialAuthApi } from '../../endpoints/auths';
+import { socialAuthApi } from '@/features/auth/api/auths';
 import { CACHE_TIME, KEYS } from '@/config/constants';
 
 export const useLoginSocialRedirect = (provider: string) =>

@@ -1,4 +1,4 @@
-import { publicClient } from "../client/client";
+import { publicClient } from "@/lib/client/client";
 
 export const authApi = {
   registerCandidate: (data : any) => publicClient.post('/auth/candidate/register' , data),
