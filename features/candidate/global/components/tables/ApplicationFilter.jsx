@@ -1,6 +1,6 @@
 "use client";
 
-import { BiExport, BiFilter, BiReset } from "react-icons/bi";
+import { BiExport, BiFilter } from "react-icons/bi";
 import { useState } from "react";
 import SlimSelect from "slim-select/react";
 import "slim-select/styles";

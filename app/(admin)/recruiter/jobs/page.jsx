@@ -2,7 +2,7 @@
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import ApplicationTableSkeleton from "@/features/candidate/global/components/tables/ApplicationTableSkeleton";
 import Jobs from "@/features/recruiter/global/components/tables/Jobs";
-import { useRecruiterJobs } from "@/app/lib/api/hooks/queries/useRecruiters";
+import { useRecruiterJobs } from "@/features/recruiter/global/hooks/queries/useRecruiters";
 import Link from "next/link";
 import { BiPlus } from "react-icons/bi";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLoginSocialCallback } from "@/app/lib/api/hooks/queries/useLoginSocial";
+import { useLoginSocialCallback } from "@/features/auth/hooks/queries/useLoginSocial";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { ImSpinner8 } from "react-icons/im";

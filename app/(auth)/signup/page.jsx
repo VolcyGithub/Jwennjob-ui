@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useCandidateRegister } from "@/app/lib/api/hooks/mutations/useCandidateRegister";
+
 import { BiLoaderAlt } from "react-icons/bi";
+import { useCandidateRegister } from "@/features/auth/hooks/queries/useCandidateRegister";
 
 
 

@@ -1,11 +1,12 @@
 "use client";
 
+import { RecruiterProvider } from "@/contexts/RecruiterContext";
 import ErrorState from "@/features/candidate/global/components/cards/CardError";
 import NavAside from "@/features/recruiter/global/components/layouts/NavAside";
 import NavOverlay from "@/features/recruiter/global/components/layouts/NavOverlay";
 import NavTop from "@/features/recruiter/global/components/layouts/NavTop";
-import { useRecruiterMe } from "@/app/lib/api/hooks/queries/useRecruiters";
-import { RecruiterProvider } from "@/app/lib/contexts/RecruiterContext";
+import { useRecruiterMe } from "@/features/recruiter/global/hooks/queries/useRecruiters";
+
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";

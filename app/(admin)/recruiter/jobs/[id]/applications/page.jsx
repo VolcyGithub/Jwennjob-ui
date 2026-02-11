@@ -4,9 +4,9 @@ import ApplicationFilter from "@/features/candidate/global/components/tables/App
 import ApplicationTableSkeleton from "@/features/candidate/global/components/tables/ApplicationTableSkeleton";
 import Pagination from "@/components/global/Pagination";
 import Applications from "@/features/recruiter/global/components/tables/Application";
-import { useRecruiterApplicationsByJob } from "@/app/lib/api/hooks/queries/useRecruiters";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { useRecruiterApplicationsByJob } from "@/features/recruiter/global/hooks/queries/useRecruiters";
 
 export default function Page() {
   const { id } = useParams();

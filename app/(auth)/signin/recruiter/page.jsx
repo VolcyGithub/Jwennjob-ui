@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRecruiterLogin } from "@/app/lib/api/hooks/mutations/useRecruierLogin";
+import { useRecruiterLogin } from "@/features/auth/hooks/queries/useRecruierLogin";
+
 
 // Composant Input réutilisable
 const InputField = ({ icon, ...props }) => (

@@ -7,9 +7,9 @@ import { BiBookOpen, BiCog, BiWorld, BiUser } from "react-icons/bi";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import ProgressRing from "@/features/recruiter/global/components/stats/ProgressRing";
 import CandidateDocsPage from "@/components/recruiter/cards/CandidateDocsPage";
-import { useRecruiterCandidatesById } from "@/app/lib/api/hooks/queries/useRecruiters";
 import CandidateProfileSkeleton from "@/components/recruiter/cards/CandidateProfileSkeleton";
 import ErrorState from "@/features/candidate/global/components/cards/CardError";
+import { useRecruiterCandidatesById } from "@/features/recruiter/global/hooks/queries/useRecruiters";
 
 const tabs = ["personal", "study", "skills", "languages"];
 

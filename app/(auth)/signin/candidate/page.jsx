@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useCandidateLogin } from "@/app/lib/api/hooks/mutations/useCandidateLogin";
+
 import { BiLoaderAlt } from "react-icons/bi";
-import { useLoginSocialRedirect } from "@/app/lib/api/hooks/queries/useLoginSocial";
+import { useLoginSocialRedirect } from "@/features/auth/hooks/queries/useLoginSocial";
+import { useCandidateLogin } from "@/features/auth/hooks/queries/useCandidateLogin";
+
 
 // Composant Input réutilisable
 const InputField = ({ icon, ...props }) => (

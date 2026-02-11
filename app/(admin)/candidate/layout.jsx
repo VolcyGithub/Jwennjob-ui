@@ -1,12 +1,13 @@
 "use client";
 
+import { CandidateProvider } from "@/contexts/CandidateContext";
 import ErrorState from "@/features/candidate/global/components/cards/CardError";
 import NavAside from "@/features/candidate/global/components/header/NavAside";
 import NavFloatingButton from "@/features/candidate/global/components/header/NavFloatingButton";
 import NavOverlay from "@/features/candidate/global/components/header/NavOverlay";
 import NavTop from "@/features/candidate/global/components/header/NavTop";
-import { useMe } from "@/app/lib/api/hooks/queries/useCandidates";
-import { CandidateProvider } from "@/app/lib/contexts/CandidateContext";
+import { useMe } from "@/features/candidate/global/hooks/queries/useCandidates";
+
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";

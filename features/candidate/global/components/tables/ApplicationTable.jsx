@@ -1,10 +1,10 @@
 "use client";
 
-import { useCandidateApplications } from "@/app/lib/api/hooks/queries/useCandidates";
 import Image from "next/image";
-import ApplicationTableSkeleton from "./ApplicationTableSkeleton";
-import formatDate from "@/app/lib/utils/functions/DateFormat";
 import Link from "next/link";
+import { useCandidateApplications } from "@/features/candidate/global/hooks/queries/useCandidates";
+import ApplicationTableSkeleton from "@/features/candidate/global/components/tables/ApplicationTableSkeleton";
+import formatDate from "@/utils/functions/DateFormat";
 
 const statusColors = {
   "En attente": "bg-secondary/10 text-primary",
