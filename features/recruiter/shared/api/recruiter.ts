@@ -6,10 +6,6 @@ export const recruiterApi = {
   getMe: (params?: Record<string, any>) =>
     recruiterClient.get("/recruiters/me", params),
 
-  // Get recruiters jobs
-  getJobs: (params?: Record<string, any>) =>
-    recruiterClient.get("/recruiters/jobs", params),
-
   // Get recruiters applications
   getApplications: (params?: Record<string, any>) =>
     recruiterClient.get("/recruiters/applications", params),

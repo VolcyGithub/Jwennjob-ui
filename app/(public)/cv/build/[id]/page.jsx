@@ -1,7 +1,7 @@
 "use client";
 
-import { useCv } from "@/contexts/CvContext";
-import { useTab } from "@/contexts/TabContext";
+import { useCv } from "@/features/cv/contexts/CvContext";
+import { useTab } from "@/features/cv/contexts/TabContext";
 import { useCandidateCv } from "@/features/candidate/shared/hooks/queries/useCandidates";
 import ActivitiesSection from "@/features/cv/components/ui/ActivitiesScetion";
 import AwardsSection from "@/features/cv/components/ui/AwardsSection";

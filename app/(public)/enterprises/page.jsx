@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FiSearch } from "react-icons/fi";
-import EnterpriseCard from "@/components/global/card/EnterpriseCard";
-import CompanyCardSkeleton from "@/components/global/card/CompanyCardSkeleton";
-import { useRecruiters } from "@/app/lib/api/hooks/queries/useRecruiters";
+
+import { useRecruiters } from "@/features/shared/hooks/queries/useGlobalRecruiter";
+import CompanyCardSkeleton from "@/features/shared/components/card/CompanyCardSkeleton";
+import EnterpriseCard from "@/features/shared/components/card/EnterpriseCard";
+
 
 export default function EnterprisesPage() {
 

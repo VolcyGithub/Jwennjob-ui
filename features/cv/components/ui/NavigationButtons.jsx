@@ -1,5 +1,5 @@
 "use client";
-import { useTab } from "../../../../contexts/TabContext.jsx";
+import { useTab } from "../../contexts/TabContext.jsx";
 
 export const NavigationButtons = ({
   prevTab,

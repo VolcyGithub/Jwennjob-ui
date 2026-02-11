@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import PdfViewer from "./PdfViewer";
-import FileCard from "../../../features/candidate/global/components/cards/FileCard";
+import FileCard from "@/features/candidate/shared/components/cards/FileCard";
+
 
 export default function CandidateDocsPage({ docs = [] }) {
   const [selected, setSelected] = useState(docs[0]);

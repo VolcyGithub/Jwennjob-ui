@@ -1,7 +1,7 @@
 'use client';
 
-import { CvProvider } from "@/contexts/CvContext";
-import { TabProvider } from "@/contexts/TabContext";
+import { CvProvider } from "@/features/cv/contexts/CvContext";
+import { TabProvider } from "@/features/cv/contexts/TabContext";
 
 
 

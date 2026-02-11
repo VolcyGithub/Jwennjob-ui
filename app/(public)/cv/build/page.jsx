@@ -1,7 +1,7 @@
 "use client";
 
-import { useCv } from "@/contexts/CvContext";
-import { useTab } from "@/contexts/TabContext";
+import { useCv } from "@/features/cv/contexts/CvContext";
+import { useTab } from "@/features/cv/contexts/TabContext";
 import EducationSection from "@/features/cv/components/ui/EducationSection";
 import ExperienceSection from "@/features/cv/components/ui/ExperienceSection";
 import { InputField } from "@/features/cv/components/ui/InputField";

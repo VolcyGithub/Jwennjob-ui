@@ -1,5 +1,5 @@
 
-import { useCandidateAuth } from "@/contexts/CandidateContext";
+import { useCandidateAuth } from "@/features/candidate/shared/contexts/CandidateContext";
 import { BiBell, BiMenu } from "react-icons/bi";
 
 export default function NavTop({ isOpen, setIsOpen }) {

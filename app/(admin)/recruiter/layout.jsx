@@ -1,6 +1,6 @@
 "use client";
 
-import { RecruiterProvider } from "@/contexts/RecruiterContext";
+import { RecruiterProvider } from "@/features/recruiter/shared/contexts/RecruiterContext";
 import ErrorState from "@/features/candidate/shared/components/cards/CardError";
 import NavAside from "@/features/recruiter/shared/components/layouts/NavAside";
 import NavOverlay from "@/features/recruiter/shared/components/layouts/NavOverlay";

@@ -25,11 +25,12 @@ import {
   BiFlag,
 } from "react-icons/bi";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
-import CandidateProfileSkeleton from "@/components/recruiter/cards/CandidateProfileSkeleton";
-import { useFilters } from "@/app/lib/api/hooks/queries/useFilters";
+
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { useCandidateAuth } from "@/features/candidate/shared/contexts/CandidateContext";
+import { useFilters } from "@/features/shared/hooks/queries/useFilters";
+import CandidateProfileSkeleton from "@/features/recruiter/shared/components/cards/CandidateProfileSkeleton";
 
 export default function Index() {
   const { candidate, isLoading } = useCandidateAuth();

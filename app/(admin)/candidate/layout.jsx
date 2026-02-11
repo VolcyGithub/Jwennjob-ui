@@ -1,6 +1,6 @@
 "use client";
 
-import { CandidateProvider } from "@/contexts/CandidateContext";
+import { CandidateProvider } from "@/features/candidate/shared/contexts/CandidateContext";
 import ErrorState from "@/features/candidate/shared/components/cards/CardError";
 import NavAside from "@/features/candidate/shared/components/header/NavAside";
 import NavFloatingButton from "@/features/candidate/shared/components/header/NavFloatingButton";

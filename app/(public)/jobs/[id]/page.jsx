@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
-import JobDetailSkeleton from "@/components/global/details/JobDetailSkeleton";
-import { useJob } from "@/app/lib/api/hooks/queries/useJobs";
-import { useCandidateConnected } from "@/app/lib/contexts/ConnectContext";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -29,11 +27,12 @@ import {
   MdClose,
 } from "react-icons/md";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  useCandidateApply,
-  useCandidateSave,
-} from "@/app/lib/api/hooks/mutations/useCandidateAction";
+
 import Alert from "@/components/alerts/Alert";
+import { useJob } from "@/features/shared/hooks/queries/useJobs";
+import { useCandidateConnected } from "@/contexts/ConnectContext";
+import { useCandidateApply, useCandidateSave } from "@/features/candidate/shared/hooks/queries/useCandidateAction";
+import JobDetailSkeleton from "@/features/shared/components/details/JobDetailSkeleton";
 
 export default function JobDetailPage() {
   const { id } = useParams();

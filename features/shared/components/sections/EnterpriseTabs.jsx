@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import MasonryGallery from  "@/components/global/MasonryGallery"
 import { FaRocket, FaBullseye, FaLinkedin, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import { IoBriefcase, IoLocation, IoPeople, IoTime } from "react-icons/io5";
 import Link from "next/link";
 import { MdArrowForward } from "react-icons/md";
+import MasonryGallery from "./MasonryGallery";
 
 
 const tabs = ["Profil", "Équipe", "Jobs"];

@@ -1,13 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import EnterpriseTabs from "@/components/global/EnterpriseTabs";
+
 import { MdVerified } from "react-icons/md";
 import React from "react";
 import { useParams } from "next/navigation";
-import { useRecruiter } from "@/app/lib/api/hooks/queries/useRecruiters";
+
 import "react-loading-skeleton/dist/skeleton.css";
-import EnterpriseDetailSkeleton from "@/components/global/details/CompanyDetailSkeleton";
+import EnterpriseDetailSkeleton from "@/features/shared/components/details/CompanyDetailSkeleton";
+import { useRecruiter } from "@/features/shared/hooks/queries/useGlobalRecruiter";
+import EnterpriseTabs from "@/features/shared/components/sections/EnterpriseTabs";
+
 
 export default function EnterpriseDetailPage() {
   const { id } = useParams();

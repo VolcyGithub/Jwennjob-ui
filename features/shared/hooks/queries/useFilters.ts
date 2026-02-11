@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { CACHE_TIME, KEYS } from "@/config/constants";
-import { filterApi } from "@/features/shared/api/filters";
+import { globalFilterApi } from "@/features/shared/api/filters";
+
 
 export const useFilters = (params?: Record<string, any>) =>
   useQuery({
     queryKey: [KEYS.filters, params],
-    queryFn: () => filterApi.getFilters(params),
+    queryFn: () => globalFilterApi.getFilters(params),
     staleTime: CACHE_TIME,
   });

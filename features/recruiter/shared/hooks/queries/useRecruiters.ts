@@ -11,16 +11,6 @@ export const useRecruiterMe = (params?: Record<string, any>) =>
   });
   
 
-// Get recruiters Jobs
-export const useRecruiterJobs = (params?: Record<string, any>) =>
-  useQuery({
-    queryKey: [KEYS.recruiters.jobs, params],
-    queryFn: () => recruiterApi.getJobs(params),
-    staleTime: CACHE_TIME,
-  });
-
-
-
 // Get all applications
 export const useRecruiterApplications = (params?: Record<string, any>) =>
   useQuery({

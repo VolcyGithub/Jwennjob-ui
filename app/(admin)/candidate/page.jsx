@@ -7,7 +7,8 @@ import ProgressBar from "@/features/candidate/shared/components/stats/ProgressBa
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import ApplicationTable from "@/features/candidate/shared/components/tables/ApplicationTable";
 import { BiBriefcase,BiStar,BiBookmark,BiLogoWhatsapp, BiChevronRight,} from "react-icons/bi";
-import { useCandidateAuth } from "@/app/lib/contexts/CandidateContext";
+import { useCandidateAuth } from "@/features/candidate/shared/contexts/CandidateContext";
+
 
 
 
