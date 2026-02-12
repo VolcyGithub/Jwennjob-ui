@@ -51,6 +51,8 @@ export default function Show() {
 
   const candidate = response.data;
 
+  console.log(candidate);
+
   return (
     <div>
       <BreadCrumb
@@ -152,13 +154,13 @@ export default function Show() {
                   Niveau d'études
                 </span>
                 <p className="font-semibold text-primary">
-                  {candidate.education || "Non renseigné"}
+                  {candidate.education?.title || "Non renseigné"}
                 </p>
               </div>
               <div>
                 <span className="text-gray-500 text-xs block mb-1">Genre</span>
                 <p className="font-semibold text-primary">
-                  {candidate.gender || "Non renseigné"}
+                  {candidate.gender?.title || "Non renseigné"}
                 </p>
               </div>
               <div>
@@ -243,8 +245,8 @@ export default function Show() {
                       <span className="text-gray-500 text-xs block mb-1">
                         Niveau d'études
                       </span>
-                      <p className="font-semibold text-primary text-lg">
-                        {candidate.education || "Non renseigné"}
+                      <p className="font-semibold text-primary">
+                        {candidate.education?.title || "Non renseigné"}
                       </p>
                     </div>
 

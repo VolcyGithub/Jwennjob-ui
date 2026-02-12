@@ -31,7 +31,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Alert from "@/components/alerts/Alert";
 import { useJob } from "@/features/shared/hooks/queries/useJobs";
 import { useCandidateConnected } from "@/contexts/ConnectContext";
-import { useCandidateApply, useCandidateSave } from "@/features/candidate/shared/hooks/queries/useCandidateAction";
+import { useCandidateApply, useCandidateSave } from "@/features/candidate/shared/hooks/mutations/useCandidateAction";
 import JobDetailSkeleton from "@/features/shared/components/details/JobDetailSkeleton";
 
 export default function JobDetailPage() {

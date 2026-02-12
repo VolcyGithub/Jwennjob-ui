@@ -1,6 +1,6 @@
 import { CACHE_TIME, KEYS } from "@/config/constants";
 import { useQuery } from "@tanstack/react-query";
-import { recruiterJobApi } from "../../api/recruiterJob";
+import { recruiterJobApi } from "@/features/recruiter/jobs/api/recruiterJob";
 
 
 // Get recruiters Jobs

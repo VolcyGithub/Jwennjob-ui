@@ -1,7 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-import {
-  BiCheckCircle,
+import {BiCheckCircle,
   BiXCircle,
   BiUser,
   BiCalendar,
@@ -9,17 +7,13 @@ import {
   BiMap,
   BiBuilding,
   BiEnvelope,
-  BiPhone,
-  BiIdCard,
   BiBook,
-  BiDollar,
-  BiUserPlus,
   BiInfoCircle,
 } from "react-icons/bi";
 import EmptyState from "../cards/EmptyState";
+import formatDate from "@/utils/functions/DateFormat";
 
 
-// Mapping des couleurs pour le statut de candidature
 const statusColors = {
   pending: "bg-yellow-100 text-yellow-700",
   accepted: "bg-green-100 text-green-700",
@@ -35,17 +29,7 @@ const statusLabels = {
 };
 
 export default function Applications({ applications = [] }) {
-  // Fonction pour formater la date
-  const formatDate = (dateString) => {
-    if (!dateString) return "Non spécifié";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
+  
   // Fonction pour obtenir le statut formaté
   const getStatus = (status) => {
     if (!status) return "null";
@@ -97,7 +81,7 @@ export default function Applications({ applications = [] }) {
                         </div>
                         <div className="text-[10px] text-gray-500 flex items-center gap-1">
                           <BiUser className="text-gray-400" />
-                          {candidate.gender}
+                          {candidate.gender?.title}
                         </div>
                       </div>
                     </div>
@@ -140,7 +124,7 @@ export default function Applications({ applications = [] }) {
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center  rounded-3xl gap-1 ">
                         <BiBook className="text-gray-400" />
-                        <span>{candidate.education || "Non spécifié"}</span>
+                        <span>{candidate.education?.title || "Non spécifié"}</span>
                       </div>
                       <div className="text-[10px] w-fit bg-secondary/10 rounded-3xl  px-2 py-1 gap-1 text-primary">
                         {candidate.sector?.title || "Secteur non défini"}

@@ -57,7 +57,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <StatCard
               icon={<BiBriefcase className="size-8 text-primary" />}
-              value={42}
+              value={candidate.applications_count}
               label="Emplois postulés"
             />
             <StatCard
@@ -67,7 +67,7 @@ export default function Home() {
             />
             <StatCard
               icon={<BiBookmark className="size-8 text-primary" />}
-              value={128}
+              value={candidate.saved_jobs_count}
               label="Emplois sauvegardés"
             />
           </div>

@@ -12,7 +12,7 @@ export default function Index() {
         <span className="text-primary text-2xl">Mes applications</span>
       </div>
       <ApplicationFilter />
-      <ApplicationTable />
+      <ApplicationTable count={20} />
     </div>
   );
 }

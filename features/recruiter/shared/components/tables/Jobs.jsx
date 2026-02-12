@@ -1,39 +1,43 @@
-import Image from "next/image";
+import { useState } from "react";
+import formatDate from "@/utils/functions/DateFormat";
 import Link from "next/link";
 import {
   BiShow,
-  BiMap,
   BiUser,
   BiCalendar,
   BiBuilding,
-  BiBook,
   BiDollar,
   BiTime,
   BiEdit,
   BiTrash,
 } from "react-icons/bi";
+import Modal from "@/components/modals/Modal";
+import { isExpired } from "@/utils/functions/IsExpired";
 
-// Mapping des couleurs pour le niveau d'expérience
-const experienceColors = {
-  "3-5 ans": "bg-secondary/10 font-bold text-primary",
-};
 
-export default function Jobs({ jobs = [] }) {
-  // Fonction pour formater la date
-  const formatDate = (dateString) => {
-    if (!dateString) return "Non spécifié";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+export default function Jobs({ jobs = [], onDelete }) {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [jobToDelete, setJobToDelete] = useState(null);
+
+  const openDeleteModal = (job) => {
+    setJobToDelete(job);
+    setIsModalOpen(true);
   };
 
-  // Fonction pour vérifier si l'offre est expirée
-  const isExpired = (deadline) => {
-    if (!deadline) return false;
-    return new Date(deadline) < new Date();
+  const closeDeleteModal = () => {
+    setIsModalOpen(false);
+    setJobToDelete(null);
+  };
+
+  const confirmDelete = () => {
+
+    if (jobToDelete && onDelete) {
+      onDelete(jobToDelete.id);
+    }
+
+    console.log(jobToDelete);
+    closeDeleteModal();
   };
 
   return (
@@ -81,11 +85,7 @@ export default function Jobs({ jobs = [] }) {
 
                 {/* SECTEUR */}
                 <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium
-                      bg-primary/10 text-primary
-                    }`}
-                  >
+                  <span className="rounded-full px-3 py-1 text-xs font-medium bg-primary/10 text-primary">
                     {job.sector}
                   </span>
                 </td>
@@ -100,11 +100,7 @@ export default function Jobs({ jobs = [] }) {
 
                 {/* EXPÉRIENCE */}
                 <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium
-                      bg-gray-100 text-gray-700
-                    }`}
-                  >
+                  <span className="rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700">
                     {job.experience_level}
                   </span>
                 </td>
@@ -133,7 +129,7 @@ export default function Jobs({ jobs = [] }) {
                   </Link>
                 </td>
 
-                {/* STATUT (basé sur la date limite) */}
+                {/* STATUT */}
                 <td className="border-y border-transparent px-4 py-3 whitespace-nowrap">
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-medium ${
@@ -148,7 +144,7 @@ export default function Jobs({ jobs = [] }) {
 
                 {/* DATE LIMITE */}
                 <td className="border-y border-transparent px-4 py-3 whitespace-nowrap text-gray-600">
-                  <div className={`flex items-center gap-1`}>
+                  <div className="flex items-center gap-1">
                     <BiCalendar />
                     {formatDate(job.deadline)}
                   </div>
@@ -172,6 +168,7 @@ export default function Jobs({ jobs = [] }) {
                     </button>
                     <button
                       title="Supprimer"
+                      onClick={() => openDeleteModal(job)}
                       className="hover:text-red-600 transition p-1 hover:bg-red-50 rounded"
                     >
                       <BiTrash className="text-base" />
@@ -190,6 +187,32 @@ export default function Jobs({ jobs = [] }) {
           </div>
         )}
       </div>
+
+      {/* Modal de confirmation */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        title="Confirmer la suppression"
+        description="Êtes-vous sûr de vouloir supprimer cette offre d'emploi ?"
+        confirmText="Oui, supprimer"
+        cancelText="Annuler"
+        icon={BiTrash}
+        iconBgClass="bg-red-100"
+        iconColorClass="text-red-600"
+        confirmButtonClass="bg-red-600 hover:bg-red-700 focus:ring-red-500"
+      >
+        {jobToDelete && (
+          <>
+            <p className="text-md font-bold text-primary bg-gray-50 p-2 rounded-lg mb-3">
+              {jobToDelete.title}
+            </p>
+            <p className="text-xs text-gray-500">
+              Cette action est irréversible et supprimera définitivement l'offre ainsi que toutes les candidatures associées.
+            </p>
+          </>
+        )}
+      </Modal>
     </div>
   );
 }

@@ -1,535 +1,566 @@
 "use client";
 
-import "slim-select/styles";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import "react-loading-skeleton/dist/skeleton.css";
-import SlimSelect from "slim-select/react";
+import { useState } from "react";
 import {
-  BiBookOpen,
   BiBriefcase,
-  BiCalendar,
-  BiCheckCircle,
-  BiCog,
-  BiEnvelope,
+  BiUserCheck,
   BiFile,
+  BiUser,
+  BiBookOpen,
+  BiCog,
   BiGlobe,
-  BiIdCard,
   BiMap,
   BiPhone,
-  BiUser,
-  BiUserCheck,
-  BiX,
-  BiBuilding,
-  BiMoney,
-  BiFlag,
+  BiEnvelope,
+  BiCalendar,
+  BiIdCard,
+  BiEdit,
+  BiDownload,
+  BiLinkExternal,
 } from "react-icons/bi";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
 import { useCandidateAuth } from "@/features/candidate/shared/contexts/CandidateContext";
-import { useFilters } from "@/features/shared/hooks/queries/useFilters";
 import CandidateProfileSkeleton from "@/features/recruiter/shared/components/cards/CandidateProfileSkeleton";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function Index() {
-  const { candidate, isLoading } = useCandidateAuth();
-  const { data: filters, isLoading: isLoadingFilters } = useFilters();
-
+export default function ProfileView() {
+  const { candidate, isLoading, error } = useCandidateAuth();
   const [activeTab, setActiveTab] = useState("personal");
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    address: "",
-    bio: "",
-    birth_date: "",
-    gender: "",
-    nif: "",
-    salary_id: "",
-    education_id: "",
-    study_level_id: "",
-    department_id: "",
-    sector_id: "",
-    university_id: "",
-    commune_id: "",
-  });
 
-  const [techSkills, setTechSkills] = useState([]);
-  const [languages, setLanguages] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  useEffect(() => {
-    if (candidate && filters) {
-      const communeObj = filters.communes?.find((c) => c.title === candidate.commune);
-      const educationObj = filters.experienceLevels?.find((e) => e.title === candidate.education);
-      const universityObj = filters.universities?.find((u) => u.title === candidate.university);
-      const studyLevelObj = filters.experienceLevels?.find((s) => s.title === candidate.studyLevel);
-      const salaryObj = filters.salaries?.find((s) => s.title === candidate.salary);
-
-      setFormData({
-        first_name: candidate.first_name || "",
-        last_name: candidate.last_name || "",
-        email: candidate.email || "",
-        phone: candidate.phone || "",
-        address: candidate.address || "",
-        bio: candidate.bio || "",
-        birth_date: candidate.birth_date || "",
-        gender: candidate.gender || "",
-        nif: candidate.nif || "",
-        salary_id: salaryObj?.id?.toString() || "",
-        education_id: educationObj?.id?.toString() || "",
-        study_level_id: studyLevelObj?.id?.toString() || "",
-        department_id: candidate.department?.id?.toString() || "",
-        sector_id: candidate.sector?.id?.toString() || "",
-        university_id: universityObj?.id?.toString() || "",
-        commune_id: communeObj?.id?.toString() || "",
-      });
-
-      if (candidate.competences) {
-        setTechSkills(candidate.competences.map((c) => c.id.toString()));
-      }
-
-      if (candidate.languages) {
-        setLanguages(candidate.languages.map((l) => l.id.toString()));
-      }
-    }
-  }, [candidate, filters]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleBioChange = (value) => {
-    setFormData((prev) => ({ ...prev, bio: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const dataToSend = {
-      first_name: formData.first_name,
-      last_name: formData.last_name,
-      email: formData.email,
-      phone: formData.phone,
-      address: formData.address,
-      birth_date: formData.birth_date,
-      gender: formData.gender,
-      nif: formData.nif,
-      commune_id: formData.commune_id ? parseInt(formData.commune_id) : null,
-      education_id: formData.education_id ? parseInt(formData.education_id) : null,
-      university_id: formData.university_id ? parseInt(formData.university_id) : null,
-      study_level_id: formData.study_level_id ? parseInt(formData.study_level_id) : null,
-      bio: formData.bio,
-      competences: techSkills.map((id) => parseInt(id)),
-      languages: languages.map((id) => parseInt(id)),
-      department_id: formData.department_id ? parseInt(formData.department_id) : null,
-      sector_id: formData.sector_id ? parseInt(formData.sector_id) : null,
-      salary_id: formData.salary_id ? parseInt(formData.salary_id) : null,
-    };
-
-    console.log("Données à envoyer:", dataToSend);
-    console.log("JSON:", JSON.stringify(dataToSend, null, 2));
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-    }, 1000);
-  };
-
-  if (isLoading || isLoadingFilters) {
+  if (isLoading) {
     return <CandidateProfileSkeleton />;
   }
 
-  if (!candidate || !filters) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        Erreur lors du chargement du profil
-      </div>
-    );
-  }
+  const tabs = [
+    { id: "personal", label: "Informations personnelles", icon: BiUser },
+    { id: "education", label: "Formation", icon: BiBookOpen },
+    { id: "skills", label: "Compétences", icon: BiCog },
+    { id: "preferences", label: "Préférences", icon: BiGlobe },
+  ];
+
+  // Calcul du pourcentage de complétion du profil
+  const calculateProfileCompletion = () => {
+    const fields = [
+      candidate.first_name,
+      candidate.last_name,
+      candidate.email,
+      candidate.phone,
+      candidate.birth_date,
+      candidate.education,
+      candidate.bio,
+      candidate.competences?.length > 0,
+    ];
+    const filledFields = fields.filter(Boolean).length;
+    return Math.round((filledFields / fields.length) * 100);
+  };
+
+  const completionRate = calculateProfileCompletion();
 
   return (
-    <div>
-      <BreadCrumb items={[{ label: "Accueil", href: "/" }, { label: "Profil" }]} />
+    <div className="min-h-screen bg-gray-50/50 pb-20">
+      <div className="w-full space-y-6">
+        <BreadCrumb
+          items={[{ label: "Accueil", href: "/" }, { label: "Mon Profil" }]}
+        />
 
-      {/* Header */}
-      <div className="bg-primary mt-4 mb-6 text-white w-full rounded-[2rem] py-5 px-5">
-        <div className="flex items-center justify-between">
-          <div className="space-y-2">
-            <h1 className="text-md md:text-4xl">
-              <span className="text-white/75">Modifier votre </span> profil
-            </h1>
-            <p className="text-white/60 max-md:line-clamp-2 mb-3 text-xs md:text-sm leading-relaxed">
-              Mettez à jour vos informations pour augmenter vos chances de trouver l'emploi idéal.
-            </p>
+        {/* Header Section avec Cover */}
+        <div className="relative">
+          {/* Cover Image */}
+          <div className="h-48 md:h-64 rounded-3xl overflow-hidden relative bg-primary">
+            <div className="absolute inset-0 bg-black/10"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+
+            {/* Decorative Elements */}
+            <div className="absolute top-6 right-6 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-6 left-6 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
           </div>
-          <div>
-            <Image width="230" height="230" className="max-w-full h-auto" src="/svgs/Forms-amico.png" alt="" />
-          </div>
-        </div>
-      </div>
 
-      <div className="relative gap-3 grid grid-cols-1 md:grid-cols-3">
-        {/* Sidebar */}
-        <div className="col-span-1">
-          <div className="bg-white rounded-3xl p-4">
-            <div className="flex gap-1 mt-4 flex-col items-center justify-center w-full">
-              <div className="relative">
-                <Image
-                  width={80}
-                  height={80}
-                  className="size-14 md:size-20 rounded-full object-cover"
-                  src={candidate.profile_photo?.trim() || "https://jwennjob.com/img/non-profile.png"}
-                  alt={candidate.name}
-                />
-                <button className="absolute bottom-0 right-0 bg-secondary text-white p-1.5 rounded-full hover:bg-secondary/80 transition">
-                  <BiUser className="w-3 h-3" />
-                </button>
-              </div>
-              <span className="text-primary text-md font-semibold">{candidate.name}</span>
-              <span className="text-gray-500 text-xs">{candidate.sector?.title || "Secteur non spécifié"}</span>
-              <span className="text-gray-400 text-[10px] mt-1">{candidate.department?.title || "Département non spécifié"}</span>
-            </div>
-
-            <div className="flex my-4 px-4 md:px-6 items-center justify-between">
-              <div className="flex text-xs text-primary items-center gap-2">
-                <BiBriefcase className="size-4 text-secondary" />
-                <span className="font-bold">Applications</span>
-              </div>
-              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">{candidate.applications_count || 0}</span>
-            </div>
-            <div className="flex my-4 px-4 md:px-6 items-center justify-between">
-              <div className="flex text-xs text-primary items-center gap-2">
-                <BiUserCheck className="size-4 text-secondary" />
-                <span className="font-bold">Sauvegardes</span>
-              </div>
-              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">{candidate.saved_jobs_count || 0}</span>
-            </div>
-            <div className="flex my-4 px-4 md:px-6 items-center justify-between">
-              <div className="flex text-xs text-primary items-center gap-2">
-                <BiFile className="size-4 text-secondary" />
-                <span className="font-bold">Documents</span>
-              </div>
-              <span className="px-[8px] text-xs text-white font-bold py-1 bg-secondary rounded-full">{candidate.documents_count || 0}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="col-span-1 md:col-span-2">
-          <div className="bg-white rounded-3xl p-6">
-            {/* Tabs */}
-            <div className="overflow-y-auto">
-              <div className="flex space-x-2 w-fit md:w-full bg-white p-1 border border-gray-400/50 rounded-full text-xs">
-                {[
-                  { id: "personal", icon: BiUser, label: "Informations personnelles" },
-                  { id: "education", icon: BiBookOpen, label: "Formation" },
-                  { id: "skills", icon: BiCog, label: "Compétences" },
-                  { id: "preferences", icon: BiGlobe, label: "Préférences" },
-                ].map((tab) => (
-                  <div key={tab.id} className="flex items-center">
-                    <input
-                      type="radio"
-                      name="options"
-                      id={tab.id}
-                      className="hidden peer"
-                      checked={activeTab === tab.id}
-                      onChange={() => setActiveTab(tab.id)}
+          {/* Profile Info Card */}
+          <div className="relative -mt-20 mx-4 md:mx-8">
+            <div className="bg-white rounded-4xl p-6 md:p-8">
+              <div className="flex flex-col md:flex-row items-center md:items-end gap-6">
+                {/* Avatar */}
+                <div className="relative -mt-16 md:-mt-24">
+                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-white">
+                    <Image
+                      width={160}
+                      height={160}
+                      className="w-full h-full rounded-full object-cover"
+                      src={
+                        candidate.profile_photo?.trim() ||
+                        "https://jwennjob.com/img/non-profile.png"
+                      }
+                      alt={candidate.name}
                     />
-                    <label
-                      htmlFor={tab.id}
-                      className="cursor-pointer font-bold flex gap-1 items-center text-nowrap rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-secondary/20 peer-checked:text-primary"
-                    >
-                      <tab.icon className="size-4" />
-                      {tab.label}
-                    </label>
                   </div>
+                </div>
+
+                {/* Info */}
+                <div className="flex-1 text-center md:text-left">
+                  <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">
+                    {candidate.name}
+                  </h1>
+                  <p className="text-primary font-medium mb-2">
+                    {candidate.sector?.title || "Secteur non spécifié"}
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-gray-500">
+                    <span className="flex items-center gap-1">
+                      <BiMap className="text-secondary" />
+                      {candidate.department?.title ||
+                        "Localisation non spécifiée"}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <BiEnvelope className="text-secondary" />
+                      {candidate.email}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <BiPhone className="text-secondary" />
+                      {candidate.phone?.title || "Non spécifié"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-3">
+                  <Link
+                    href="/candidate/profile/edit"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-3xl font-medium hover:bg-primary/90 transition-all shadow-md hover:shadow-lg"
+                  >
+                    <BiEdit className="w-4 h-4" />
+                    <span className="hidden sm:inline">Modifier</span>
+                  </Link>
+                  <button className="flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-gray-200 text-gray-700 rounded-3xl font-medium hover:border-primary hover:text-primary transition-all">
+                    <BiDownload className="w-4 h-4" />
+                    <span className="hidden sm:inline">CV</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Tabs Navigation */}
+            <div className="bg-white rounded-3xl p-2 ">
+              <div className="flex flex-wrap gap-3">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-2 px-4 py-3 rounded-3xl font-medium text-sm transition-all duration-200 ${
+                      activeTab === tab.id
+                        ? "bg-primary text-white shadow-md"
+                        : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </button>
                 ))}
               </div>
             </div>
 
-            {/* Success Alert */}
-            {showSuccess && (
-              <div className="flex items-center justify-between rounded-xl mt-8 mb-4 text-green-600 w-full bg-green-50 h-10">
-                <div className="flex w-full h-10 gap-2 items-center">
-                  <div className="h-full w-1.5 bg-green-500 rounded-l-xl"></div>
-                  <div className="flex items-center">
-                    <BiCheckCircle />
-                    <p className="text-sm ml-2">Profil mis à jour avec succès !</p>
+            {/* Tab Content */}
+            <div className="bg-white rounded-3xl overflow-hidden">
+              {/* Personal Info */}
+              {activeTab === "personal" && (
+                <div className="p-4 md:p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg text-primary flex items-center gap-2">
+                      <BiUser className="text-primary" />
+                      Informations personnelles
+                    </h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <InfoCard
+                      icon={BiUser}
+                      label="Prénom"
+                      value={candidate.first_name}
+                    />
+                    <InfoCard
+                      icon={BiUser}
+                      label="Nom"
+                      value={candidate.last_name}
+                    />
+                    <InfoCard
+                      icon={BiEnvelope}
+                      label="Email"
+                      value={candidate.email}
+                    />
+                    <InfoCard
+                      icon={BiPhone}
+                      label="Téléphone"
+                      value={candidate.phone?.title}
+                    />
+                    <InfoCard
+                      icon={BiMap}
+                      label="Adresse"
+                      value={candidate.address?.title}
+                    />
+                    <InfoCard
+                      icon={BiMap}
+                      label="Commune"
+                      value={candidate.commune?.title}
+                    />
+                    <InfoCard
+                      icon={BiCalendar}
+                      label="Date de naissance"
+                      value={candidate.birth_date}
+                    />
+                    <InfoCard
+                      icon={BiUser}
+                      label="Genre"
+                      value={candidate.gender?.title}
+                    />
+                    <InfoCard
+                      icon={BiIdCard}
+                      label="NIF"
+                      value={candidate.nif}
+                      fullWidth
+                    />
                   </div>
                 </div>
-                <button type="button" onClick={() => setShowSuccess(false)} className="active:scale-90 transition-all mr-3">
-                  <BiX />
-                </button>
+              )}
+
+              {/* Education */}
+              {activeTab === "education" && (
+                <div className="p-4 md:p-8">
+                  <h2 className="text-lg text-primary mb-6 flex items-center gap-2">
+                    <BiBookOpen className="text-primary" />
+                    Formation & Parcours
+                  </h2>
+
+                  <div className="space-y-6">
+                    {/* Education Level */}
+                    <div className="flex gap-4 p-4 bg-gray-50 rounded-3xl">
+                      <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
+                        <BiBookOpen className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-gray-500 mb-1">
+                          Niveau d'études
+                        </p>
+                        <p className="font-semibold text-sm md:text-md text-gray-800">
+                          {candidate.education?.title || "Non spécifié"}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* University */}
+                    <div className="flex gap-4 p-4 bg-gray-50 rounded-3xl">
+                      <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
+                        <BiUser className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-gray-500 mb-1">
+                          Université / Établissement
+                        </p>
+                        <p className="font-semibold text-sm md:text-md text-gray-800">
+                          {candidate.university?.title || "Non spécifié"}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Experience Level */}
+                    <div className="flex gap-4 p-4 bg-gray-50 rounded-3xl">
+                      <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
+                        <BiBriefcase className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-gray-500 mb-1">
+                          Niveau d'expérience
+                        </p>
+                        <p className="font-semibold text-sm md:text-md text-gray-800">
+                          {candidate.studyLevel?.title || "Non spécifié"}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Bio */}
+                    {candidate.bio && (
+                      <div className="mt-6">
+                        <h3 className="font-semibold text-gray-800 mb-3">
+                          Biographie
+                        </h3>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: candidate.bio }}
+                          className="p-4 bg-gray-50 rounded-xl text-gray-600 leading-relaxed"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Skills */}
+              {activeTab === "skills" && (
+                <div className="p-4 md:p-8">
+                  <h2 className="text-lg text-primary mb-6 flex items-center gap-2">
+                    <BiCog className="text-primary" />
+                    Compétences & Expertises
+                  </h2>
+
+                  {/* Technical Skills */}
+                  <div className="mb-8">
+                    <h3 className="font-semibold text-gray-700 mb-4">
+                      Compétences techniques
+                    </h3>
+                    {candidate.competences &&
+                    candidate.competences.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {candidate.competences.map((comp, index) => (
+                          <span
+                            key={index}
+                            className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-xl text-sm font-medium hover:bg-indigo-100 transition-colors cursor-default"
+                          >
+                            {comp.title}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-400 italic">
+                        Aucune compétence spécifiée
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Languages */}
+                  <div>
+                    <h3 className="font-semibold text-gray-700 mb-4">
+                      Langues
+                    </h3>
+                    {candidate.languages && candidate.languages.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {candidate.languages.map((lang, index) => (
+                          <span
+                            key={index}
+                            className="px-4 py-2 bg-green-50 text-green-700 rounded-xl text-sm font-medium flex items-center gap-2"
+                          >
+                            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                            {lang.title}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-400 italic">
+                        Aucune langue spécifiée
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Preferences */}
+              {activeTab === "preferences" && (
+                <div className="p-4 md:p-8">
+                  <h2 className="text-lg text-primary mb-6 flex items-center gap-2">
+                    <BiGlobe className="text-primary" />
+                    Préférences de recherche
+                  </h2>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <PreferenceCard
+                      icon={BiMap}
+                      label="Département souhaité"
+                      value={candidate.department?.title}
+                    />
+                    <PreferenceCard
+                      icon={BiBriefcase}
+                      label="Secteur d'activité"
+                      value={candidate.sector?.title}
+                    />
+                    <PreferenceCard
+                      icon={BiIdCard}
+                      label="Préférence salariale"
+                      value={candidate.salary?.title}
+                      fullWidth
+                    />
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="mt-8 p-4 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-primary/10">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-semibold text-gray-800">
+                          Améliorez vos chances
+                        </h4>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Complétez votre profil pour être visible par les
+                          recruteurs
+                        </p>
+                      </div>
+                      <Link
+                        href="/candidate/profile/edit"
+                        className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition"
+                      >
+                        Compléter
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column - Sidebar */}
+          <div className="space-y-6">
+            {/* Stats Card */}
+            <div className="bg-white rounded-3xl p-4">
+              <h3 className="font-bold text-gray-800 mb-4">Activité</h3>
+
+              <div className="space-y-4">
+                <StatRow
+                  icon={BiBriefcase}
+                  label="Candidatures"
+                  value={candidate.applications_count || 0}
+                  color="bg-primary"
+                />
+                <StatRow
+                  icon={BiUserCheck}
+                  label="Emplois sauvegardés"
+                  value={candidate.saved_jobs_count || 0}
+                  color="bg-primary"
+                />
+                <StatRow
+                  icon={BiFile}
+                  label="Documents"
+                  value={candidate.documents_count || 0}
+                  color="bg-primary"
+                />
+              </div>
+
+              <div className="mt-6 pt-6 border-t border-gray-100">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-600">Profil complété</span>
+                  <span className="text-sm font-bold text-primary">
+                    {completionRate}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-primary h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${completionRate}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Profile Completion Tips */}
+            {completionRate < 100 && (
+              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-4 border border-orange-100">
+                <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+                  <BiCog className="text-orange-500" />
+                  Complétez votre profil
+                </h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  {!candidate.bio && (
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
+                      Ajoutez une biographie
+                    </li>
+                  )}
+                  {!candidate.competences?.length && (
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
+                      Listez vos compétences
+                    </li>
+                  )}
+                  {!candidate.profile_photo?.trim() && (
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
+                      Ajoutez une photo de profil
+                    </li>
+                  )}
+                </ul>
+                <Link
+                  href="/candidate/profile/edit"
+                  className="mt-4 inline-flex items-center gap-1 text-sm text-primary font-medium hover:underline"
+                >
+                  Compléter maintenant
+                  <BiLinkExternal className="w-4 h-4" />
+                </Link>
               </div>
             )}
 
-            {/* Formulaire */}
-            <form onSubmit={handleSubmit} className="mt-8 mb-2">
-              {/* ONGLET 1: INFORMATIONS PERSONNELLES */}
-              {activeTab === "personal" && (
-                <section className="personal-info">
-                  <div className="flex gap-3 w-full flex-wrap">
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="first_name" className="text-sm font-bold text-gray-700">Prénom</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiUser className="text-gray-400 ml-2" />
-                        <input id="first_name" name="first_name" value={formData.first_name} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="last_name" className="text-sm font-bold text-gray-700">Nom</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiUser className="text-gray-400 ml-2" />
-                        <input id="last_name" name="last_name" value={formData.last_name} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="email" className="text-sm font-bold text-gray-700">Email</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiEnvelope className="text-gray-400 ml-2" />
-                        <input id="email" name="email" value={formData.email} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="email" />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="phone" className="text-sm font-bold text-gray-700">Téléphone</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiPhone className="text-gray-400 ml-2" />
-                        <input id="phone" name="phone" value={formData.phone} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="tel" />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="address" className="text-sm font-bold text-gray-700">Adresse</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiMap className="text-gray-400 ml-2" />
-                        <input id="address" name="address" value={formData.address} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label className="text-sm font-bold text-gray-700">Commune</label>
-                      <SlimSelect
-                        value={formData.commune_id ? [formData.commune_id] : []}
-                        onChange={(values) => setFormData((prev) => ({ ...prev, commune_id: values[0] || "" }))}
-                        placeholder="Sélectionnez votre commune"
-                      >
-                        {filters.communes?.map((comm) => (
-                          <option key={comm.id} value={comm.id}>{comm.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="birth_date" className="text-sm font-bold text-gray-700">Date de naissance</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiCalendar className="text-gray-400 ml-2" />
-                        <input id="birth_date" name="birth_date" value={formData.birth_date} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="date" />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="gender" className="text-sm font-bold text-gray-700">Genre</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiFlag className="text-gray-400 ml-2" />
-                        <select id="gender" name="gender" value={formData.gender} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent">
-                          <option value="">Sélectionnez</option>
-                          {filters.sexes?.map((s) => (
-                            <option key={s.id} value={s.title}>{s.title}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label htmlFor="nif" className="text-sm font-bold text-gray-700">NIF</label>
-                      <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded-2xl border-gray-500/30">
-                        <BiIdCard className="text-gray-400 ml-2" />
-                        <input id="nif" name="nif" value={formData.nif} onChange={handleInputChange} className="px-2 w-full h-full outline-none text-gray-700 bg-transparent" type="text" />
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* ONGLET 2: FORMATION */}
-              {activeTab === "education" && (
-                <section className="education">
-                  <div className="space-y-6">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">Niveau d'étude</label>
-                      <SlimSelect
-                        value={formData.education_id ? [formData.education_id] : []}
-                        onChange={(values) => setFormData((prev) => ({ ...prev, education_id: values[0] || "" }))}
-                        placeholder="Sélectionnez"
-                      >
-                        {filters.experienceLevels?.map((level) => (
-                          <option key={level.id} value={level.id}>{level.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">Université / Établissement</label>
-                      <SlimSelect
-                        value={formData.university_id ? [formData.university_id] : []}
-                        onChange={(values) => setFormData((prev) => ({ ...prev, university_id: values[0] || "" }))}
-                        placeholder="Sélectionnez votre université"
-                      >
-                        {filters.universities?.map((uni) => (
-                          <option key={uni.id} value={uni.id}>{uni.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">Niveau d'expérience</label>
-                      <SlimSelect
-                        value={formData.study_level_id ? [formData.study_level_id] : []}
-                        onChange={(values) => setFormData((prev) => ({ ...prev, study_level_id: values[0] || "" }))}
-                        placeholder="Sélectionnez"
-                      >
-                        {filters.experienceLevels?.map((level) => (
-                          <option key={level.id} value={level.id}>{level.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <label htmlFor="bio" className="text-sm font-bold text-gray-700">Biographie</label>
-                      <div className="quill-wrapper">
-                        <ReactQuill
-                          theme="snow"
-                          value={formData.bio}
-                          onChange={handleBioChange}
-                          className="bg-white rounded-2xl"
-                          style={{ height: "200px", marginBottom: "50px" }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* ONGLET 3: COMPÉTENCES */}
-              {activeTab === "skills" && (
-                <section className="skills">
-                  <div className="space-y-6">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">Compétences techniques</label>
-                      <SlimSelect
-                        value={techSkills}
-                        onChange={setTechSkills}
-                        multiple
-                        placeholder="Sélectionnez vos compétences"
-                      >
-                        {filters.competences?.map((comp) => (
-                          <option key={comp.id} value={comp.id}>{comp.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-bold text-gray-700">Langues</label>
-                      <SlimSelect
-                        value={languages}
-                        onChange={setLanguages}
-                        multiple
-                        placeholder="Sélectionnez les langues"
-                      >
-                        {filters.languages?.map((lang) => (
-                          <option key={lang.id} value={lang.id}>{lang.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* ONGLET 4: PRÉFÉRENCES */}
-              {activeTab === "preferences" && (
-                <section className="preferences">
-                  <div className="flex gap-3 w-full flex-wrap">
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label className="text-sm font-bold text-gray-700">Département</label>
-                      <SlimSelect
-                        value={formData.department_id ? [formData.department_id] : []}
-                        onChange={(values) => setFormData((prev) => ({ ...prev, department_id: values[0] || "" }))}
-                        placeholder="Sélectionnez"
-                      >
-                        {filters.departments?.map((dept) => (
-                          <option key={dept.id} value={dept.id}>{dept.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label className="text-sm font-bold text-gray-700">Secteur d'activité</label>
-                      <SlimSelect
-                        value={formData.sector_id ? [formData.sector_id] : []}
-                        onChange={(values) => setFormData((prev) => ({ ...prev, sector_id: values[0] || "" }))}
-                        placeholder="Sélectionnez"
-                      >
-                        {filters.sectors?.map((sector) => (
-                          <option key={sector.id} value={sector.id}>{sector.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label className="text-sm font-bold text-gray-700">Type de contrat préféré</label>
-                      <SlimSelect placeholder="Sélectionnez">
-                        {filters.contracts?.map((contract) => (
-                          <option key={contract.id} value={contract.id}>{contract.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full max-w-md">
-                      <label className="text-sm font-bold text-gray-700">Préférence salariale</label>
-                      <SlimSelect
-                        value={formData.salary_id ? [formData.salary_id] : []}
-                        onChange={(values) => setFormData((prev) => ({ ...prev, salary_id: values[0] || "" }))}
-                        placeholder="Sélectionnez une fourchette"
-                      >
-                        {filters.salaries?.map((sal) => (
-                          <option key={sal.id} value={sal.id}>{sal.title}</option>
-                        ))}
-                      </SlimSelect>
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* Bouton */}
-              <div className="mt-8 flex justify-end">
-                <button type="submit" disabled={isSubmitting} className="px-6 py-3 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-                  {isSubmitting ? (
-                    <>
-                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Enregistrement...
-                    </>
-                  ) : (
-                    "Enregistrer les modifications"
-                  )}
-                </button>
-              </div>
-            </form>
+            {/* Member Since */}
+            <div className="bg-white rounded-2xl p-6 text-center">
+              <p className="text-sm text-gray-500 mb-1">Membre depuis</p>
+              <p className="font-semibold text-gray-800">
+                {new Date().toLocaleDateString("fr-FR", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </p>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// Component: Info Card
+function InfoCard({ icon: Icon, label, value, fullWidth = false }) {
+  return (
+    <div
+      className={`flex items-start gap-3 p-3 bg-gray-50 rounded-3xl ${fullWidth ? "md:col-span-2" : ""}`}
+    >
+      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-sm flex-shrink-0">
+        <Icon className="w-5 h-5" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs text-gray-500 mb-1">
+          {label}
+        </p>
+        <p className="text-sm md:text-md font-bold text-gray-800 truncate">
+          {value || <span className="text-gray-400 italic">Non spécifié</span>}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// Component: Preference Card
+function PreferenceCard({ icon: Icon, label, value, fullWidth = false }) {
+  return (
+    <div
+      className={`flex items-center gap-4 p-3 border border-gray-100 rounded-xl hover:border-primary/30 transition-colors ${fullWidth ? "md:col-span-2" : ""}`}
+    >
+      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+        <Icon className="w-6 h-6" />
+      </div>
+      <div>
+        <p className="text-xs text-gray-500 mb-1">{label}</p>
+        <p className="font-semibold text-sm md:text-md text-gray-800">
+          {value || (
+            <span className="text-gray-400 font-normal">Non spécifié</span>
+          )}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// Component: Stat Row
+function StatRow({ icon: Icon, label, value, color }) {
+  return (
+    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-3xl">
+      <div className="flex items-center gap-3">
+        <div
+          className={`w-10 h-10 ${color} rounded-full flex items-center justify-center text-white shadow-sm`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
+        <span className="font-medium text-gray-700 text-sm">{label}</span>
+      </div>
+      <span className="px-3 py-1 bg-white text-gray-800 font-bold rounded-lg shadow-sm text-sm">
+        {value}
+      </span>
     </div>
   );
 }

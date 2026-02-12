@@ -1,16 +1,15 @@
 "use client";
 
-import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
-import JobSavedTableSkeleton from "@/features/candidate/shared/components/tables/JobSavedTableSkeleton";
-import Alert from "@/components/alerts/Alert";
-
-import Image from "next/image";
 import Link from "next/link";
-import { FaExternalLinkAlt, FaTrash } from "react-icons/fa";
+import Image from "next/image";
 import { useState } from "react";
-import { useCandidateUnsave } from "@/features/candidate/shared/hooks/queries/useCandidateAction";
-import { useCandidateJobSaved } from "@/features/candidate/shared/hooks/queries/useCandidates";
+import Alert from "@/components/alerts/Alert";
 import formatDate from "@/utils/functions/DateFormat";
+import { FaExternalLinkAlt, FaTrash } from "react-icons/fa";
+import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
+import { useCandidateJobSaved } from "@/features/candidate/shared/hooks/queries/useCandidates";
+import { useCandidateUnsave } from "@/features/candidate/shared/hooks/mutations/useCandidateAction";
+import JobSavedTableSkeleton from "@/features/candidate/shared/components/tables/JobSavedTableSkeleton";
 
 export default function Index() {
   const { data: savedJobs, isLoading, error, refetch } = useCandidateJobSaved();
@@ -23,13 +22,13 @@ export default function Index() {
     error: unSaveError,
   } = useCandidateUnsave();
 
-  // ✅ État pour tracker quel job est en cours de suppression
+
   const [deletingJobId, setDeletingJobId] = useState(null);
 
   // ✅ Fonction pour retirer une sauvegarde
   const handleUnsave = (jobId) => {
     setDeletingJobId(jobId);
-    
+
     unsaveMutate(jobId, {
       onSuccess: () => {
         refetch();
@@ -42,7 +41,8 @@ export default function Index() {
   };
 
   const isDeleting = (jobId) => deletingJobId === jobId;
-  const errorMessage = unSaveError?.response?.data?.message || 
+  const errorMessage =
+    unSaveError?.response?.data?.message ||
     "Une erreur est survenue lors de la suppression.";
 
   if (isLoading) {
@@ -77,7 +77,6 @@ export default function Index() {
         <span className="text-primary text-2xl">Emplois sauvegardés</span>
       </div>
 
-      {/* ✅ Alertes */}
       {isUnsaveSuccess && !deletingJobId && (
         <div className="mb-4">
           <Alert
@@ -122,7 +121,7 @@ export default function Index() {
               return (
                 <tr
                   key={job.id}
-                  className="rounded-xl text-xs bg-white border hover:border-primary transition-colors"
+                  className="rounded-xl text-sm bg-white border hover:border-primary transition-colors"
                 >
                   {/* POSTE */}
                   <td className="rounded-l-xl px-4 py-4">
@@ -186,7 +185,7 @@ export default function Index() {
                         className="px-4 py-2 bg-red-500/10 text-red-500 rounded-full flex items-center gap-2 transition-colors disabled:opacity-50"
                         title="Retirer des favoris"
                       >
-                        {isDeleting(job.id) ? ( 
+                        {isDeleting(job.id) ? (
                           <svg
                             className="animate-spin h-3 w-3"
                             xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +209,7 @@ export default function Index() {
                         ) : (
                           <FaTrash size={10} />
                         )}
-                        {isDeleting(job.id) ? "Suppression..." : "Retirer"} 
+                        {isDeleting(job.id) ? "Suppression..." : "Retirer"}
                       </button>
                     </div>
                   </td>

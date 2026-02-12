@@ -1,25 +1,90 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import StatCard from "@/features/candidate/shared/components/cards/StatCard";
-import CandidateCard from "@/features/recruiter/shared/components/cards/CandidateCard";
-import CandidateCardSkeleton from "@/features/recruiter/shared/components/cards/CandidateCardSkeleton";
-import { useRecruiterAuth } from "@/features/recruiter/shared/contexts/RecruiterContext";
-import { useRecruiterApplications } from "@/features/recruiter/shared/hooks/queries/useRecruiters";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
 import {
   BiBookmark,
   BiBriefcase,
   BiLogoWhatsapp,
   BiUserPlus,
 } from "react-icons/bi";
+import { useRecruiterAuth } from "@/features/recruiter/shared/contexts/RecruiterContext";
+import { JobSection } from "@/features/recruiter/jobs/components/sections/JobSection";
+import { barOptions, doughnutOptions } from "@/config/options";
+import BarSection from "@/components/charts/Bar";
+import { DoughnutSection } from "@/components/charts/Doughnut";
 
 export default function Index() {
- 
+  const {
+    recruiter,
+    isLoading: authLoading,
+    error: authError,
+  } = useRecruiterAuth();
 
-  const {recruiter, isLoading: authLoading, error: authError} = useRecruiterAuth();
+  // const {competences} = useStatsCompetences();
+  // const labels = competences.map(c => c.title )
+  // const data = competences.map(c => c.count )
+
+  const barData = {
+    labels: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin"],
+    datasets: [
+      {
+        label: "Ventes 2024",
+        data: [12000, 19000, 15000, 25000, 22000, 30000],
+        backgroundColor: [
+          "rgba(198, 209, 255)",
+          "rgba(163, 179, 254)",
+          "rgba(127, 138, 250)",
+          "rgba(96, 99, 244)",
+          "rgba(77, 67, 232)",
+          "rgba(65, 53, 205)",
+        ],
+        borderColor: [
+          "rgb(198, 209, 255)",
+          "rgb(163, 179, 254)",
+          "rgb(127, 138, 250)",
+          "rgb(96, 99, 244)",
+          "rgb(77, 67, 232)",
+          "rgb(65, 53, 205)",
+        ],
+        borderWidth: 5,
+        borderRadius: 15,
+        barThickness: 20,
+        borderSkipped: false,
+      },
+    ],
+  };
+
+  // Données pour le graphique en anneau - Répartition des ventes
+  const doughnutData = {
+    labels: ["Électronique", "Mode", "Maison", "Sport", "Livres"],
+    datasets: [
+      {
+        data: [35, 25, 20, 15, 5],
+        backgroundColor: [
+          "rgba(198, 209, 255)",
+          "rgba(163, 179, 254)",
+          "rgba(127, 138, 250)",
+          "rgba(96, 99, 244)",
+          "rgba(77, 67, 232)",
+          "rgba(65, 53, 205)",
+        ],
+        borderColor: [
+          "rgb(198, 209, 255)",
+          "rgb(163, 179, 254)",
+          "rgb(127, 138, 250)",
+          "rgb(96, 99, 244)",
+          "rgb(77, 67, 232)",
+          "rgb(65, 53, 205)",
+        ],
+        borderWidth: 5,
+        hoverOffset: 10,
+      },
+    ],
+  };
+
   return (
     <div>
       <BreadCrumb
@@ -34,9 +99,9 @@ export default function Index() {
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <h1 className="text-md md:text-4xl">
-                  <span className="text-white">{recruiter.nom}</span> 
+                  <span className="text-white">{recruiter.nom}</span>
                 </h1>
-                <p className="text-white/60 max-md:line-clamp-2 mb-3 text-xs md:text-sm leading-relaxed">
+                <p className="text-white/60 max-md:line-clamp-2 mb-6 text-xs md:text-sm leading-relaxed">
                   Découvrez les meilleurs talents et publiez vos offres d'emploi
                   pour trouver les candidats idéaux.
                 </p>
@@ -85,67 +150,25 @@ export default function Index() {
               Voir les applications
             </Link>
           </div>
-          {/* <AnimatePresence mode="wait">
-            {isLoading ? (
-              <motion.div
-                key="skeleton-grid"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="space-y-4"
-              >
-                <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="col-span-1">
-                      <CandidateCardSkeleton />
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="grid"
-                initial={{ opacity: 0, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-                  {candidates.data.map((user) => (
-                    <CandidateCard
-                      data={{
-                        id: user.id,
-                        name: `${user.firstName} ${user.lastName}`,
-                        email: user.email,
-                        title: user.role.toUpperCase(),
-                      }}
-                      key={user.id}
-                    />
-                  ))}
-                </div>
-                <motion.div
-                  className="flex justify-end"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                ></motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence> */}
+          <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
+            <div className="col-span-1">
+              <BarSection data={barData} options={barOptions} />
+            </div>
+            <div className="col-span-1">
+              <DoughnutSection data={doughnutData} options={doughnutOptions} />
+            </div>
+          </div>
         </div>
         <div className="col-span-1">
           <div className="flex my-6 text-sm md:text-md mb-6 justify-between items-center">
-            <span className="text-primary font-bold">
-              Candidatures récentes
-            </span>
-            <Link
-              href="/recruiter/jobs"
-              className="text-sm text-gray-500"
-            >
+            <span className="text-primary font-bold">Emplois récents</span>
+
+            <Link href="/recruiter/jobs" className="text-sm text-gray-500">
               Voir les applications
             </Link>
           </div>
-        
+          <JobSection count={5} />
+
           <div className="bg-primary my-6 text-white w-full rounded-[2rem] py-6 px-5">
             <div className="flex flex-col items-center justify-between">
               <div>

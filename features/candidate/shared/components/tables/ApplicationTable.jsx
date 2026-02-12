@@ -12,7 +12,7 @@ const statusColors = {
   Refusé: "bg-red-100 text-red-700",
 };
 
-export default function ApplicationTable() {
+export default function ApplicationTable({count = 5}) {
   
   const { data: applications, isLoading, error } = useCandidateApplications();
 
@@ -51,11 +51,11 @@ export default function ApplicationTable() {
           </thead>
 
           <tbody>
-            {applications.data.map((app) => {
+            {applications.data.slice(0,count).map((app) => {
               return (
                 <tr
                   key={app.id}
-                  className="rounded-xl text-xs bg-white border hover:border-primary"
+                  className="rounded-xl text-sm bg-white border hover:border-primary"
                 >
                   <td className="rounded-l-xl px-4 py-4">
                     <div className="flex flex-col gap-1">

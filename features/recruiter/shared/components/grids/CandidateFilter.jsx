@@ -71,7 +71,7 @@ export default function CandidateFilterBar({ configFilters, onApply }) {
                   multiple: filter.multiple,
                 }}
               >
-                {!filter.multiple && <option value="">Tous</option>}
+                {!filter.multiple && <option value="">Choisir...</option>}
                 
                 {filters[filter.dataKey]?.map((item) => (
                   <option key={item.id} value={item.id} className="text-sm">

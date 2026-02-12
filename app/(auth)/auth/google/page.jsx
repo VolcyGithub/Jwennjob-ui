@@ -1,6 +1,7 @@
 "use client";
 
 import { useLoginSocialCallback } from "@/features/auth/hooks/queries/useLoginSocial";
+import createCookies from "@/utils/functions/CreateCookies";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { ImSpinner8 } from "react-icons/im";
@@ -13,15 +14,17 @@ export default function Index() {
   const { data, isLoading, error } = useLoginSocialCallback("google", code);
 
   useEffect(() => {
+
     if (!code) {
       router.push("/login");
       return;
     }
 
     if (data?.token) {
-      document.cookie = `candidate_token=${data.token}; path=/; max-age=86400; secure; samesite=strict`;
+      createCookies("candidate_token" , data.token);
       router.push("/candidate");
     }
+
   }, [code, data, router]);
 
   if (!code) return null;

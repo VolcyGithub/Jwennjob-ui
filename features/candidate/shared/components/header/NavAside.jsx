@@ -3,16 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  BiGridAlt,
-  BiFile,
-  BiUserCircle,
-  BiSearch,
-  BiBriefcase,
-  BiLogOut,
-} from "react-icons/bi";
+import { BiGridAlt, BiFile, BiUserCircle, BiSearch,BiBriefcase,BiLogOut,} from "react-icons/bi";
+import { useCandidateAuth } from "@/features/candidate/shared/contexts/CandidateContext";
 
 export default function NavAside({ isOpen, setIsOpen }) {
+
+  const {candidate , isLoading , error} = useCandidateAuth();
+
   const router = useRouter();
 
   const handleLogout = () => {
@@ -60,7 +57,7 @@ export default function NavAside({ isOpen, setIsOpen }) {
                 <span>Mes applications</span>
               </div>
               <span className="px-[8px] text-xs font-bold py-1 bg-red-500 rounded-full">
-                2
+                {candidate.applications_count}
               </span>
             </Link>
             <Link
@@ -73,7 +70,7 @@ export default function NavAside({ isOpen, setIsOpen }) {
                 <span>Mes documents</span>
               </div>
               <span className="px-[8px] text-xs font-bold py-1 bg-red-500 rounded-full">
-                5
+                {candidate.documents_count}
               </span>
             </Link>
             <Link

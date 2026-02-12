@@ -69,6 +69,7 @@ const hasActiveFilters = (filters) => {
 };
 
 export default function Index() {
+  
   const [activeFilters, setActiveFilters] = useState({});
 
   return (
