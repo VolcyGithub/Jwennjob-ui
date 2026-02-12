@@ -1,5 +1,6 @@
 
 import "@/styles/globals.css";
+import "@/styles/components/select.css";
 import { Providers } from "@/providers/TanstackProviders";
 
 export default function RootLayout({ children }) {
