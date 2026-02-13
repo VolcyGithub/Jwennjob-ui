@@ -11,29 +11,14 @@ import { barOptions, doughnutOptions } from "@/config/options";
 import BarSection from "@/components/charts/Bar";
 import { DoughnutSection } from "@/components/charts/Doughnut";
 import { mapBarChart, mapDoughnutChart } from "@/utils/functions/MapChartData";
-import InfoAlert from "@/components/alerts/InfoAlert";
+
 
 export default function Index() {
-  const {
-    recruiter,
-    isLoading: authLoading,
-    error: authError,
-  } = useRecruiterAuth();
-
+  
+  const {recruiter} = useRecruiterAuth();
   const educationStats = recruiter.candidate_stats.by_education;
   const departmentsStats = recruiter.candidate_stats.by_department;
   const overviewStats = recruiter.candidate_stats.overview;
-
-  const barData = mapBarChart(
-    "Ventes 2024",
-    Object.keys(educationStats),
-    Object.values(educationStats),
-  );
-
-  const doughnutData = mapDoughnutChart(
-    Object.keys(educationStats),
-    Object.values(educationStats),
-  );
 
   return (
     <div>
@@ -106,7 +91,11 @@ export default function Index() {
           <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
             <div className="col-span-1">
               <BarSection
-                data={barData}
+                data={mapBarChart(
+                  "Ventes 2024",
+                  Object.keys(educationStats),
+                  Object.values(educationStats),
+                )}
                 title="Répartition par niveau d'étude"
                 options={barOptions}
               />
@@ -115,7 +104,10 @@ export default function Index() {
             <div className="col-span-1">
               <div className="space-y-3">
                 <DoughnutSection
-                  data={doughnutData}
+                  data={mapDoughnutChart(
+                    Object.keys(educationStats),
+                    Object.values(educationStats),
+                  )}
                   title="Répartition par niveau d'étude"
                   options={doughnutOptions}
                 />
