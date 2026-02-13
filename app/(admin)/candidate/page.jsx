@@ -10,8 +10,6 @@ import { BiBriefcase,BiStar,BiBookmark,BiLogoWhatsapp, BiChevronRight,} from "re
 import { useCandidateAuth } from "@/features/candidate/shared/contexts/CandidateContext";
 
 
-
-
 export default function Home() {
   
   const {candidate , isLoading , error} = useCandidateAuth();
@@ -90,8 +88,8 @@ export default function Home() {
             <span className="block mb-4 font-bold text-primary text-md">
               Satistiques
             </span>
-            <ProgressBar percentage={50} label="Completion Profil" />
-            <ProgressBar percentage={80} label="Completion CV" />
+            <ProgressBar percentage={candidate.profile_completion_rate} label="Completion Profil" />
+            <ProgressBar percentage={70} label="Completion CV" />
             <div className="bg-primary mb-6 text-white w-full rounded-[2rem] py-6 px-5">
               <div className="flex flex-col items-center justify-between">
                 <div>

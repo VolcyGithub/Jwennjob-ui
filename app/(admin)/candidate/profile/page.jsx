@@ -24,6 +24,7 @@ import { useCandidateAuth } from "@/features/candidate/shared/contexts/Candidate
 import CandidateProfileSkeleton from "@/features/recruiter/shared/components/cards/CandidateProfileSkeleton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import InfoAlert from "@/components/alerts/InfoAlert";
 
 export default function ProfileView() {
   const { candidate, isLoading, error } = useCandidateAuth();
@@ -39,24 +40,6 @@ export default function ProfileView() {
     { id: "skills", label: "Compétences", icon: BiCog },
     { id: "preferences", label: "Préférences", icon: BiGlobe },
   ];
-
-  // Calcul du pourcentage de complétion du profil
-  const calculateProfileCompletion = () => {
-    const fields = [
-      candidate.first_name,
-      candidate.last_name,
-      candidate.email,
-      candidate.phone,
-      candidate.birth_date,
-      candidate.education,
-      candidate.bio,
-      candidate.competences?.length > 0,
-    ];
-    const filledFields = fields.filter(Boolean).length;
-    return Math.round((filledFields / fields.length) * 100);
-  };
-
-  const completionRate = calculateProfileCompletion();
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-20">
@@ -438,53 +421,33 @@ export default function ProfileView() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-gray-600">Profil complété</span>
                   <span className="text-sm font-bold text-primary">
-                    {completionRate}%
+                    {candidate.profile_completion_rate}%
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-primary h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${completionRate}%` }}
+                    style={{ width: `${candidate.profile_completion_rate}%` }}
                   ></div>
                 </div>
               </div>
             </div>
 
             {/* Profile Completion Tips */}
-            {completionRate < 100 && (
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-4 border border-orange-100">
-                <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                  <BiCog className="text-orange-500" />
-                  Complétez votre profil
-                </h4>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  {!candidate.bio && (
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
-                      Ajoutez une biographie
-                    </li>
-                  )}
-                  {!candidate.competences?.length && (
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
-                      Listez vos compétences
-                    </li>
-                  )}
-                  {!candidate.profile_photo?.trim() && (
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
-                      Ajoutez une photo de profil
-                    </li>
-                  )}
-                </ul>
-                <Link
-                  href="/candidate/profile/edit"
-                  className="mt-4 inline-flex items-center gap-1 text-sm text-primary font-medium hover:underline"
-                >
-                  Compléter maintenant
-                  <BiLinkExternal className="w-4 h-4" />
-                </Link>
-              </div>
+            {candidate.profile_completion_rate < 100 && (
+              <InfoAlert title="Recommendations">
+                <div className="space-y-3">
+                  <span className="text-xs block">Compléter votre profil</span>
+                  <span className="flex w-full justify-end">
+                    <Link
+                      className="bg-primary px-3 rounded-full py-2 text-white"
+                      href={`/candidate/profile/edit`}
+                    >
+                      Completer maintenant
+                    </Link>
+                  </span>
+                </div>
+              </InfoAlert>
             )}
 
             {/* Member Since */}
@@ -514,9 +477,7 @@ function InfoCard({ icon: Icon, label, value, fullWidth = false }) {
         <Icon className="w-5 h-5" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-gray-500 mb-1">
-          {label}
-        </p>
+        <p className="text-xs text-gray-500 mb-1">{label}</p>
         <p className="text-sm md:text-md font-bold text-gray-800 truncate">
           {value || <span className="text-gray-400 italic">Non spécifié</span>}
         </p>

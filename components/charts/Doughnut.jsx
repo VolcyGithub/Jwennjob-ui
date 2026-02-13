@@ -21,11 +21,12 @@ ChartJS.register(
   Legend,
 );
 
-export function DoughnutSection({data , options}) {
+export function DoughnutSection({data , options , title = "Donnes"}) {
   return (
-    <div className="bg-white rounded-3xl  border border-slate-100 p-6">
-      <div className="h-100 relative">
-        <Doughnut data={data} options={options} />
+    <div className="bg-white rounded-4xl p-5">
+      <span className="block text-sm font-bold text-primary">{title}</span>
+      <div className="h-40 relative">
+        <Doughnut height={200} data={data} options={options} />
       </div>
     </div>
   );

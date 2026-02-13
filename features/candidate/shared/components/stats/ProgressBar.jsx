@@ -42,7 +42,7 @@ export default function ProgressBar({
             className={`${color} transition-all duration-700 ease-out`}
           />
         </svg>
-        <span className="absolute inset-0 flex items-center justify-center text-xl font-semibold">
+        <span className="absolute inset-0 flex items-center text-primary justify-center text-xl font-semibold">
           {percentage}%
         </span>
       </div>

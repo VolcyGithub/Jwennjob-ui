@@ -283,8 +283,9 @@ export default function Show() {
                         {candidate.competences.map((comp) => (
                           <span
                             key={comp.id}
-                            className="px-4 py-2 text-xs font-medium bg-primary/10 text-primary rounded-full"
+                            className="px-4 flex items-center gap-1 py-2 text-xs font-semibold bg-primary/10 text-primary rounded-full"
                           >
+                            <BiCog/>
                             {comp.title}
                           </span>
                         ))}
@@ -308,13 +309,13 @@ export default function Show() {
                       <h3 className="font-semibold text-primary mb-4">
                         Langues maîtrisées
                       </h3>
-                      <div className="flex gap-2 items-center">
+                      <div className="flex flex-wrap gap-2 items-center">
                         {candidate.languages.map((lang) => (
                           <div
                             key={lang.id}
                             className="flex items-center justify-between bg-primary/10 rounded-3xl px-4 py-2"
                           >
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
                               <BiWorld className="text-primary text-md" />
                               <span className="font-semibold text-xs text-primary">
                                 {lang.title}

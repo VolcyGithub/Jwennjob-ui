@@ -4,17 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import BreadCrumb from "@/components/breadcrumbs/BreadCrumb";
 import StatCard from "@/features/candidate/shared/components/cards/StatCard";
-import {
-  BiBookmark,
-  BiBriefcase,
-  BiLogoWhatsapp,
-  BiUserPlus,
-} from "react-icons/bi";
+import { BiFemale, BiLogoWhatsapp, BiMale, BiUser } from "react-icons/bi";
 import { useRecruiterAuth } from "@/features/recruiter/shared/contexts/RecruiterContext";
 import { JobSection } from "@/features/recruiter/jobs/components/sections/JobSection";
 import { barOptions, doughnutOptions } from "@/config/options";
 import BarSection from "@/components/charts/Bar";
 import { DoughnutSection } from "@/components/charts/Doughnut";
+import { mapBarChart, mapDoughnutChart } from "@/utils/functions/MapChartData";
+import InfoAlert from "@/components/alerts/InfoAlert";
 
 export default function Index() {
   const {
@@ -23,67 +20,20 @@ export default function Index() {
     error: authError,
   } = useRecruiterAuth();
 
-  // const {competences} = useStatsCompetences();
-  // const labels = competences.map(c => c.title )
-  // const data = competences.map(c => c.count )
+  const educationStats = recruiter.candidate_stats.by_education;
+  const departmentsStats = recruiter.candidate_stats.by_department;
+  const overviewStats = recruiter.candidate_stats.overview;
 
-  const barData = {
-    labels: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin"],
-    datasets: [
-      {
-        label: "Ventes 2024",
-        data: [12000, 19000, 15000, 25000, 22000, 30000],
-        backgroundColor: [
-          "rgba(198, 209, 255)",
-          "rgba(163, 179, 254)",
-          "rgba(127, 138, 250)",
-          "rgba(96, 99, 244)",
-          "rgba(77, 67, 232)",
-          "rgba(65, 53, 205)",
-        ],
-        borderColor: [
-          "rgb(198, 209, 255)",
-          "rgb(163, 179, 254)",
-          "rgb(127, 138, 250)",
-          "rgb(96, 99, 244)",
-          "rgb(77, 67, 232)",
-          "rgb(65, 53, 205)",
-        ],
-        borderWidth: 5,
-        borderRadius: 15,
-        barThickness: 20,
-        borderSkipped: false,
-      },
-    ],
-  };
+  const barData = mapBarChart(
+    "Ventes 2024",
+    Object.keys(educationStats),
+    Object.values(educationStats),
+  );
 
-  // Données pour le graphique en anneau - Répartition des ventes
-  const doughnutData = {
-    labels: ["Électronique", "Mode", "Maison", "Sport", "Livres"],
-    datasets: [
-      {
-        data: [35, 25, 20, 15, 5],
-        backgroundColor: [
-          "rgba(198, 209, 255)",
-          "rgba(163, 179, 254)",
-          "rgba(127, 138, 250)",
-          "rgba(96, 99, 244)",
-          "rgba(77, 67, 232)",
-          "rgba(65, 53, 205)",
-        ],
-        borderColor: [
-          "rgb(198, 209, 255)",
-          "rgb(163, 179, 254)",
-          "rgb(127, 138, 250)",
-          "rgb(96, 99, 244)",
-          "rgb(77, 67, 232)",
-          "rgb(65, 53, 205)",
-        ],
-        borderWidth: 5,
-        hoverOffset: 10,
-      },
-    ],
-  };
+  const doughnutData = mapDoughnutChart(
+    Object.keys(educationStats),
+    Object.values(educationStats),
+  );
 
   return (
     <div>
@@ -124,51 +74,71 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex my-4 text-sm md:text-md justify-between items-center">
+            <span className="text-primary font-bold">Overview</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatCard
-              icon={<BiUserPlus className="size-8 text-primary" />}
-              value={5238}
-              label="Profil Enregistrés"
+              icon={<BiUser className="size-8 text-primary" />}
+              inverse={true}
+              value={overviewStats.total}
+              label="Candidats"
             />
             <StatCard
-              icon={<BiBriefcase className="size-8 text-primary" />}
-              value={42}
-              label="Emplois"
+              icon={<BiMale className="size-8 text-primary" />}
+              value={overviewStats.male}
+              label="Hommes"
             />
             <StatCard
-              icon={<BiBookmark className="size-8 text-primary" />}
-              value={128}
-              label="Saved Items"
+              icon={<BiFemale className="size-8 text-primary" />}
+              value={overviewStats.female}
+              label="Femmes"
+            />
+            <StatCard
+              icon={<BiFemale className="size-8 text-primary" />}
+              value={overviewStats.female}
+              label="Femmes"
             />
           </div>
-          <div className="flex my-6 text-sm md:text-md justify-between items-center">
-            <span className="text-primary font-bold">Applications Graphe</span>
-            <Link
-              href="/candidate/applications"
-              className="text-sm text-gray-500"
-            >
-              Voir les applications
-            </Link>
+          <div className="flex my-4 text-sm md:text-md justify-between items-center">
+            <span className="text-primary font-bold">Statistiques</span>
           </div>
           <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
             <div className="col-span-1">
-              <BarSection data={barData} options={barOptions} />
+              <BarSection
+                data={barData}
+                title="Répartition par niveau d'étude"
+                options={barOptions}
+              />
             </div>
+
             <div className="col-span-1">
-              <DoughnutSection data={doughnutData} options={doughnutOptions} />
+              <div className="space-y-3">
+                <DoughnutSection
+                  data={doughnutData}
+                  title="Répartition par niveau d'étude"
+                  options={doughnutOptions}
+                />
+                <DoughnutSection
+                  title="Répartition par departements"
+                  data={mapDoughnutChart(
+                    Object.keys(departmentsStats),
+                    Object.values(departmentsStats),
+                  )}
+                  options={doughnutOptions}
+                />
+              </div>
             </div>
           </div>
         </div>
         <div className="col-span-1">
-          <div className="flex my-6 text-sm md:text-md mb-6 justify-between items-center">
+          <div className="flex my-4 text-sm md:text-md justify-between items-center">
             <span className="text-primary font-bold">Emplois récents</span>
-
             <Link href="/recruiter/jobs" className="text-sm text-gray-500">
               Voir les applications
             </Link>
           </div>
           <JobSection count={5} />
-
           <div className="bg-primary my-6 text-white w-full rounded-[2rem] py-6 px-5">
             <div className="flex flex-col items-center justify-between">
               <div>
